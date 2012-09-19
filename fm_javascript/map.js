@@ -7,11 +7,17 @@ dojo.require("esri.dijit.Scalebar");
 dojo.require("esri.map");
 dojo.require("esri.tasks.Locator");
 dojo.require("esri.arcgis.utils");
+dojo.require("agsjs.layers.GoogleMapsLayer");
+dojo.require("agsjs.dijit.TOC");
+dojo.require("esri.layers.agsdynamic");
+dojo.require("dojo.fx");
+
 
 var map;
 var currentBasemap;
 var geocoder;
 var webmapResponse;
+var centros_poblados_dinamico;
 
 var basemaps = {"currentVersion":10.01,"folders":["Canvas","Demographics","Elevation","Reference","Specialty"],"services":[
 	{"name":"NatGeo_World_Map","type":"MapServer", 'image':'bm-natgeo.jpg', 'title':'National Geographic'},
@@ -22,7 +28,7 @@ var basemaps = {"currentVersion":10.01,"folders":["Canvas","Demographics","Eleva
 	{"name":"World_Terrain_Base","type":"MapServer", 'image':'bm-terrain.png', 'title':'Terrain'},
 	{"name":"World_Topo_Map","type":"MapServer", 'image':'bm-topo.jpg', 'title':'Topography'}]};
 
-function init(){
+function init(){/*
 	var urlObject = esri.urlToObject(document.location.href);
 	urlObject.query = urlObject.query || {};
 	var webmap = null;
@@ -64,24 +70,50 @@ function init(){
 			//alert("Unable to load Webmap - " + dojo.toJson(error));
 		});
 
-	} else {
-		var initExtent = new esri.geometry.Extent({"xmin":-122.46,"ymin":37.73,"xmax":-122.36,"ymax":37.77,"spatialReference":{"wkid":4326}});
+	} else {*/
+		var initExtent = new esri.geometry.Extent({
+                    "xmin": -8042615.07618537,
+                    "ymin": -2047715.54032274,
+                    "xmax": -7633218.35269016,
+                    "ymax": -1864878.16866469,
+                    "spatialReference": {
+                        "wkid": 102100
+                    }
+                });
 		map = new esri.Map("map",{
-			extent:esri.geometry.geographicToWebMercator(initExtent),
-			wrapAround180 : true
+			extent: initExtent,
+			wrapAround180 : true,
+			sliderStyle: "small",
+			logo: false
 		});
 
-		dojo.connect(map, 'onLoad', onMapLoaded);
+		
 
 		//Add the topographic layer to the map. View the ArcGIS Online site for services http://arcgisonline/home/search.html?t=content&f=typekeywords:service
-		var basemap = new esri.layers.ArcGISTiledMapServiceLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer", {
+		/*var basemap = new esri.layers.ArcGISTiledMapServiceLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer", {
 				id: 'basemap'
 			});
 		currentBasemap = basemap;
+		map.addLayer(currentBasemap);*/
+		
+		var basemap = new agsjs.layers.GoogleMapsLayer({
+                    //id: 'google', // optional. esri layer id.
+                    // apiOptions: { // load google API should be loaded.
+                    // v: '3.6' // API version. use a specific version is recommended for production system. 
+                    // client: gme-myclientID // for enterprise accounts;
+                    // },
+                    mapOptions: {  // options passed to google.maps.Map contrustor
+                    	streetViewControl: false // whether to display street view control. Default is true.
+                    }
+                });
+		currentBasemap = basemap;
 		map.addLayer(currentBasemap);
+		
+		var centros_poblados_dinamico = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/cpdy/MapServer");
+        map.addLayer(centros_poblados_dinamico);
 
 		//Add some basic layers
-		var rivers = new esri.layers.FeatureLayer("http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Hydrography/Watershed173811/MapServer/1", {
+		/*var rivers = new esri.layers.FeatureLayer("http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Hydrography/Watershed173811/MapServer/1", {
 			mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
 			outFields: ["*"]
 		});
@@ -90,8 +122,21 @@ function init(){
 			outFields: ["*"]
 		});
 
-		map.addLayers([waterbodies,rivers]);
-	}
+		map.addLayers([waterbodies,rivers]);*/
+		
+		//dojo.connect(map, 'onLoad', onMapLoaded);
+		
+		var toc = new agsjs.dijit.TOC({
+                  map: map,
+                  layerInfos: [{
+                    layer: centros_poblados_dinamico,
+                    title: "Centros Poblados"
+                  }]
+                }, 'toc');
+                toc.startup();
+		
+		onMapLoaded();
+	//}
 }
 
 function onMapLoaded() {
@@ -115,7 +160,7 @@ function onMapLoaded() {
 
 	//create legend - only show legend for operational & graphic layers
 
-	var legend = null;
+	/*var legend = null;
 	var layerInfos = [];
 	if(webmapResponse && webmapResponse.itemInfo && webmapResponse.itemInfo.itemData && webmapResponse.itemInfo.itemData.operationalLayers.length > 0) {
 		dojo.forEach(webmapResponse.itemInfo.itemData.operationalLayers, function(layer) {
@@ -138,7 +183,17 @@ function onMapLoaded() {
 			respectCurrentMapScale : true
 		}, "fm_legendDiv");
 		legend.startup();
-	}
+	}*/
+	
+	
+	
+	
+                
+            
+
+	
+
+
 
 	//populate information for map
 	if(webmapResponse && webmapResponse.itemInfo && webmapResponse.itemInfo.item){
@@ -212,7 +267,7 @@ function setBasemap(name){
 	}
 }
 
-function addLegend(results){
+/*function addLegend(results){
 	console.log('adding legend');
 
 	var layerInfo = dojo.map(results, function(layer,index){
@@ -225,9 +280,10 @@ function addLegend(results){
 		},'fm_legendDiv');
 	legendDijit.startup();
 	}
-}
+}*/
 
-dojo.ready(init);
+//dojo.ready(init);
+dojo.addOnLoad(init);
 
 //** helpers ** DO NOT OVERWRITE
 function switchToMobile(){

@@ -15,3 +15,7 @@
 }
 
 .esriScalebarLabel, .esriScalebarFirstNumber, .esriScalebarSecondNumber{ width: auto !important;}
+
+.agsjsTOCOutOfScale {
+	display: none;
+}
