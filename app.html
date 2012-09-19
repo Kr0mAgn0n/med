@@ -10,13 +10,14 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-	<title>Responsive Map Viewer</title>
+	<title>Ministerio de Educación</title>
 	<link rel="shortcut icon" href="fm_style/favicon.ico" /> 
 	<link rel="icon" type="image/png" href="fm_style/fm_icons/globe2.png" />
-	<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/dojo/dijit/themes/tundra/tundra.css" />
+<!--	<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/dojo/dijit/themes/tundra/tundra.css" />-->
+	<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dijit/themes/tundra/tundra.css">
 
-	<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/Popup.css" />
-    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/PopupMobile.css" />
+<!--	<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/Popup.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/PopupMobile.css" />-->
     <link rel='stylesheet' type='text/css' href='fm_style/page.css' />
 	
 	<script type="text/javascript" src='fm_javascript/page-header.js'></script>
@@ -33,7 +34,7 @@
 	<link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css' />
 </head>
 
-<body >
+<body class="tundra">
 	<!-- absolute elements (overlays) -->
 	<div class='fm_basemap_list fm_overlay'>
 		<div class='fm_close'></div>
@@ -46,8 +47,72 @@
 	<div class='fm_search fm_overlay' >
 		<div class='fm_close fm_no_margin'></div>
 		<div class='fm_location_bar' class='fm_handle'>
-			<input type='text' class='fm_location_input' placeholder='Find location...' />
-			<span class='fm_location_button fm_icon fm_search_icon' ></span>
+<!--			<input type='text' class='fm_location_input' placeholder='Find location...' />-->
+<!--			<span class='fm_location_button fm_icon fm_search_icon' ></span>-->
+			<div id="tabs">
+				<ul>
+					<li><a href="#tabs-1">Ubigeo</a></li>
+					<li><a href="#tabs-2">DRE y UGEL</a></li>
+					<li><a href="#tabs-3">Padrón IIEE</a></li>
+					<li><a href="#tabs-4">Centros Poblados</a></li>
+				</ul>
+				<div id="tabs-1">
+					<label>Departamento</label>
+					<select id="departamento">
+						<option>------</option>
+					</select> <br>
+					<label>Provincia</label>
+					<select id="provincia">
+						<option>------</option>
+					</select> <br>
+					<label>Distrito</label>
+					<select id="distrito">
+						<option>------</option>
+					</select> <br>
+					<label>Ubigeo</label>
+					<input id="ubigeo" type='text' placeholder='Ubigeo ...' />
+				</div>
+				<div id="tabs-2">
+					<label>Dirección Regional</label>
+					<select id="direccion_regional">
+						<option>------</option>
+					</select> <br>
+					<label>UGEL</label>
+					<select id="ugel">
+						<option>------</option>
+					</select> <br>
+					<label>Código UGEL</label>
+					<input id="codigo_ugel" type='text' placeholder='Código UGEL ...' />
+				</div>
+				<div id="tabs-3">
+					<label>Nombre IIEE</label>
+					<input id="nombre_iiee" type='text' placeholder='Nombre IIEE ...' /> <br>
+					<label>Código Modular</label>
+					<input id="codigo_modular" type='text' placeholder='Código Modular ...' /> <br>
+					<label>Código Local</label>
+					<input id="codigo_local" type='text' placeholder='Código Local ...' /> <br>
+					<label>Dirección</label>
+					<input id="direccion" type='text' placeholder='Dirección ...' /> <br>
+					<label>Nombre CCPP</label>
+					<input id="nombre_ccpp" type='text' placeholder='Nombre CCPP ...' /> <br>
+					<label>Localidad</label>
+					<input id="localidad" type='text' placeholder='Localidad ...' /> <br>
+					<label>Nivel/Modalidad</label>
+					<select id="nivel-modalidad">
+						<option>------</option>
+					</select> <br>
+					<label>Gestión</label>
+					<select id="gestion">
+						<option>------</option>
+					</select>
+				</div>
+				<div id="tabs-4">
+					<label>Nombre CCPP</label>
+					<input id="nombre_ccp" type='text' placeholder='Nombre CCPP ...' /> <br>
+					<label>Código CCPP</label>
+					<input id="codigo_ccpp" type='text' placeholder='Código CCPP ...' />
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -68,8 +133,10 @@
 				<span class='fm_icon fm_search_icon'></span>
 				<span class='fm_icon_text fm_show'>Búsqueda</span>
 			</a>
+			
 
 			<!-- float right elements are displayed in reverse order -->
+			
 			<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right' data-panel='fm_description' >
 				<span class='fm_icon fm_details_icon'></span>
 				<span class='fm_icon_text'>Detalles</span>
@@ -90,6 +157,11 @@
 				<span class='fm_icon fm_share_icon'></span>
 				<span class='fm_icon_text'>Compartir</span>
 			</a>
+			<a href='#' class='fm_find_trigger fm_trigger fm_button fm_float_right' data-panel='fm_find'>
+				<!-- Cuando se encuentre un icono apropiado para este panel, cambiarlo -->
+				<span class='fm_icon fm_search_icon'></span>
+				<span class='fm_icon_text'>Búsqueda</span>
+			</a>
 		</div>
 	</nav>
 
@@ -108,17 +180,22 @@
 				<div class='fm_panel_header_content fm_container'>Header</div>
 			</div-->
 			<div class='*fm_panel_container fm_container'>
-				<div class='fm_description fm_panel' >Map Description</div>
-				<div id='fm_legendDiv' class='fm_legend fm_panel' >Map Legend
+				<div class='fm_description fm_panel' >Descripción del mapa</div>
+				<div id='fm_legendDiv' class='fm_legend fm_panel' >
+					Leyenda del mapa
 					<div id="toc"></div>
 				</div>
-				<div class='fm_tools fm_panel' >Map Tools</div>
-				<div class='fm_print fm_panel' >Print Options</div>
+				<div class='fm_tools fm_panel' >Herramientas del mapa</div>
+				<div class='fm_print fm_panel' >Opciones de impresión</div>
 				<div class='fm_share fm_panel' >
-					<p>Embed code:</p>
+					<p>Código incrustable:</p>
 					<textarea class='fm_embed_code' ></textarea>
 				</div>
-				<div class='fm_settings fm_panel' >App Settings</div>
+				<div class='fm_settings fm_panel' >Configuración de la aplicación</div>
+				<div class='fm_find fm_panel' >
+					Resultados de la búsqueda
+					
+				</div>
 			</div>
 		</div>
 	</div>
@@ -134,7 +211,8 @@
 
 	<script type='text/javascript' src='fm_javascript/lib/jRespond.min.js'></script>
 	<script type='text/javascript' src='http://code.jquery.com/jquery.min.js'></script>
-	<script type='text/javascript' src='fm_javascript/lib/jquery-ui-1.8.21.custom.min.js'></script>
+<!--	<script type='text/javascript' src='fm_javascript/lib/jquery-ui-1.8.21.custom.min.js'></script>-->
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 
 	<script type="text/javascript">
 			var djConfig = {
@@ -152,6 +230,6 @@
 	<script type="text/javascript" src='fm_javascript/map.js'></script>
 	<script type='text/javascript' src='fm_javascript/page.js'></script>
 
-	<script type="text/javascript" src='analytics.js'></script>
+<!--	 <script type="text/javascript" src='analytics.js'></script> -->
 </body>
 </html>

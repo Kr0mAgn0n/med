@@ -265,7 +265,7 @@ function responsive (){
 		}
 	}
 	this.updateScaleInfo = function(scale, level){
-		$('.fm_scaleinfo').html("<b>Scale:</b> 1 <b>:</b> " + scale);
+		$('.fm_scaleinfo').html("<b>Escala:</b> 1 <b>:</b> " + scale);
 		$('.fm_zoomlevelinfo').html("<b>Zoom:</b> " + level);
 	}
 	//end show map info

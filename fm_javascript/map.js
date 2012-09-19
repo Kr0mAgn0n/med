@@ -9,15 +9,19 @@ dojo.require("esri.tasks.Locator");
 dojo.require("esri.arcgis.utils");
 dojo.require("agsjs.layers.GoogleMapsLayer");
 dojo.require("agsjs.dijit.TOC");
-dojo.require("esri.layers.agsdynamic");
 dojo.require("dojo.fx");
+dojo.require("esri.dijit.OverviewMap");
+dojo.require("esri.layers.FeatureLayer");
+
+dojo.require("dijit.layout.TabContainer");
+dojo.require("dijit.layout.ContentPane");
 
 
 var map;
 var currentBasemap;
 var geocoder;
 var webmapResponse;
-var centros_poblados_dinamico;
+var identifyTask,identifyParams;
 
 var basemaps = {"currentVersion":10.01,"folders":["Canvas","Demographics","Elevation","Reference","Specialty"],"services":[
 	{"name":"NatGeo_World_Map","type":"MapServer", 'image':'bm-natgeo.jpg', 'title':'National Geographic'},
@@ -80,11 +84,17 @@ function init(){/*
                         "wkid": 102100
                     }
                 });
+                
+		var popup = new esri.dijit.Popup({
+		  fillSymbol: new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255,0,0]), 2), new dojo.Color([255,255,0,0.25]))
+		}, dojo.create("div")); 
+       
 		map = new esri.Map("map",{
 			extent: initExtent,
 			wrapAround180 : true,
 			sliderStyle: "small",
-			logo: false
+			logo: false,
+			infoWindow:popup
 		});
 
 		
@@ -109,8 +119,8 @@ function init(){/*
 		currentBasemap = basemap;
 		map.addLayer(currentBasemap);
 		
-		var centros_poblados_dinamico = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/cpdy/MapServer");
-        map.addLayer(centros_poblados_dinamico);
+		var centros_poblados = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/cpdy/MapServer");
+        map.addLayer(centros_poblados);
 
 		//Add some basic layers
 		/*var rivers = new esri.layers.FeatureLayer("http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Hydrography/Watershed173811/MapServer/1", {
@@ -129,15 +139,69 @@ function init(){/*
 		var toc = new agsjs.dijit.TOC({
                   map: map,
                   layerInfos: [{
-                    layer: centros_poblados_dinamico,
+                    layer: centros_poblados,
                     title: "Centros Poblados"
                   }]
                 }, 'toc');
                 toc.startup();
-		
+                
+        //La declaración de la capa de OpenStreet es necesaria para el funcionamiento del Overview        
+        osml = new esri.layers.OpenStreetMapLayer();
+    	var overviewMapDijit = new esri.dijit.OverviewMap({
+      		map:map,
+      		baseLayer: osml 
+  		});
+  		overviewMapDijit.startup();
+  		
+		dojo.connect(map,"onClick",executeIdentifyTask);
+
+		//create identify tasks and setup parameters 
+		identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/cpdy/MapServer");
+
+		identifyParams = new esri.tasks.IdentifyParameters();
+		identifyParams.tolerance = 3;
+		identifyParams.returnGeometry = true;
+		identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
+		identifyParams.width  = map.width;
+		identifyParams.height = map.height;
+
+		$(function() {
+			$( "#tabs" ).tabs();
+		});
+
 		onMapLoaded();
 	//}
 }
+
+function executeIdentifyTask(evt) {
+        identifyParams.geometry = evt.mapPoint;
+        identifyParams.mapExtent = map.extent;
+       
+        var deferred = identifyTask.execute(identifyParams);
+
+        deferred.addCallback(function(response) {     
+          // response is an array of identify result objects    
+          // Let's return an array of features.
+			return dojo.map(response, function(result) {
+			var feature = result.feature;
+			feature.attributes.layerName = result.layerName;
+
+			var template = new esri.InfoTemplate("", "El UBIGEO es ${UBIGEO}");
+			feature.setInfoTemplate(template);
+
+			return feature;
+			});
+		});
+
+      
+        // InfoWindow expects an array of features from each deferred
+        // object that you pass. If the response from the task execution 
+        // above is not an array of features, then you need to add a callback
+        // like the one above to post-process the response and return an
+        // array of features.
+        map.infoWindow.setFeatures([ deferred ]);
+        map.infoWindow.show(evt.mapPoint);
+      }
 
 function onMapLoaded() {
 	console.log('map loaded enter');
@@ -317,50 +381,50 @@ function hideZoomControl(){
 	if ( hasTouch() && map ) map.hideZoomSlider();
 }
 
-function locateAddress(evt, addr) {
-    if (evt) {
-        if (evt.keyCode != dojo.keys.ENTER) {
-            return;
-        }
-    }
+//function locateAddress(evt, addr) {
+//    if (evt) {
+//        if (evt.keyCode != dojo.keys.ENTER) {
+//            return;
+//        }
+//    }
 
-	$(".fm_search").hide();
-	$(".fm_location_input").val('');
+//	$(".fm_search").hide();
+//	$(".fm_location_input").val('');
 
-	String.prototype.trim = function () {
-        return this.replace(/^\s*/, "").replace(/\s*$/, "");
-    };
-    //var address = dojo.byId("address").value.trim();
-    var address = addr.trim();
+//	String.prototype.trim = function () {
+//        return this.replace(/^\s*/, "").replace(/\s*$/, "");
+//    };
+//    //var address = dojo.byId("address").value.trim();
+//    var address = addr.trim();
 
-    if (!geocoder) {
-        geocoder = new esri.tasks.Locator("http://tasks.arcgis.com/ArcGIS/rest/services/WorldLocator/GeocodeServer");
-        geocoder.outSpatialReference = map.spatialReference;
-    }
+//    if (!geocoder) {
+//        geocoder = new esri.tasks.Locator("http://tasks.arcgis.com/ArcGIS/rest/services/WorldLocator/GeocodeServer");
+//        geocoder.outSpatialReference = map.spatialReference;
+//    }
 
-    if (address && address !== "") {
+//    if (address && address !== "") {
 
-        geocoder.addressToLocations({
-            "SingleLine": address
-        }, ['*'], function (geocodeResults) {
-            if (geocodeResults.length > 0) {
-                var attr = geocodeResults[0].attributes;
-                if (map.getLevel() < 8) {
-                    map.centerAndZoom(geocodeResults[0].location, 7);
-                } else
-                    map.centerAt(geocodeResults[0].location);
-                setTimeout(function () {
-                    var fillSymbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 3), new dojo.Color(0, 0, 0, 0));
-                    animateGraphicSymbol(new esri.Graphic(map.extent.expand(0.8), fillSymbol));
-                }, 500);
-            } else {
-                alert("Address not found");
-            }
-        }, function (err) {
-            debug(dojo.toJson(err));
-        });
-    }
-}
+//        geocoder.addressToLocations({
+//            "SingleLine": address
+//        }, ['*'], function (geocodeResults) {
+//            if (geocodeResults.length > 0) {
+//                var attr = geocodeResults[0].attributes;
+//                if (map.getLevel() < 8) {
+//                    map.centerAndZoom(geocodeResults[0].location, 7);
+//                } else
+//                    map.centerAt(geocodeResults[0].location);
+//                setTimeout(function () {
+//                    var fillSymbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 3), new dojo.Color(0, 0, 0, 0));
+//                    animateGraphicSymbol(new esri.Graphic(map.extent.expand(0.8), fillSymbol));
+//                }, 500);
+//            } else {
+//                alert("Address not found");
+//            }
+//        }, function (err) {
+//            debug(dojo.toJson(err));
+//        });
+//    }
+//}
 
 function animateGraphicSymbol(g) {
     var opacity = 1.0;
