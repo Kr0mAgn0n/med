@@ -15,9 +15,9 @@
 	<link rel="icon" type="image/png" href="fm_style/fm_icons/globe2.png" />
 <!--	<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/dojo/dijit/themes/tundra/tundra.css" />-->
 	<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dijit/themes/tundra/tundra.css">
-
-<!--	<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/Popup.css" />-->
-<!--    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/PopupMobile.css" />-->
+	<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/esri/dijit/css/Popup.css" />
+    <link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/esri/dijit/css/PopupMobile.css" />
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css" />
     <link rel='stylesheet' type='text/css' href='fm_style/page.css' />
 	
 	<script type="text/javascript" src='fm_javascript/page-header.js'></script>
@@ -57,60 +57,117 @@
 					<li><a href="#tabs-4">Centros Poblados</a></li>
 				</ul>
 				<div id="tabs-1">
-					<label>Departamento</label>
-					<select id="departamento">
-						<option>------</option>
-					</select> <br>
-					<label>Provincia</label>
-					<select id="provincia">
-						<option>------</option>
-					</select> <br>
-					<label>Distrito</label>
-					<select id="distrito">
-						<option>------</option>
-					</select> <br>
-					<label>Ubigeo</label>
-					<input id="ubigeo" type='text' placeholder='Ubigeo ...' />
+					<table class="formulario">
+						<tr>
+							<td><label>Departamento</label></td>
+							<td>
+								<select id="departamento">
+									<option>------</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td><label>Provincia</label></td>
+							<td>
+								<select id="provincia">
+									<option>------</option>
+								</select>
+							</td>
+						</tr>				
+						<tr>
+							<td><label>Distrito</label></td>
+							<td>
+								<select id="distrito">
+									<option>------</option>
+								</select>	
+							</td>
+						</tr>
+						<tr>
+							<td><label>Ubigeo</label></td>
+							<td><input id="ubigeo" type='text' placeholder='Ubigeo ...' /></td>
+						</tr>					
+					</table>
 				</div>
 				<div id="tabs-2">
-					<label>Dirección Regional</label>
-					<select id="direccion_regional">
-						<option>------</option>
-					</select> <br>
-					<label>UGEL</label>
-					<select id="ugel">
-						<option>------</option>
-					</select> <br>
-					<label>Código UGEL</label>
-					<input id="codigo_ugel" type='text' placeholder='Código UGEL ...' />
+					<table class="formulario">
+						<tr>
+							<td><label>Dirección Regional</label></td>
+							<td>
+								<select id="direccion_regional">
+									<option>------</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td><label>UGEL</label></td>
+							<td>
+								<select id="ugel">
+									<option>------</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td><label>Código UGEL</label></td>
+							<td><input id="codigo_ugel" type='text' placeholder='Código UGEL ...' /></td>
+						</tr>
+					</table>						
 				</div>
 				<div id="tabs-3">
-					<label>Nombre IIEE</label>
-					<input id="nombre_iiee" type='text' placeholder='Nombre IIEE ...' /> <br>
-					<label>Código Modular</label>
-					<input id="codigo_modular" type='text' placeholder='Código Modular ...' /> <br>
-					<label>Código Local</label>
-					<input id="codigo_local" type='text' placeholder='Código Local ...' /> <br>
-					<label>Dirección</label>
-					<input id="direccion" type='text' placeholder='Dirección ...' /> <br>
-					<label>Nombre CCPP</label>
-					<input id="nombre_ccpp" type='text' placeholder='Nombre CCPP ...' /> <br>
-					<label>Localidad</label>
-					<input id="localidad" type='text' placeholder='Localidad ...' /> <br>
-					<label>Nivel/Modalidad</label>
-					<select id="nivel-modalidad">
-						<option>------</option>
-					</select> <br>
-					<label>Gestión</label>
-					<select id="gestion">
-						<option>------</option>
-					</select>
+					<table class="formulario">
+						<tr>
+							<td><label>Nombre IIEE</label></td>
+							<td><input id="nombre_iiee" type='text' placeholder='Nombre IIEE ...' /></td>
+						</tr>
+						<tr>
+							<td><label>Código Modular</label></td>
+							<td><input id="codigo_modular" type='text' placeholder='Código Modular ...' /></td>
+						</tr>
+						<tr>
+							<td><label>Código Local</label></td>
+							<td><input id="codigo_local" type='text' placeholder='Código Local ...' /></td>
+						</tr>
+						<tr>
+							<td><label>Dirección</label></td>
+							<td><input id="direccion" type='text' placeholder='Dirección ...' /></td>
+						</tr>
+						<tr>
+							<td><label>Nombre CCPP</label></td>
+							<td><input id="nombre_ccpp" type='text' placeholder='Nombre CCPP ...' /></td>
+						</tr> 
+						<tr>
+							<td><label>Localidad</label></td>
+							<td><input id="localidad" type='text' placeholder='Localidad ...' /></td>
+						</tr>
+						<tr>
+							<td><label>Nivel/Modalidad</label></td>
+							<td>
+								<select id="nivel-modalidad">
+									<option>------</option>
+								</select>
+							</td>
+						</tr> 
+						<tr>
+							<td><label>Gestión</label></td>
+							<td>
+								<select id="gestion">
+									<option>------</option>
+								</select>
+							
+							</td>
+						</tr>					
+					</table>
 				</div>
 				<div id="tabs-4">
-					<label>Nombre CCPP</label>
-					<input id="nombre_ccp" type='text' placeholder='Nombre CCPP ...' /> <br>
-					<label>Código CCPP</label>
-					<input id="codigo_ccpp" type='text' placeholder='Código CCPP ...' />
+					<table class="formulario">
+					<tr>
+						<td><label>Nombre CCPP</label></td>
+						<td><input id="nombre_ccp" type='text' placeholder='Nombre CCPP ...' /></td>
+					</tr>
+					<tr>
+						<td><label>Código CCPP</label></td>
+						<td><input id="codigo_ccpp" type='text' placeholder='Código CCPP ...' /></td>
+					</tr>				
+					</table>
 				</div>
 			</div>
 		</div>
@@ -210,7 +267,8 @@
 	</footer>
 
 	<script type='text/javascript' src='fm_javascript/lib/jRespond.min.js'></script>
-	<script type='text/javascript' src='http://code.jquery.com/jquery.min.js'></script>
+<!--	<script type='text/javascript' src='http://code.jquery.com/jquery.min.js'></script>-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 <!--	<script type='text/javascript' src='fm_javascript/lib/jquery-ui-1.8.21.custom.min.js'></script>-->
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 

@@ -19,3 +19,22 @@
 .agsjsTOCOutOfScale {
 	display: none;
 }
+
+.fm_search {
+	width: 650px;
+	left: 25%;
+}
+
+.fm_search .fm_close {
+	top: 8px;
+	right: 8px;
+}	
+
+.formulario {
+	width: 100%;	
+}
+
+.formulario td {
+	width: 50%;
+	padding: 5px;
+}

@@ -165,9 +165,9 @@ function init(){/*
 		identifyParams.width  = map.width;
 		identifyParams.height = map.height;
 
-		$(function() {
-			$( "#tabs" ).tabs();
-		});
+		
+		$( "#tabs" ).tabs();
+		
 
 		onMapLoaded();
 	//}
