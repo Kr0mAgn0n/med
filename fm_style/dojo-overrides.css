@@ -38,3 +38,31 @@
 	width: 50%;
 	padding: 5px;
 }
+
+.fm_right_content {
+	width: 350px;
+}
+
+.fm_center_content {
+	right: 350px;
+}
+
+.ui-widget {
+	font-size: 1em;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    width: 100%;
+}
+
+.ui-widget-header {
+	background: #5e5e5e;
+}
+
+.ui-tabs {
+	margin-bottom: 10px;
+}
+
+#botonera {
+	text-align: center;
+}

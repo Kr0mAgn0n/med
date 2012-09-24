@@ -1,279 +1,351 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<!--The viewport meta tag is used to improve the presentation and behavior of the samples
-	on iOS devices-->
-	<!--meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/ -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-
-	<title>Ministerio de Educación</title>
-	<link rel="shortcut icon" href="fm_style/favicon.ico" /> 
-	<link rel="icon" type="image/png" href="fm_style/fm_icons/globe2.png" />
-<!--	<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/dojo/dijit/themes/tundra/tundra.css" />-->
-	<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dijit/themes/tundra/tundra.css">
-	<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/esri/dijit/css/Popup.css" />
-    <link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/esri/dijit/css/PopupMobile.css" />
-    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css" />
-    <link rel='stylesheet' type='text/css' href='fm_style/page.css' />
-	
-	<script type="text/javascript" src='fm_javascript/page-header.js'></script>
-	<!--[if lte IE 8]>
-		<link rel='stylesheet' type='text/css' href='fm_style/ie.css' />
-		<script type='text/javascript' src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
-		<script type='text/javascript' src='fm_javascript/lib/respond.min.js'></script>
-	<![endif]-->
-
-	<link rel="apple-touch-icon" href="fm_style/fm_icons/globe2.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="fm_style/fm_icons/globe2-72.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="fm_style/fm_icons/globe2-114.png" />
-	
-	<link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css' />
-</head>
-
-<body class="tundra">
-	<!-- absolute elements (overlays) -->
-	<div class='fm_basemap_list fm_overlay'>
-		<div class='fm_close'></div>
-		<div id='basemapList' class='fm_handle'></div>
-	</div>
-	<div class='fm_measurement fm_overlay'>
-		<div class='fm_close'></div>
-		<div id='measurementDiv' class='fm_handle'></div>
-	</div>
-	<div class='fm_search fm_overlay' >
-		<div class='fm_close fm_no_margin'></div>
-		<div class='fm_location_bar' class='fm_handle'>
-<!--			<input type='text' class='fm_location_input' placeholder='Find location...' />-->
-<!--			<span class='fm_location_button fm_icon fm_search_icon' ></span>-->
-			<div id="tabs">
-				<ul>
-					<li><a href="#tabs-1">Ubigeo</a></li>
-					<li><a href="#tabs-2">DRE y UGEL</a></li>
-					<li><a href="#tabs-3">Padrón IIEE</a></li>
-					<li><a href="#tabs-4">Centros Poblados</a></li>
-				</ul>
-				<div id="tabs-1">
-					<table class="formulario">
-						<tr>
-							<td><label>Departamento</label></td>
-							<td>
-								<select id="departamento">
-									<option>------</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td><label>Provincia</label></td>
-							<td>
-								<select id="provincia">
-									<option>------</option>
-								</select>
-							</td>
-						</tr>				
-						<tr>
-							<td><label>Distrito</label></td>
-							<td>
-								<select id="distrito">
-									<option>------</option>
-								</select>	
-							</td>
-						</tr>
-						<tr>
-							<td><label>Ubigeo</label></td>
-							<td><input id="ubigeo" type='text' placeholder='Ubigeo ...' /></td>
-						</tr>					
-					</table>
-				</div>
-				<div id="tabs-2">
-					<table class="formulario">
-						<tr>
-							<td><label>Dirección Regional</label></td>
-							<td>
-								<select id="direccion_regional">
-									<option>------</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td><label>UGEL</label></td>
-							<td>
-								<select id="ugel">
-									<option>------</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td><label>Código UGEL</label></td>
-							<td><input id="codigo_ugel" type='text' placeholder='Código UGEL ...' /></td>
-						</tr>
-					</table>						
-				</div>
-				<div id="tabs-3">
-					<table class="formulario">
-						<tr>
-							<td><label>Nombre IIEE</label></td>
-							<td><input id="nombre_iiee" type='text' placeholder='Nombre IIEE ...' /></td>
-						</tr>
-						<tr>
-							<td><label>Código Modular</label></td>
-							<td><input id="codigo_modular" type='text' placeholder='Código Modular ...' /></td>
-						</tr>
-						<tr>
-							<td><label>Código Local</label></td>
-							<td><input id="codigo_local" type='text' placeholder='Código Local ...' /></td>
-						</tr>
-						<tr>
-							<td><label>Dirección</label></td>
-							<td><input id="direccion" type='text' placeholder='Dirección ...' /></td>
-						</tr>
-						<tr>
-							<td><label>Nombre CCPP</label></td>
-							<td><input id="nombre_ccpp" type='text' placeholder='Nombre CCPP ...' /></td>
-						</tr> 
-						<tr>
-							<td><label>Localidad</label></td>
-							<td><input id="localidad" type='text' placeholder='Localidad ...' /></td>
-						</tr>
-						<tr>
-							<td><label>Nivel/Modalidad</label></td>
-							<td>
-								<select id="nivel-modalidad">
-									<option>------</option>
-								</select>
-							</td>
-						</tr> 
-						<tr>
-							<td><label>Gestión</label></td>
-							<td>
-								<select id="gestion">
-									<option>------</option>
-								</select>
-							
-							</td>
-						</tr>					
-					</table>
-				</div>
-				<div id="tabs-4">
-					<table class="formulario">
-					<tr>
-						<td><label>Nombre CCPP</label></td>
-						<td><input id="nombre_ccp" type='text' placeholder='Nombre CCPP ...' /></td>
-					</tr>
-					<tr>
-						<td><label>Código CCPP</label></td>
-						<td><input id="codigo_ccpp" type='text' placeholder='Código CCPP ...' /></td>
-					</tr>				
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<header>
-		<div class='fm_title_bar'>Ministerio de Educación</div>
-	</header>
-	<nav>
-		<div class='fm_nav'>
-			<a href='#' class='fm_basemap_trigger fm_button'>
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!--The viewport meta tag is used to improve the presentation and behavior
+        of the samples on iOS devices-->
+        <!--meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/
+        -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <title>Ministerio de Educación</title>
+        <link rel="shortcut icon" href="fm_style/favicon.ico"
+        />
+        <link rel="icon" type="image/png" href="fm_style/fm_icons/globe2.png"
+        />
+        <!-- <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/dojo/dijit/themes/tundra/tundra.css"
+        />-->
+        <link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dijit/themes/tundra/tundra.css">
+        <link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/esri/dijit/css/Popup.css"
+        />
+        <link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/esri/dijit/css/PopupMobile.css"
+        />
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css"
+        />
+        <link rel='stylesheet' type='text/css' href='fm_style/page.css' />
+        <script type="text/javascript" src='fm_javascript/page-header.js'></script>
+        <!--[if lte IE 8]>
+            <link rel='stylesheet' type='text/css' href='fm_style/ie.css' />
+            <script type='text/javascript' src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
+            <script type='text/javascript' src='fm_javascript/lib/respond.min.js'></script>
+        <![endif]-->
+        <link rel="apple-touch-icon" href="fm_style/fm_icons/globe2.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="fm_style/fm_icons/globe2-72.png"
+        />
+        <link rel="apple-touch-icon" sizes="114x114" href="fm_style/fm_icons/globe2-114.png"
+        />
+        <link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css'
+        />
+    </head>
+    
+    <body class="tundra">
+        <!-- absolute elements (overlays) -->
+        <div class='fm_basemap_list fm_overlay'>
+            <div class='fm_close'></div>
+            <div id='basemapList' class='fm_handle'></div>
+        </div>
+        <div class='fm_measurement fm_overlay'>
+            <div class='fm_close'></div>
+            <div id='measurementDiv' class='fm_handle'></div>
+        </div>
+        <div class='fm_search fm_overlay'>
+            <div class='fm_close fm_no_margin'></div>
+            <div class='fm_location_bar' class='fm_handle'>
+                <!-- <input type='text' class='fm_location_input' placeholder='Find location...'
+                />-->
+                <!-- <span class='fm_location_button fm_icon fm_search_icon'></span>-->
+            </div>
+        </div>
+        <header>
+            <div class='fm_title_bar'>Ministerio de Educación</div>
+        </header>
+        <nav>
+            <div class='fm_nav'>	<a href='#' class='fm_basemap_trigger fm_button'>
 				<span class='fm_icon fm_basemap_icon'></span>
 				<span class='fm_icon_text fm_show'>Mapas Base</span>
 			</a>
-			<a href='#' class='fm_measure_trigger fm_button'>
+	<a href='#' class='fm_measure_trigger fm_button'>
 				<span class='fm_icon fm_measure_icon'></span>
 				<span class='fm_icon_text fm_show'>Medición</span>
 			</a>
-			<a href='#' class='fm_search_trigger fm_button'>
+	<a href='#' class='fm_search_trigger fm_button'>
 				<span class='fm_icon fm_search_icon'></span>
 				<span class='fm_icon_text fm_show'>Búsqueda</span>
 			</a>
-			
 
-			<!-- float right elements are displayed in reverse order -->
-			
-			<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right' data-panel='fm_description' >
+                <!-- float right elements are displayed in reverse order -->	<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right'
+                data-panel='fm_description'>
 				<span class='fm_icon fm_details_icon'></span>
 				<span class='fm_icon_text'>Detalles</span>
 			</a>
-			<a href='#' class='fm_settings_trigger fm_trigger fm_button fm_float_right' data-panel='fm_settings' >
+	<a href='#' class='fm_settings_trigger fm_trigger fm_button fm_float_right'
+                data-panel='fm_settings'>
 				<span class='fm_icon fm_settings_icon'></span>
 				<span class='fm_icon_text'>Detalles</span>
 			</a>
-			<a href='#' class='fm_legend_trigger fm_trigger fm_button fm_float_right' data-panel='fm_legend' >
+	<a href='#' class='fm_legend_trigger fm_trigger fm_button fm_float_right'
+                data-panel='fm_legend'>
 				<span class='fm_icon fm_legend_icon'></span>
 				<span class='fm_icon_text'>Leyenda</span>
 			</a>
-			<a href='#' class='fm_trigger fm_button fm_float_right' data-panel='fm_print' >
+	<a href='#' class='fm_trigger fm_button fm_float_right' data-panel='fm_print'>
 				<span class='fm_icon fm_print_icon'></span>
 				<span class='fm_icon_text'>Imprimir</span>
 			</a>
-			<a href='#' class='fm_share_trigger fm_trigger fm_button fm_float_right' data-panel='fm_share' >
+	<a href='#' class='fm_share_trigger fm_trigger fm_button fm_float_right'
+                data-panel='fm_share'>
 				<span class='fm_icon fm_share_icon'></span>
 				<span class='fm_icon_text'>Compartir</span>
 			</a>
-			<a href='#' class='fm_find_trigger fm_trigger fm_button fm_float_right' data-panel='fm_find'>
+	<a href='#' class='fm_find_trigger fm_trigger fm_button fm_float_right'
+                data-panel='fm_find'>
 				<!-- Cuando se encuentre un icono apropiado para este panel, cambiarlo -->
 				<span class='fm_icon fm_search_icon'></span>
 				<span class='fm_icon_text'>Búsqueda</span>
 			</a>
-		</div>
-	</nav>
 
-	<div class='fm_container_main'>
-		<!--div class='fm_left_content collapse'>
+            </div>
+        </nav>
+        <div class='fm_container_main'>
+            <!--div class='fm_left_content collapse'>
 			<div class='fm_close fm_hide'><img src='images/close.png' class='fm_close_icon' /></div>
 			<div class='fm_container'>sample description</div>
 		</div-->
-		<div class='fm_center_content fm_right'>
-			<img src='fm_style/fm_icons/crosshairs-gray.png' class='fm_find_me' />
-			<div id='map' class='fm_map tundra'></div>
-		</div>
-		<div class='fm_right_content'>
-			<div class='fm_close fm_hide'></div>
-			<!--div class='fm_panel_header'>
+            <div class='fm_center_content fm_right'>
+                <img src='fm_style/fm_icons/crosshairs-gray.png' class='fm_find_me' />
+                <div id='map' class='fm_map tundra'></div>
+            </div>
+            <div class='fm_right_content'>
+                <div class='fm_close fm_hide'></div>
+                <!--div class='fm_panel_header'>
 				<div class='fm_panel_header_content fm_container'>Header</div>
 			</div-->
-			<div class='*fm_panel_container fm_container'>
-				<div class='fm_description fm_panel' >Descripción del mapa</div>
-				<div id='fm_legendDiv' class='fm_legend fm_panel' >
-					Leyenda del mapa
-					<div id="toc"></div>
-				</div>
-				<div class='fm_tools fm_panel' >Herramientas del mapa</div>
-				<div class='fm_print fm_panel' >Opciones de impresión</div>
-				<div class='fm_share fm_panel' >
-					<p>Código incrustable:</p>
-					<textarea class='fm_embed_code' ></textarea>
-				</div>
-				<div class='fm_settings fm_panel' >Configuración de la aplicación</div>
-				<div class='fm_find fm_panel' >
-					Resultados de la búsqueda
-					
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class='*fm_panel_container fm_container'>
+                    <div class='fm_description fm_panel'>Descripción del mapa</div>
+                    <div id='fm_legendDiv' class='fm_legend fm_panel'>
+                        <div id="toc"></div>
+                    </div>
+                    <div class='fm_tools fm_panel'>Herramientas del mapa</div>
+                    <div class='fm_print fm_panel'>Opciones de impresión</div>
+                    <div class='fm_share fm_panel'>
+                        <p>Código incrustable:</p>
+                        <textarea class='fm_embed_code'></textarea>
+                    </div>
+                    <div class='fm_settings fm_panel'>Configuración de la aplicación</div>
+                    <div class='fm_find fm_panel'>
+                        <div id="tabs1">
+                            <ul>
+                                <li><a href="#tabs1-1">Ubigeo</a>
 
-	<footer>
-		<div class='fm_map_info'>
-			<span class='fm_coordsinfo' style="padding: 0 5px;"></span>|
-			<span class='fm_scaleinfo' style="padding: 0 5px;"></span>
-			|&nbsp;
-			<span class='fm_zoomlevelinfo' style="padding: 0 5px;"></span>
-		</div>
-	</footer>
+                                </li>
+                                <li><a href="#tabs1-2">DRE y UGEL</a>
 
-	<script type='text/javascript' src='fm_javascript/lib/jRespond.min.js'></script>
-<!--	<script type='text/javascript' src='http://code.jquery.com/jquery.min.js'></script>-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-<!--	<script type='text/javascript' src='fm_javascript/lib/jquery-ui-1.8.21.custom.min.js'></script>-->
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+                                </li>
+                            </ul>
+                            <div id="tabs1-1">
+                                <table class="formulario">
+                                    <tr>
+                                        <td>
+                                            <label>Departamento</label>
+                                        </td>
+                                        <td>
+                                            <select id="departamento">
+                                                <option></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Provincia</label>
+                                        </td>
+                                        <td>
+                                            <select id="provincia">
+                                                <option></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Distrito</label>
+                                        </td>
+                                        <td>
+                                            <select id="distrito">
+                                                <option></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Ubigeo</label>
+                                        </td>
+                                        <td>
+                                            <input id="ubigeo" type='text' placeholder='Ubigeo ...' />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="tabs1-2">
+                                <table class="formulario">
+                                    <tr>
+                                        <td>
+                                            <label>Dirección Regional</label>
+                                        </td>
+                                        <td>
+                                            <select id="direccion_regional">
+                                                <option></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>UGEL</label>
+                                        </td>
+                                        <td>
+                                            <select id="ugel">
+                                                <option></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Código UGEL</label>
+                                        </td>
+                                        <td>
+                                            <input id="codigo_ugel" type='text' placeholder='Código UGEL ...' />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="tabs2">
+                            <ul>
+                                <li><a href="#tabs2-1">Padrón IIEE</a>
 
-	<script type="text/javascript">
-			var djConfig = {
+                                </li>
+                                <li><a href="#tabs2-2">Centros Poblados</a>
+
+                                </li>
+                            </ul>
+                            <div id="tabs2-1">
+                                <table class="formulario">
+                                    <tr>
+                                        <td>
+                                            <label>Nombre IIEE</label>
+                                        </td>
+                                        <td>
+                                            <input id="nombre_iiee" type='text' placeholder='Nombre IIEE ...' />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Código Modular</label>
+                                        </td>
+                                        <td>
+                                            <input id="codigo_modular" type='text' placeholder='Código Modular ...'
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Código Local</label>
+                                        </td>
+                                        <td>
+                                            <input id="codigo_local" type='text' placeholder='Código Local ...' />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Dirección</label>
+                                        </td>
+                                        <td>
+                                            <input id="direccion" type='text' placeholder='Dirección ...' />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Nombre CCPP</label>
+                                        </td>
+                                        <td>
+                                            <input id="nombre_ccpp" type='text' placeholder='Nombre CCPP ...' />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Localidad</label>
+                                        </td>
+                                        <td>
+                                            <input id="localidad" type='text' placeholder='Localidad ...' />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Nivel/Modalidad</label>
+                                        </td>
+                                        <td>
+                                            <select id="nivel-modalidad">
+                                                <option></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Gestión</label>
+                                        </td>
+                                        <td>
+                                            <select id="gestion">
+                                                <option></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="tabs2-2">
+                                <table class="formulario">
+                                    <tr>
+                                        <td>
+                                            <label>Nombre CCPP</label>
+                                        </td>
+                                        <td>
+                                            <input id="nombre_ccp" type='text' placeholder='Nombre CCPP ...' />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Código CCPP</label>
+                                        </td>
+                                        <td>
+                                            <input id="codigo_ccpp" type='text' placeholder='Código CCPP ...' />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="botonera">
+                            <button>Buscar</button>
+                            <button>Limpiar criterios</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class='fm_map_info'>	<span class='fm_coordsinfo' style="padding: 0 5px;"></span>|	<span class='fm_scaleinfo'
+                style="padding: 0 5px;"></span>
+|&nbsp;	<span class='fm_zoomlevelinfo' style="padding: 0 5px;"></span>
+
+            </div>
+        </footer>
+        <script type='text/javascript' src='fm_javascript/lib/jRespond.min.js'></script>
+        <!-- <script type='text/javascript' src='http://code.jquery.com/jquery.min.js'></script>-->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+        <!-- <script type='text/javascript' src='fm_javascript/lib/jquery-ui-1.8.21.custom.min.js'></script>-->
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+        <script type="text/javascript">
+            var djConfig = {
                 parseOnLoad: true,
                 packages: [{
                     "name": "agsjs",
@@ -281,13 +353,11 @@
                     "location": 'http://gmaps-utility-gis.googlecode.com/svn/tags/agsjs/2.02/xbuild/agsjs' // for xdomain load
                 }]
             };
-    </script>
-    
-    <script type="text/javascript" src="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/"></script>
+        </script>
+        <script type="text/javascript" src="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/"></script>
+        <script type="text/javascript" src='fm_javascript/map.js'></script>
+        <script type='text/javascript' src='fm_javascript/page.js'></script>
+        <!-- <script type="text/javascript" src='analytics.js'></script> -->
+    </body>
 
-	<script type="text/javascript" src='fm_javascript/map.js'></script>
-	<script type='text/javascript' src='fm_javascript/page.js'></script>
-
-<!--	 <script type="text/javascript" src='analytics.js'></script> -->
-</body>
 </html>
