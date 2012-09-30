@@ -198,18 +198,38 @@ function init() {
     });
     // resultado = queryTask.execute(query);
 
-    $("#tabs1")
-        .tabs();
-    $("#tabs2")
-        .tabs();
+    $("#tabs1").tabs();
+    $("#tabs2").tabs();
 
     llenarFormulario();
     
     dojo.connect(dojo.byId("buscar"),"onclick",busqueda);
+    
+    createBasemapGallery()
 
     onMapLoaded();
     // }
 }
+
+function createBasemapGallery() {
+    //add the basemap gallery, in this case we'll display maps from ArcGIS.com including bing maps
+    var basemapGallery = new esri.dijit.BasemapGallery({
+      showArcGISBasemaps: true,
+      toggleReference: true,
+      google: {
+        apiOptions: {
+          v: '3.6' // use a specific version is recommended for production system.
+        }
+      },
+      map: map
+    }, "basemapList");
+    basemapGallery.startup();
+    
+    dojo.connect(basemapGallery, "onError", function(msg) {
+      if (console) console.log(msg)
+    });
+  }
+
 
 function executeIdentifyTask(evt) {
     identifyParams.geometry = evt.mapPoint;

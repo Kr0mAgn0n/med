@@ -81,3 +81,7 @@
 	color: white;
 	font-weight: bold;
 }
+
+.resultado:hover {
+	cursor: pointer;
+}

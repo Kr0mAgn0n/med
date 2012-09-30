@@ -217,6 +217,7 @@ nav {
 	.fm_share_icon{ background: url(fm_icons/share2-w.png) no-repeat; }
 	.fm_search_icon{ background: url(fm_icons/search2-w.png) no-repeat; }
 	.fm_settings_icon{ background: url(fm_icons/settings-w.png) no-repeat; }
+	.fm_results_icon{ background: url(fm_icons/results-w.png) no-repeat; }
 
 	.fm_button_active .fm_basemap_icon, .fm_button:hover .fm_basemap_icon{ background: url(fm_icons/map2.png) no-repeat; }
 	.fm_button_active .fm_measure_icon, .fm_button:hover .fm_measure_icon{ background: url(fm_icons/ruler3.png) no-repeat; }
@@ -226,6 +227,7 @@ nav {
 	.fm_button_active .fm_share_icon, .fm_button:hover .fm_share_icon{ background: url(fm_icons/share2.png) no-repeat; }
 	.fm_button_active .fm_search_icon, .fm_button:hover .fm_search_icon{ background: url(fm_icons/search2.png) no-repeat; }
 	.fm_button_active .fm_settings_icon, .fm_button:hover .fm_settings_icon{ background: url(fm_icons/settings.png) no-repeat; }
+	.fm_button_active .fm_results_icon, .fm_button:hover .fm_results_icon{ background: url(fm_icons/results.png) no-repeat; }
 
 	.fm_close{ background: url(fm_icons/close.png) no-repeat; }
 	
@@ -361,6 +363,7 @@ nav {
 	.fm_share_icon{ background: url(fm_mobile_icons/share2-w.png) no-repeat; }
 	.fm_search_icon{ background: url(fm_mobile_icons/search2-w.png) no-repeat; }
 	.fm_settings_icon{ background: url(fm_mobile_icons/settings-w.png) no-repeat; }
+	.fm_results_icon{ background: url(fm_mobile_icons/results-w.png) no-repeat; }
 
 	.fm_button_active .fm_basemap_icon, .fm_button:hover .fm_basemap_icon{ background: url(fm_mobile_icons/map2.png) no-repeat; }
 	.fm_button_active .fm_measure_icon, .fm_button:hover .fm_measure_icon{ background: url(fm_mobile_icons/ruler3.png) no-repeat; }
@@ -370,6 +373,7 @@ nav {
 	.fm_button_active .fm_share_icon, .fm_button:hover .fm_share_icon{ background: url(fm_mobile_icons/share2.png) no-repeat; }
 	.fm_button_active .fm_search_icon, .fm_button:hover .fm_search_icon{ background: url(fm_mobile_icons/search2.png) no-repeat; }
 	.fm_button_active .fm_settings_icon, .fm_button:hover .fm_settings_icon{ background: url(fm_mobile_icons/settings.png) no-repeat; }
+	.fm_button_active .fm_results_icon, .fm_button:hover .fm_results_icon{ background: url(fm_mobile_icons/results.png) no-repeat; }
 	
 	.fm_close{ background: url(fm_mobile_icons/close.png) no-repeat; }
 	/* end image overrides */
