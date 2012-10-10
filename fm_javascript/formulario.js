@@ -3,8 +3,11 @@ function llenarFormulario() {
     provincia = dojo.byId("provincia");
     distrito = dojo.byId("distrito");
     ubigeo = dojo.byId("ubigeo");
+    
+    nivel_modalidad = dojo.byId("nivel_modalidad");
+    gestion = dojo.byId("gestion");
 
-    depQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/dep/MapServer/0");
+    depQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/1");
     depQuery = new esri.tasks.Query();
     depQuery.where = "1=1";
     depQuery.returnGeometry = false;
@@ -28,7 +31,7 @@ function llenarFormulario() {
         dojo.empty(distrito);
         dojo.create("option", {}, distrito);
         if (departamento.value != '') {
-            provQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/prov/MapServer/0");
+            provQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/2");
             provQuery = new esri.tasks.Query();
             provQuery.where = "IDPROV LIKE '" + departamento.value + "%'";
             provQuery.returnGeometry = false;
@@ -64,7 +67,7 @@ function llenarFormulario() {
     	dojo.empty(distrito);
         dojo.create("option", {}, distrito);
         if (provincia.value != '') {
-            distQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/dist/MapServer/0");
+            distQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/3");
             distQuery = new esri.tasks.Query();
             distQuery.where = "IDPROV LIKE '" + provincia.value + "%'";
             distQuery.returnGeometry = false;
@@ -94,4 +97,6 @@ function llenarFormulario() {
     	else
     		ubigeo.value=provincia.value;
     });
+    
+    
 }

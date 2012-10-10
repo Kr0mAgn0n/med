@@ -17,6 +17,8 @@ dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("esri.tasks.query");
 dojo.require("esri.tasks.find");
+dojo.require("esri.layers.agstiled");
+dojo.require("dojo.string");
 // dojo.require("esri.tasks.QueryTask");
 
 var map;
@@ -96,13 +98,11 @@ function init() {
      *  } else {
      */
     var initExtent = new esri.geometry.Extent({
-        "xmin": -8042615.07618537,
-        "ymin": -2047715.54032274,
-        "xmax": -7633218.35269016,
-        "ymax": -1864878.16866469,
-        "spatialReference": {
-            "wkid": 102100
-        }
+    	"xmin": -9052049.2735,
+ 	    "ymin":  -2078120.579,
+ 	    "xmax": -7643108.7015,
+ 	    "ymax": -10153.778299998492,
+ 	    "spatialReference": {"wkid":102100}	   
     });
 
     var popup = new esri.dijit.Popup({
@@ -146,8 +146,11 @@ function init() {
     currentBasemap = basemap;
     map.addLayer(currentBasemap);
 
-    var centros_poblados = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/cpdy/MapServer");
+    var centros_poblados = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
     map.addLayer(centros_poblados);
+    
+    var limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer");
+    map.addLayer(limites_politicos);
 
     // Add some basic layers
     /*
