@@ -1,26 +1,29 @@
 function llenarFormulario() {
-    departamento = dojo.byId("departamento");
+    // Guardando inputs del formulario en variables
+	departamento = dojo.byId("departamento");
     provincia = dojo.byId("provincia");
     distrito = dojo.byId("distrito");
-    ubigeo = dojo.byId("ubigeo");
-    
+    ubigeo = dojo.byId("ubigeo");    
     nivel_modalidad = dojo.byId("nivel_modalidad");
     gestion = dojo.byId("gestion");
 
+    // Creando QueryTask para llamar los departamentos
     depQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/1");
+    // Creando Query para llamar a los departamentos
     depQuery = new esri.tasks.Query();
-    depQuery.where = "1=1";
-    depQuery.returnGeometry = false;
-    depQuery.outFields = ["IDDPTO", "NOMBDEP"];
+    depQuery.where = "1=1"; // Notar que son sentencias SQL
+    depQuery.returnGeometry = false; // Retorna un punto, un polígono, etc, dependiendo de la geometría del servicio
+    depQuery.outFields = ["IDDPTO", "NOMBDEP"]; // Estos son los campos a llamar
     depQueryTask.execute(depQuery, function (resultado) {
-        dojo.forEach(resultado.features, function (feature) {
+        dojo.forEach(resultado.features, function (feature) { // Los campos se guardan en el campo de features del resultado del query
             dojo.create("option", {
-                value: feature.attributes["IDDPTO"],
+                value: feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
                 innerHTML: feature.attributes["NOMBDEP"]
             }, departamento);
         });
     });
 
+    // Enlazando el envento 'onchange' al select del departamento para cargar dinámicamente los campos de provincias
     dojo.connect(
     departamento, "onchange",
 
@@ -98,5 +101,67 @@ function llenarFormulario() {
     		ubigeo.value=provincia.value;
     });
     
+    // Lenado del campo Nivel/Modalidad
+    dojo.create("option", {
+    	innerHTML: "Inicial"
+    }, nivel_modalidad);
+    dojo.create("option", {
+    	innerHTML: "Proyecto"
+    }, nivel_modalidad);
+    dojo.create("option", {
+    	innerHTML: "Primaria EBR"
+    }, nivel_modalidad);
+    dojo.create("option", {
+    	innerHTML: "Secundaria EBR"
+    }, nivel_modalidad);
+    dojo.create("option", {
+    	innerHTML: "Primaria EDA"
+    }, nivel_modalidad);
+    dojo.create("option", {
+    	innerHTML: "Secundaria EDA"
+    }, nivel_modalidad);
+    dojo.create("option", {
+    	innerHTML: "Básica alternativa"
+    }, nivel_modalidad);
+    dojo.create("option", {
+    	innerHTML: "Superior no universitaria"
+    }, nivel_modalidad);
+    dojo.create("option", {
+    	innerHTML: "Especial"
+    }, nivel_modalidad);
+    dojo.create("option", {
+    	innerHTML: "CETPRO"
+    }, nivel_modalidad);
     
+    // Llenado de campo Gestión
+    dojo.create("option", {
+    	innerHTML: "Ministerio de Educación"
+    }, gestion);
+    dojo.create("option", {
+    	innerHTML: "Otro sector público (FF.AA)"
+    }, gestion);
+    dojo.create("option", {
+    	innerHTML: "Municipalidad"
+    }, gestion);
+    dojo.create("option", {
+    	innerHTML: "Nacionales en convenio"
+    }, gestion);
+    dojo.create("option", {
+    	innerHTML: "Cooperativo"
+    }, gestion);
+    dojo.create("option", {
+    	innerHTML: "Comunidad o asociación religiosa"
+    }, gestion);
+    dojo.create("option", {
+    	innerHTML: "Comunidad"
+    }, gestion);
+    dojo.create("option", {
+    	innerHTML: "Particular"
+    }, gestion);
+    dojo.create("option", {
+    	innerHTML: "Empresa"
+    }, gestion);
+    dojo.create("option", {
+    	innerHTML: "Asociación civil / Institución benéfica"
+    }, gestion);
 }

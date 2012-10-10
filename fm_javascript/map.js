@@ -170,6 +170,9 @@ function init() {
         layerInfos: [{
             layer: centros_poblados,
             title: "Centros Poblados"
+        }, {
+        	layer: limites_politicos,
+        	title: "Límites Políticos"
         }]
     }, 'toc');
     toc.startup();
@@ -186,19 +189,20 @@ function init() {
     dojo.connect(map, "onClick", executeIdentifyTask);
 
     // create identify tasks and setup parameters
-    identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/cpdy/MapServer");
+    identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
 
     identifyParams = new esri.tasks.IdentifyParameters();
     identifyParams.tolerance = 3;
     identifyParams.returnGeometry = true;
-    identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
+    identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_VISIBLE;
     identifyParams.width = map.width;
     identifyParams.height = map.height;
 
+    /*
     queryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/MEDGIS/rest/services/DEMO/dep/MapServer");
     query = new esri.tasks.Query({
         outFields: ['IDDPTO', 'NOMBDEP']
-    });
+    });*/
     // resultado = queryTask.execute(query);
 
     $("#tabs1").tabs();
@@ -238,20 +242,30 @@ function executeIdentifyTask(evt) {
     identifyParams.geometry = evt.mapPoint;
     identifyParams.mapExtent = map.extent;
 
+    var template = new esri.InfoTemplate("", "El UBIGEO es ${UBIGEO}");
+    
     var deferred = identifyTask.execute(identifyParams);
-
-    deferred.addCallback(function (response) {
+	    
+    deferred.addCallback(function(response){
         // response is an array of identify result objects
         // Let's return an array of features.
-        return dojo.map(response, function (result) {
-            var feature = result.feature;
-            feature.attributes.layerName = result.layerName;
-
-            var template = new esri.InfoTemplate("", "El UBIGEO es ${UBIGEO}");
+        /*return dojo.map(response, function (result) {
+            var feature = result.feature;          
             feature.setInfoTemplate(template);
-
             return feature;
+        });*/
+        var features = [];
+        dojo.forEach(response, function(res){
+        	res.feature.setInfoTemplate(template);
+        	features.push(res.feature);
         });
+        console.log(features);
+        
+        if(features.length != 0){
+        	map.infoWindow.setFeatures(features);
+        	map.infoWindow.show(evt.mapPoint);
+        }
+        
     });
 
     // InfoWindow expects an array of features from each deferred
@@ -259,8 +273,9 @@ function executeIdentifyTask(evt) {
     // above is not an array of features, then you need to add a callback
     // like the one above to post-process the response and return an
     // array of features.
-    map.infoWindow.setFeatures([deferred]);
-    map.infoWindow.show(evt.mapPoint);
+        
+    /*map.infoWindow.setFeatures([deferred]);
+	map.infoWindow.show(evt.mapPoint);*/
 }
 
 function onMapLoaded() {
