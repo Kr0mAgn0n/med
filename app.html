@@ -24,6 +24,12 @@
 		/>
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/esri/dijit/css/PopupMobile.css"
 		/>
+		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojo/resources/dojo.css"
+		/>
+		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css"
+		/>
+		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css"
+		/>
 		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css"
 		/>
 		<link rel='stylesheet' type='text/css' href='fm_style/page.css' />
@@ -60,6 +66,10 @@
 				<span class='fm_location_button fm_icon fm_search_icon'></span>
 			</div>
 		</div>
+		<div class='fm_results fm_overlay'>
+			<div class='fm_close'></div>
+			<div id='fm_results'></div>
+		</div>
 		<header>
 			<div class='fm_title_bar'>
 				Ministerio de Educación
@@ -70,6 +80,7 @@
 				<a href='#' class='fm_basemap_trigger fm_button'> <span class='fm_icon fm_basemap_icon'></span> <span class='fm_icon_text fm_show'>Mapas Base</span> </a>
 				<a href='#' class='fm_measure_trigger fm_button'> <span class='fm_icon fm_measure_icon'></span> <span class='fm_icon_text fm_show'>Medición</span> </a>
 				<a href='#' class='fm_search_trigger fm_button'> <span class='fm_icon fm_search_icon'></span> <span class='fm_icon_text fm_show'>Búsqueda</span> </a>
+				<a href='#' class='fm_results_trigger fm_button'>  <span class='fm_icon fm_results_icon'></span> <span class='fm_icon_text fm_show'>Resultados</span> </a>
 
 				<!-- float right elements are displayed in reverse order -->
 				<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right'
@@ -82,9 +93,9 @@
 				<a href='#' class='fm_share_trigger fm_trigger fm_button fm_float_right'
 				data-panel='fm_share'> <span class='fm_icon fm_share_icon'></span> <span class='fm_icon_text'>Compartir</span> </a>
 				<a href='#' class='fm_find_trigger fm_trigger fm_button fm_float_right'
-				data-panel='fm_find'> <!-- Cuando se encuentre un icono apropiado para este panel, cambiarlo --> <span class='fm_icon fm_search_icon'></span> <span class='fm_icon_text'>Búsqueda</span> </a>
-				<a href='#' class='fm_results_trigger fm_trigger fm_button fm_float_right'
-				data-panel='fm_results'> <!-- Cuando se encuentre un icono apropiado para este panel, cambiarlo --> <span class='fm_icon fm_results_icon'></span> <span class='fm_icon_text'>Resultados</span> </a>
+				data-panel='fm_find'> <span class='fm_icon fm_search_icon'></span> <span class='fm_icon_text'>Búsqueda</span> </a>
+				<!-- <a href='#' class='fm_results_trigger fm_trigger fm_button fm_float_right'
+				data-panel='fm_results'>  <span class='fm_icon fm_results_icon'></span> <span class='fm_icon_text'>Resultados</span> </a> -->
 			</div>
 		</nav>
 		<div class='fm_container_main'>
@@ -280,9 +291,9 @@
 							</button>
 						</div>
 					</div>
-					<div id="fm_results" class='fm_results fm_panel'>
+					<!-- <div id="fm_results" class='fm_results fm_panel'>
 						Resultados de la búsqueda
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

@@ -25,11 +25,6 @@
 	left: 25%;
 }
 
-.fm_search .fm_close {
-	top: 8px;
-	right: 8px;
-}	
-
 .formulario {
 	width: 100%;	
 }
@@ -74,14 +69,26 @@
 	text-align: center;
 }
 
-.resultado {
-	padding: 5px;
-	background: #5e5e5e;
-	margin-bottom: 5px;
-	color: white;
-	font-weight: bold;
+.dojoxGrid {
+	width: 100%;
+	height: 100% !important;
 }
 
-.resultado:hover {
-	cursor: pointer;
+.dojoxGrid .dojoxGridMasterHeader {
+	display: block !important;
+}
+
+.dojoxGrid .dojoxGridMasterHeader .dojoxGridHeader {
+	width: 100% !important;
+}
+
+.fm_container, #fm_results {
+	height: 100%;
+}
+
+.fm_results {
+	left: 10%;
+	top: 20%;
+	width: 80%;
+	height: 60%;
 }

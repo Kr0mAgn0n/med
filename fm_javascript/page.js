@@ -90,7 +90,7 @@ function responsive (){
 			breakpoint: 'phone',
 			enter: function() {
 				hideZoomControl();
-				$( ".fm_overlay" ).draggable( 'disable' );
+				//$( ".fm_overlay" ).draggable( 'disable' );
 				fm.mobile = true;
 				fm.collapse = true;
 				fm.setActiveTab(null);
@@ -104,7 +104,7 @@ function responsive (){
 			},
 			exit: function() {
 				showZoomControl();
-				$( ".fm_overlay" ).draggable( 'enable' );
+				//$( ".fm_overlay" ).draggable( 'enable' );
 				fm.mobile = false;
 				fm.collapse = false;
 
@@ -175,6 +175,19 @@ function responsive (){
 			$(".fm_location_input").focus();
 			return false;
 		});
+		
+		$(".fm_results_trigger").click(function(e){
+			e.preventDefault();
+			if (fm.collapse) {
+				fm.setActiveTab(null);
+				$(".fm_right_content").hide();
+			}
+			$(".fm_measurement").hide();
+			$(".fm_basemap_list").hide();
+			$(".fm_search").hide();
+			$(".fm_results").toggle();
+			return false;
+		});
 
 		$(".fm_basemap_list").on('click', 'a', null, function(e){
 			e.preventDefault();
@@ -199,11 +212,11 @@ function responsive (){
 		if ( hasTouch() ){
 			//alert('device has touch');
 			console.log('device has touch');
-			$( ".fm_overlay" ).draggable({
+			/*$( ".fm_overlay" ).draggable({
 				cursor: 'move',
 				containment: 'window',
 				handle: '.fm_handle'
-			});
+			});*/
 			/*
 			.touch({
 				animate: false,
@@ -218,11 +231,11 @@ function responsive (){
 		else{
 			//alert('device does not touch');
 			console.log('device does not touch');
-			$( ".fm_overlay" ).draggable({
+			/*$( ".fm_overlay" ).draggable({
 				cursor: 'move',
 				containment: 'window',
 				handle: '.fm_handle'
-			});
+			});*/
 		}
 	}
 

@@ -38,9 +38,11 @@ function busqueda(){
     	});
     });*/
 	
+	
+	
 	var xhrArgs = {
-			url: "http://escale.minedu.gob.pe/padron/rest/iiee",
-			handleAs: "xml",
+			url: "padron.php",
+			handleAs: "json",
 			content: {
 				ubigeo: ubigeo.value,
 				//codDreUgel:
@@ -52,14 +54,126 @@ function busqueda(){
 				direccionIE: direccion.value,
 				//progarti:
 				//progise:
-				gestiones: gestion.value
+				gestiones: gestion.value,
+				niveles: nivel_modalidad.value
 				//areas:
 			}
 	};
 	
+	
+	/*
+	var xhrArgs = {
+			url: "http://escale.minedu.gob.pe/padron/rest/instituciones",
+			headers: {
+				"Accept": "application/json"
+			},
+			handleAs: "json",
+			content: {
+				codmod: codigo_modular.value,
+				codlocal: codigo_local.value,
+				ubigeo: ubigeo.value,
+				//codDreUgel:
+				nombreCP: nombre_ccpp1.value,
+				nombreIE: nombre_iiee.value,
+				codCentroPoblado: codigo_ccpp.value,
+				niveles: nivel_modalidad.value,
+				gestiones: gestion.value
+				//direccionIE: direccion.value,
+				//progarti:
+				//progise:
+				//areas:
+			}
+	};
+	*/
+	
 	var deferred = dojo.xhrGet(xhrArgs);
+	
+	var datos = {
+			items: []
+	};
+	
+	var layout = [
+	              {'name': 'Ubigeo', 'field': 'ubigeo'},
+	              {'name': 'Departamento', 'field': 'departamento'},
+	              {'name': 'Provincia', 'field': 'provincia'},
+	              {'name': 'Distrito', 'field': 'distrito'},
+	              {'name': 'Nombre del Centro Poblado ', 'field': 'nombre_del_centro_poblado'},
+	              {'name': 'Código Local', 'field': 'codigo_local'},
+	              {'name': 'Código Modular', 'field': 'codigo_modular'},
+	              {'name': 'Nombre IE', 'field': 'nombre_ie'},
+	              {'name': 'Nivel', 'field': 'nivel'},
+	              {'name': 'Dirección', 'field': 'direccion'},
+	              {'name': 'Docentes', 'field': 'docentes'},
+	              {'name': 'Alumnos', 'field': 'alumnos'},
+	              {'name': 'Latitud', 'field': 'latitud'},
+	              {'name': 'Longitud', 'field': 'longitud'}
+	              ];
 	
 	deferred.then(function(data) {
 		console.log(data);
+		if (isEmpty(data)) {
+			alert("La busqueda no devolvió resultados.");
+		}
+		else {
+			
+			dojo.style(dojo.query(".fm_results")[0], 'display', 'block');
+			
+			/* Esta condicional es importante porque hay caso en que data.items es un objeto
+			 * y necesitamos que sea un array para poder pasarlo por dojo.forEach
+			 */
+		if (!dojo.isArray(data.items)) {
+			aux = data.items;
+			data = {
+					items: []
+			};
+			data.items.push(aux);
+		}
+		
+		dojo.forEach(data.items, function(item){
+			items = {
+					ubigeo: item.ubigeo,
+					departamento: item.departamento,
+					provincia: item.provincia,
+					distrito: item.distrito,
+					nombre_del_centro_poblado: item.centroPoblado,
+					codigo_local: item.codigoLocal,
+					codigo_modular: item.codigoModular,
+					nombre_ie: item.nombreIE,
+					nivel: item.nivelModalidad,
+					direccion: item.direccion,
+					docentes: item.docentes,
+					alumnos: item.alumnos,
+					latitud: item.coordY,
+					longitud: item.coordX
+				};
+			datos.items.push(items);			
+		});
+		
+		
+		//console.log(datos.items);
+		
+		var store = new dojo.data.ItemFileReadStore({data: datos});		
+		
+		var grid = new dojox.grid.EnhancedGrid({
+			store: store,
+			structure: layout,
+			loadingMessage: 'Cargando ...'
+		}, dojo.create("div",{},fm_results));
+		
+		grid.startup();
+		
+		dojo.connect(grid, "onSelected", function(inRowIndex){
+			console.log(inRowIndex);
+			console.log(grid.getItem(inRowIndex).latitud[0]);
+		})
+		}
 	});
+		
+}
+
+function isEmpty(obj) { 
+	for(var prop in obj)
+		if(obj.hasOwnProperty(prop)) return false; 
+	
+	return true;
 }

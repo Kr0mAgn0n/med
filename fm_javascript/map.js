@@ -19,6 +19,10 @@ dojo.require("esri.tasks.query");
 dojo.require("esri.tasks.find");
 dojo.require("esri.layers.agstiled");
 dojo.require("dojo.string");
+dojo.require("dojo.io.script");
+dojo.require("dojox.data.XmlStore");
+dojo.require("dojox.grid.EnhancedGrid");
+dojo.require("dojo.data.ItemFileReadStore");
 // dojo.require("esri.tasks.QueryTask");
 
 var map;

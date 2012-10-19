@@ -103,34 +103,43 @@ function llenarFormulario() {
     
     // Lenado del campo Nivel/Modalidad
     dojo.create("option", {
-    	innerHTML: "Inicial"
+    	innerHTML: "Inicial",
+    	value: "A1"
     }, nivel_modalidad);
     dojo.create("option", {
     	innerHTML: "Proyecto"
     }, nivel_modalidad);
     dojo.create("option", {
-    	innerHTML: "Primaria EBR"
+    	innerHTML: "Primaria EBR",
+    	value: "B0"
     }, nivel_modalidad);
     dojo.create("option", {
-    	innerHTML: "Secundaria EBR"
+    	innerHTML: "Secundaria EBR",
+    	value: "F0"
     }, nivel_modalidad);
     dojo.create("option", {
-    	innerHTML: "Primaria EDA"
+    	innerHTML: "Primaria EDA",
+    	value: "C0"
     }, nivel_modalidad);
     dojo.create("option", {
-    	innerHTML: "Secundaria EDA"
+    	innerHTML: "Secundaria EDA",
+    	value: "G0"
     }, nivel_modalidad);
     dojo.create("option", {
-    	innerHTML: "Básica alternativa"
+    	innerHTML: "Básica alternativa",
+    	value: "D0"
     }, nivel_modalidad);
     dojo.create("option", {
-    	innerHTML: "Superior no universitaria"
+    	innerHTML: "Superior no universitaria",
+    	value: "K0"
     }, nivel_modalidad);
     dojo.create("option", {
-    	innerHTML: "Especial"
+    	innerHTML: "Especial",
+    	value: "E0"
     }, nivel_modalidad);
     dojo.create("option", {
-    	innerHTML: "CETPRO"
+    	innerHTML: "CETPRO",
+    	value: "L0"
     }, nivel_modalidad);
     
     // Llenado de campo Gestión
