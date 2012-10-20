@@ -204,10 +204,24 @@ nav {
 	display: inline-block;
 	background-size: 1em 1em;
 }
+
+.fm_basemap_list {
+	width: 80%;
+	height: 60%;
+	left: 10%;
+	top: 20%;
+	overflow: auto;
+}
+
+.fm_measurement {
+	width: 300px;
+	height: 150px;
+}
+
 /***************************/
 
 /* anything but phone */
-@media all and (min-width: 768px){
+@media all and (min-width: 800px){
 	/* desktop images */
 	.fm_basemap_icon{ background: url(fm_icons/map2-w.png) no-repeat; }
 	.fm_measure_icon{ background: url(fm_icons/ruler3-w.png) no-repeat; }
@@ -275,6 +289,7 @@ nav {
 
 	.fm_float_right{ float: right; }
 
+	/*
 	.fm_basemap_list{
 		top: 10em;
 		height: 260px;
@@ -282,14 +297,17 @@ nav {
 		left: 30%;
 		overflow: auto;
 	}
-	#basemapList { width: 100%; }
 	
+	#basemapList { width: 100%; }
+	*/
+	/*
 	.fm_measurement{
 		top: 10em;
 		height: 120px;
 		width: 250px;
 		left: 30%;
 	}
+	*/
 	.fm_search{
 		left: 35%;
 		right: 35%;
@@ -336,7 +354,7 @@ nav {
 }
 
 /* tab */
-@media all and (max-width: 1024px){
+@media all and (max-width: 1023px){
 	.fm_right_content{
 		display: none;
 	}
@@ -353,7 +371,7 @@ nav {
 }
 
 /* phone */
-@media all and (max-width: 767px){
+@media all and (max-width: 799px){
 	/* image overrides */
 	.fm_basemap_icon{ background: url(fm_mobile_icons/map2-w.png) no-repeat; }
 	.fm_measure_icon{ background: url(fm_mobile_icons/ruler3-w.png) no-repeat; }
@@ -417,17 +435,22 @@ nav {
 		text-align: center;
 	}
 
+	/*
 	.fm_overlay, .fm_search{
 		bottom: 4em;
 		left: 20px;
 		right: 20px;
 	}
+	*/
+	/*
 	.fm_measurement{
 		height: 120px;
 	}
+	*/
 	.fm_basemap_image{ width: 120px; }
+	/*
 	.fm_basemap_list{ max-height: 80%; overflow-y: auto;}
-
+	*/
 	.fm_button{
 		width: 32px;
 		height: 100%;

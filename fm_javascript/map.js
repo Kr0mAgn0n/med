@@ -137,11 +137,11 @@ function init() {
 
     var basemap = new agsjs.layers.GoogleMapsLayer({
         // id: 'google', // optional. esri layer id.
-        // apiOptions: { // load google API should be loaded.
-        // v: '3.6' // API version. use a specific version is recommended for
+        apiOptions: { // load google API should be loaded.
+        	v: '3.6' // API version. use a specific version is recommended for
         // production system.
         // client: gme-myclientID // for enterprise accounts;
-        // },
+        },
         mapOptions: { // options passed to google.maps.Map contrustor
             streetViewControl: false
             // whether to display street view control. Default is true.
@@ -216,8 +216,21 @@ function init() {
     
     dojo.connect(dojo.byId("buscar"),"onclick",busqueda);
     
+    dojo.connect(window, "onresize", function(){
+    	if (map) map.resize();
+    });
+    
     createBasemapGallery()
-
+    
+    $(".fm_measurement").draggable({
+    	cursor: 'move'
+    });
+    
+    $(".fm_measurement").css('left', (window.innerWidth - 300)*0.5);
+    $(".fm_measurement").css('top', (window.innerHeight - 150)*0.5);
+    
+    console.log(window.innerWidth);
+    
     onMapLoaded();
     // }
 }
@@ -234,12 +247,13 @@ function createBasemapGallery() {
       },
       map: map
     }, "basemapList");
+    
     basemapGallery.startup();
     
     dojo.connect(basemapGallery, "onError", function(msg) {
       if (console) console.log(msg)
     });
-  }
+}
 
 
 function executeIdentifyTask(evt) {
