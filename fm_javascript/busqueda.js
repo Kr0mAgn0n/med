@@ -100,9 +100,12 @@ function busqueda() {
 					grid,
 					"onRowClick",
 					function(e) {
-						/* punto = new esri.geometry.Point(grid.getItem(e.rowIndex).latitud[0], grid.getItem(e.rowIndex).longitud[0], new esri.SpatialReference({ wkid: 102100 }));
-						map.centerAndZoom(punto, 14);*/
-
+						punto = new esri.geometry.Point(grid.getItem(e.rowIndex).longitud[0], grid.getItem(e.rowIndex).latitud[0], new esri.SpatialReference({ wkid: 5373 }));
+						console.log(punto);
+						punto = esri.geometry.geographicToWebMercator(punto);
+						console.log(punto);
+						map.centerAndZoom(punto, 14);
+						/*
 						codcp = grid.getItem(e.rowIndex).codigo_del_centro_poblado[0];
 						console.log(codcp);
 
@@ -116,7 +119,7 @@ function busqueda() {
 								resultado) {
 							console.log(resultado.features);
 							map.centerAndZoom(resultado.features[0].geometry,
-									14);
+									14);*/
 							/*dojo.forEach(resultado.features, function(feature){	    		
 								dojo.create("div",{
 									id: feature.attributes["CODCP"],
@@ -131,7 +134,7 @@ function busqueda() {
 									map.centerAndZoom(feature.geometry,14);
 								});
 							});*/
-						});
+						//});
 
 					});
 

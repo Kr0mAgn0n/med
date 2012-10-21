@@ -23,6 +23,7 @@ dojo.require("dojo.io.script");
 dojo.require("dojox.data.XmlStore");
 dojo.require("dojox.grid.EnhancedGrid");
 dojo.require("dojo.data.ItemFileReadStore");
+dojo.require("esri.dijit.Print");
 // dojo.require("esri.tasks.QueryTask");
 
 var map;
@@ -186,7 +187,9 @@ function init() {
     osml = new esri.layers.OpenStreetMapLayer();
     var overviewMapDijit = new esri.dijit.OverviewMap({
         map: map,
-        baseLayer: osml
+        baseLayer: osml,
+        height: 0.25*map.height,
+        width: 0.25*map.width
     });
     overviewMapDijit.startup();
 
@@ -229,7 +232,32 @@ function init() {
     $(".fm_measurement").css('left', (window.innerWidth - 300)*0.5);
     $(".fm_measurement").css('top', (window.innerHeight - 150)*0.5);
     
-    console.log(window.innerWidth);
+    printer = new esri.dijit.Print({
+    	map: map,
+    	templates: [{
+    	    label: "Map",
+    	    format: "PDF",
+    	    layout: "MAP_ONLY",
+    	    exportOptions: {
+    	      width: 500,
+    	      height: 400,
+    	      dpi: 96
+    	    }
+    	  }, {
+    	    label: "Layout",
+    	    format: "PDF",
+    	    layout: "A4 Portrait",
+    	    layoutOptions: {
+    	      titleText: "My Print",
+    	      authorText: "esri",
+    	      copyrightText: "My Company",
+    	      scalebarUnit: "Miles",
+    	    }
+    	  }],
+    	 url: "http://escale.minedu.gob.pe/medgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task"
+    }, dojo.byId("printer"));
+    
+    printer.startup();
     
     onMapLoaded();
     // }
@@ -242,7 +270,10 @@ function createBasemapGallery() {
       toggleReference: true,
       google: {
         apiOptions: {
-          v: '3.6' // use a specific version is recommended for production system.
+          v: '3.6'
+        },
+        mapOptions: {
+            streetViewControl: false
         }
       },
       map: map
