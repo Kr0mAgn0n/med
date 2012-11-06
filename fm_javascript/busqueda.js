@@ -1,6 +1,5 @@
 function busqueda() {
-	fm_results = dojo.byId("fm_results");
-	dojo.empty(fm_results);
+	activarCargando();
 
 	ubigeo = dojo.byId("ubigeo");
 	nombre_iiee = dojo.byId("nombre_iiee");
@@ -14,191 +13,103 @@ function busqueda() {
 	nombre_ccpp2 = dojo.byId("nombre_ccpp2");
 	codigo_ccpp = dojo.byId("codigo_ccpp");
 
-	/*
-	busquedaQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer/2");
-	busquedaQuery = new esri.tasks.Query();
-	busquedaQuery.where = "UBIGEO = '" + ubigeo.value + "'";
-	busquedaQuery.returnGeometry = true;
-	busquedaQuery.outFields = ["CODCP", "NOMCP"];
-	busquedaQueryTask.execute(busquedaQuery, function(resultado){
-		dojo.forEach(resultado.features, function(feature){
-			dojo.create("div",{
-				id: feature.attributes["CODCP"],
-				class: "resultado",
-				innerHTML:"<ul><li>Ubigeo: " + ubigeo.value + "</li><li>Código del Centro Poblado: " + feature.attributes["CODCP"] + "</li><li>Nombre del Centro Poblado: " + feature.attributes["NOMCP"] + "</li><ul/>"
-			},fm_results);
-			
-			dojo.connect(dojo.byId(feature.attributes["CODCP"]), "onclick", function(){
-				console.log("Se hizo click.");
-				console.log(feature.geometry.x);
-				console.log(feature.geometry.x);
-				map.centerAndZoom(feature.geometry,14);
-			});
-		});
-	});*/
-
-	var datos = {
-		items : []
-	};
-
-	var layout = [ {
-		'name' : 'Ubigeo',
-		'field' : 'ubigeo'
-	}, {
-		'name' : 'Departamento',
-		'field' : 'departamento'
-	}, {
-		'name' : 'Provincia',
-		'field' : 'provincia'
-	}, {
-		'name' : 'Distrito',
-		'field' : 'distrito'
-	}, {
-		'name' : 'Nombre del Centro Poblado',
-		'field' : 'nombre_del_centro_poblado'
-	}, {
-		'name' : 'Código del Centro Poblado',
-		'field' : 'codigo_del_centro_poblado'
-	}, {
-		'name' : 'Código Local',
-		'field' : 'codigo_local'
-	}, {
-		'name' : 'Código Modular',
-		'field' : 'codigo_modular'
-	}, {
-		'name' : 'Nombre IE',
-		'field' : 'nombre_ie'
-	}, {
-		'name' : 'Nivel',
-		'field' : 'nivel'
-	}, {
-		'name' : 'Dirección',
-		'field' : 'direccion'
-	}, {
-		'name' : 'Docentes',
-		'field' : 'docentes'
-	}, {
-		'name' : 'Alumnos',
-		'field' : 'alumnos'
-	}, {
-		'name' : 'Latitud',
-		'field' : 'latitud'
-	}, {
-		'name' : 'Longitud',
-		'field' : 'longitud'
-	} ];
-
-	var store;
-
-	var grid = new dojox.grid.EnhancedGrid({
-		structure : layout,
-		loadingMessage : 'Cargando ...'
-	}, dojo.create("div", {}, fm_results));
-
-	dojo
-			.connect(
-					grid,
-					"onRowClick",
-					function(e) {
-						punto = new esri.geometry.Point(grid.getItem(e.rowIndex).longitud[0], grid.getItem(e.rowIndex).latitud[0], new esri.SpatialReference({ wkid: 5373 }));
-						console.log(punto);
-						punto = esri.geometry.geographicToWebMercator(punto);
-						console.log(punto);
-						map.centerAndZoom(punto, 14);
-						/*
-						codcp = grid.getItem(e.rowIndex).codigo_del_centro_poblado[0];
-						console.log(codcp);
-
-						busquedaQueryTask = new esri.tasks.QueryTask(
-								"http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer/2");
-						busquedaQuery = new esri.tasks.Query();
-						busquedaQuery.where = "UPPER(CODCP) = '" + codcp + "'";
-						busquedaQuery.returnGeometry = true;
-						busquedaQuery.outFields = [];
-						busquedaQueryTask.execute(busquedaQuery, function(
-								resultado) {
-							console.log(resultado.features);
-							map.centerAndZoom(resultado.features[0].geometry,
-									14);*/
-							/*dojo.forEach(resultado.features, function(feature){	    		
-								dojo.create("div",{
-									id: feature.attributes["CODCP"],
-									class: "resultado",
-									innerHTML:"<ul><li>Ubigeo: " + ubigeo.value + "</li><li>Código del Centro Poblado: " + feature.attributes["CODCP"] + "</li><li>Nombre del Centro Poblado: " + feature.attributes["NOMCP"] + "</li><ul/>"
-								},fm_results);
-								
-								dojo.connect(dojo.byId(feature.attributes["CODCP"]), "onclick", function(){
-									console.log("Se hizo click.");
-									console.log(feature.geometry.x);
-									console.log(feature.geometry.x);
-									map.centerAndZoom(feature.geometry,14);
-								});
-							});*/
-						//});
-
-					});
-
-	dojo.connect(window, "onresize", function() {
-		grid.resize();
-		grid.update();
-	});
-
 	var xhrArgs = {
 		url : "padron.php",
 		handleAs : "json",
 		content : {
 			ubigeo : ubigeo.value,
-			//codDreUgel:
+			// codDreUgel:
 			codCentroPoblado : codigo_ccpp.value,
 			nomCentroPoblado : nombre_ccpp1.value,
 			codigoModular : codigo_modular.value,
 			nombreIE : nombre_iiee.value,
 			codigoLocal : codigo_local.value,
 			direccionIE : direccion.value,
-			//progarti:
-			//progise:
+			// progarti:
+			// progise:
 			gestiones : gestion.value,
 			niveles : nivel_modalidad.value
-		//areas:
+		// areas:
 		}
 	};
 
 	/*
-	var xhrArgs = {
-			url: "http://escale.minedu.gob.pe/padron/rest/instituciones",
-			headers: {
-				"Accept": "application/json"
-			},
-			handleAs: "json",
-			content: {
-				codmod: codigo_modular.value,
-				codlocal: codigo_local.value,
-				ubigeo: ubigeo.value,
-				//codDreUgel:
-				nombreCP: nombre_ccpp1.value,
-				nombreIE: nombre_iiee.value,
-				codCentroPoblado: codigo_ccpp.value,
-				niveles: nivel_modalidad.value,
-				gestiones: gestion.value
-				//direccionIE: direccion.value,
-				//progarti:
-				//progise:
-				//areas:
-			}
-	};
+	 * var xhrArgs = { url: "http://escale.minedu.gob.pe/padron/rest/regiones",
+	 * headers: { "Accept": "application/json", "X-Request-With":
+	 * "XMLHttpRequest", "Content-Type": "application/json" }, handleAs: "json",
+	 * content: { //codmod: codigo_modular.value, //codlocal:
+	 * codigo_local.value, //ubigeo: ubigeo.value, //codDreUgel: //nombreCP:
+	 * nombre_ccpp1.value, //nombreIE: nombre_iiee.value, //codCentroPoblado:
+	 * codigo_ccpp.value, //niveles: nivel_modalidad.value, //gestiones:
+	 * gestion.value //direccionIE: direccion.value, //progarti: //progise:
+	 * //areas: } };
 	 */
 
 	var deferred = dojo.xhrGet(xhrArgs);
 
 	deferred.then(function(data) {
+		datos = {
+			items : []
+		};
+		
+		layout = [ [ {
+			'name' : 'Ubigeo',
+			'field' : 'ubigeo'
+		} ], [ {
+			'name' : 'Departamento',
+			'field' : 'departamento'
+		} ], [ {
+			'name' : 'Provincia',
+			'field' : 'provincia'
+		} ], [ {
+			'name' : 'Distrito',
+			'field' : 'distrito'
+		} ], [ {
+			'name' : 'Nombre del Centro Poblado',
+			'field' : 'nombre_del_centro_poblado'
+		} ], [ {
+			'name' : 'Código del Centro Poblado',
+			'field' : 'codigo_del_centro_poblado'
+		} ], [ {
+			'name' : 'Código Local',
+			'field' : 'codigo_local'
+		} ], [ {
+			'name' : 'Código Modular',
+			'field' : 'codigo_modular'
+		} ], [ {
+			'name' : 'Nombre IE',
+			'field' : 'nombre_ie'
+		} ], [ {
+			'name' : 'Nivel',
+			'field' : 'nivel'
+		} ], [ {
+			'name' : 'Dirección',
+			'field' : 'direccion'
+		} ], [ {
+			'name' : 'Docentes',
+			'field' : 'docentes'
+		} ], [ {
+			'name' : 'Alumnos',
+			'field' : 'alumnos'
+		} ], [ {
+			'name' : 'Latitud',
+			'field' : 'latitud'
+		} ], [ {
+			'name' : 'Longitud',
+			'field' : 'longitud'
+		} ] ];
+
+		
 		if (isEmpty(data)) {
 			alert("La busqueda no devolvió resultados.");
 		} else {
 
-			dojo.style(dojo.query(".fm_results")[0], 'display', 'block');
+			// dojo.style(dojo.query(".fm_results")[0], 'display', 'block');
 
-			/* Esta condicional es importante porque hay caso en que data.items es un objeto
-			 * y necesitamos que sea un array para poder pasarlo por dojo.forEach
+			/*
+			 * Esta condicional es importante porque hay caso en que data.items
+			 * es un objeto y necesitamos que sea un array para poder pasarlo
+			 * por dojo.forEach
 			 */
 			if (!dojo.isArray(data.items)) {
 				aux = data.items;
@@ -210,66 +121,44 @@ function busqueda() {
 
 			dojo.forEach(data.items, function(item) {
 				items = {
-					ubigeo : item.ubigeo,
-					departamento : item.departamento,
-					provincia : item.provincia,
-					distrito : item.distrito,
-					nombre_del_centro_poblado : item.centroPoblado,
-					codigo_del_centro_poblado : item.codCentroPoblado,
-					codigo_local : item.codigoLocal,
-					codigo_modular : item.codigoModular,
-					nombre_ie : item.nombreIE,
-					nivel : item.nivelModalidad,
-					direccion : item.direccion,
-					docentes : item.docentes,
-					alumnos : item.alumnos,
-					latitud : item.coordY,
-					longitud : item.coordX
+					ubigeo : 'Ubigeo: ' + item.ubigeo,
+					departamento : 'Departamento: ' + item.departamento,
+					provincia : 'Provincia: ' + item.provincia,
+					distrito : 'Distrito: ' + item.distrito,
+					nombre_del_centro_poblado : 'Nombre del Centro Poblado: ' + item.centroPoblado,
+					codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.codCentroPoblado,
+					codigo_local : 'Código Local: ' + item.codigoLocal,
+					codigo_modular : 'Código Modular: ' + item.codigoModular,
+					nombre_ie : 'Nombre de la IE: ' + item.nombreIE,
+					nivel : 'Nivel: ' + item.nivelModalidad,
+					direccion : 'Dirección: ' + item.direccion,
+					docentes : 'Docentes: ' + item.docentes,
+					alumnos : 'Alumnos: ' + item.alumnos,
+					latitud : 'Latitud: ' + item.coordY,
+					longitud : 'Longitud: ' + item.coordX
 				};
 				datos.items.push(items);
 			});
 
-			//console.log(datos.items);
+			// console.log(datos.items);
 
-			store = new dojo.data.ItemFileReadStore({
+			store = new dojo.data.ItemFileWriteStore({
 				data : datos
 			});
 
-			/*
-			var grid = new dojox.grid.EnhancedGrid({
-				store: store,
-				structure: layout,
-				loadingMessage: 'Cargando ...'
-			}, dojo.create("div",{},fm_results));
-			 */
-
-			grid.store = store;
-
-			grid.startup();
-
-			/*
-			dojo.connect(grid, "onRowClick", function(e){
-				console.log(e.rowIndex);
-				
-				
-				console.log(grid.getItem(e.rowIndex).latitud[0]);
-				console.log(grid.getItem(e.rowIndex).longitud[0]);
-				
-				punto = new esri.geometry.Point(grid.getItem(e.rowIndex).latitud[0], grid.getItem(e.rowIndex).longitud[0], new esri.SpatialReference({ wkid: 102100 }));
-				console.log(punto);
-				map.centerAndZoom(punto, 14);
-				
-			});
+			grid.setStructure(layout);
 			
-			
-			dojo.connect(window, "onresize", function () {
-				if (grid) {
-					grid.resize();
-					grid.update();
-				}
-			});
-			 */
+			grid.setStore(store);
+
 		}
+		console.log(data);
+		
+		dojo.query(".fm_button").removeClass("fm_button_active");
+		dojo.query(".fm_results_trigger").addClass("fm_button_active");
+		dojo.query(".fm_panel").style('display', 'none');
+        dojo.query(".fm_results").style('display', 'block');
+		
+		desactivarCargando();
 	});
 
 }

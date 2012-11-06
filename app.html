@@ -43,6 +43,9 @@
 	</head>
 
 	<body class="tundra">
+		<div id="cargando">
+			<img src="images/cargando.gif" />
+		</div>
 		<!-- absolute elements (overlays) -->
 		<div class='fm_basemap_list fm_overlay'>
 			<div class='fm_close'></div>
@@ -52,18 +55,23 @@
 			<div class='fm_close'></div>
 			<div id='measurementDiv' class='fm_handle'></div>
 		</div>
-		<div class='fm_search fm_overlay'>
-			<div class='fm_close fm_no_margin'></div>
-			<div class='fm_location_bar' class='fm_handle'>
-				<input type='text' class='fm_location_input' placeholder='Encontrar lugar...'
-				/>
-				<span class='fm_location_button fm_icon fm_search_icon'></span>
+		<div class='fm_identify fm_overlay'>
+			<div class='fm_close'></div>
+			<div id='identifyDiv' data-dojo-type="dijit.Toolbar">
+				<div id="punto"></div>
+				<div id="mano-alzada"></div>
+				<div id="extension"></div>
 			</div>
 		</div>
-		<div class='fm_results fm_overlay'>
+		<div class='fm_navegacion fm_overlay'>
 			<div class='fm_close'></div>
-			<div id='fm_results'></div>
+			<div id='navegacionDiv' data-dojo-type="dijit.Toolbar">
+				<div id="prevExtent"></div>
+				<div id="nextExtent"></div>
+				<div id="fullExtent"></div>
+			</div>
 		</div>
+
 		<header>
 			<div class='fm_title_bar'>
 				Ministerio de Educación
@@ -73,23 +81,19 @@
 			<div class='fm_nav'>
 				<a href='#' class='fm_basemap_trigger fm_button'> <span class='fm_icon fm_basemap_icon'></span> <span class='fm_icon_text fm_show'>Mapas Base</span> </a>
 				<a href='#' class='fm_measure_trigger fm_button'> <span class='fm_icon fm_measure_icon'></span> <span class='fm_icon_text fm_show'>Medición</span> </a>
-				<a href='#' class='fm_search_trigger fm_button'> <span class='fm_icon fm_search_icon'></span> <span class='fm_icon_text fm_show'>Búsqueda</span> </a>
-				<a href='#' class='fm_results_trigger fm_button'> <span class='fm_icon fm_results_icon'></span> <span class='fm_icon_text fm_show'>Resultados</span> </a>
-
+				<a href='#' class='fm_identify_trigger fm_button'> <span class='fm_icon fm_identify_icon'></span> <span class='fm_icon_text fm_show'>Identificar</span> </a>
+				<a href='#' class='fm_navegacion_trigger fm_button'> <span class='fm_icon fm_navegacion_icon'></span> <span class='fm_icon_text fm_show'>Navegación</span> </a>
+				
 				<!-- float right elements are displayed in reverse order -->
-				<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right'
-				data-panel='fm_description'> <span class='fm_icon fm_details_icon'></span> <span class='fm_icon_text'>Detalles</span> </a>
-				<a href='#' class='fm_settings_trigger fm_trigger fm_button fm_float_right'
-				data-panel='fm_settings'> <span class='fm_icon fm_settings_icon'></span> <span class='fm_icon_text'>Configuración</span> </a>
-				<a href='#' class='fm_legend_trigger fm_trigger fm_button fm_float_right'
-				data-panel='fm_legend'> <span class='fm_icon fm_legend_icon'></span> <span class='fm_icon_text'>Leyenda</span> </a>
+				<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right' data-panel='fm_description'> <span class='fm_icon fm_details_icon'></span> <span class='fm_icon_text'>Detalles</span> </a>
+				<a href='#' class='fm_settings_trigger fm_trigger fm_button fm_float_right' data-panel='fm_settings'> <span class='fm_icon fm_settings_icon'></span> <span class='fm_icon_text'>Configuración</span> </a>
+				<a href='#' class='fm_legend_trigger fm_trigger fm_button fm_float_right' data-panel='fm_legend'> <span class='fm_icon fm_legend_icon'></span> <span class='fm_icon_text'>Leyenda</span> </a>
 				<a href='#' class='fm_trigger fm_button fm_float_right' data-panel='fm_print'> <span class='fm_icon fm_print_icon'></span> <span class='fm_icon_text'>Imprimir</span> </a>
-				<a href='#' class='fm_share_trigger fm_trigger fm_button fm_float_right'
-				data-panel='fm_share'> <span class='fm_icon fm_share_icon'></span> <span class='fm_icon_text'>Compartir</span> </a>
-				<a href='#' class='fm_find_trigger fm_trigger fm_button fm_float_right'
-				data-panel='fm_find'> <span class='fm_icon fm_search_icon'></span> <span class='fm_icon_text'>Búsqueda</span> </a>
-				<!-- <a href='#' class='fm_results_trigger fm_trigger fm_button fm_float_right'
-				data-panel='fm_results'>  <span class='fm_icon fm_results_icon'></span> <span class='fm_icon_text'>Resultados</span> </a> -->
+				<a href='#' class='fm_share_trigger fm_trigger fm_button fm_float_right' data-panel='fm_share'> <span class='fm_icon fm_share_icon'></span> <span class='fm_icon_text'>Compartir</span> </a>
+
+				<a href='#' class='fm_find_trigger fm_trigger fm_button fm_float_right' data-panel='fm_find'> <span class='fm_icon fm_search_icon'></span> <span class='fm_icon_text'>Búsqueda</span> </a>
+				<a href='#' class='fm_results_trigger fm_trigger fm_button fm_float_right' data-panel='fm_results'> <span class='fm_icon fm_results_icon'></span> <span class='fm_icon_text'>Resultados</span> </a>
+				
 			</div>
 		</nav>
 		<div class='fm_container_main'>
@@ -125,6 +129,7 @@
 						</p>
 						<textarea class='fm_embed_code'></textarea>
 					</div>
+
 					<div class='fm_find fm_panel'>
 						<div id="tabs1">
 							<ul>
@@ -285,9 +290,9 @@
 							</button>
 						</div>
 					</div>
-					<!-- <div id="fm_results" class='fm_results fm_panel'>
-					Resultados de la búsqueda
-					</div> -->
+					<div class='fm_results fm_panel'>
+						<div id='fm_results'></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -320,7 +325,8 @@
 		<script type='text/javascript' src='fm_javascript/page.js'></script>
 		<script type='text/javascript' src='fm_javascript/formulario.js'></script>
 		<script type='text/javascript' src='fm_javascript/busqueda.js'></script>
-		<!-- <script type="text/javascript" src='analytics.js'></script> -->
+		<script type='text/javascript' src='fm_javascript/identify.js'></script>
+		<script type='text/javascript' src='fm_javascript/navegacion.js'></script>
 	</body>
 
 </html>

@@ -125,13 +125,6 @@ function responsive() {
 				$(this).addClass('fm_on');
 			}
 		});
-		$(".fm_location_button").click(function() {
-			locateAddress(false, $(".fm_location_input").val());
-		});
-		$(".fm_location_input").keyup(function(e) {
-			locateAddress(e, this.value);
-		});
-
 		$(".fm_close").click(function() {
 			if ($(this).hasClass('fm_hide'))
 				$(this).hide();
@@ -147,7 +140,8 @@ function responsive() {
 				$(".fm_right_content").hide();
 			}
 			$(".fm_measurement").hide();
-			$(".fm_search").hide();
+			$(".fm_identify").hide();
+			$(".fm_navegacion").hide();
 			$(".fm_basemap_list").toggle();
 			return false;
 		});
@@ -158,11 +152,12 @@ function responsive() {
 				$(".fm_right_content").hide();
 			}
 			$(".fm_basemap_list").hide();
-			$(".fm_search").hide();
+			$(".fm_identify").hide();
+			$(".fm_navegacion").hide();
 			$(".fm_measurement").toggle();
 			return false;
 		});
-		$(".fm_search_trigger").click(function(e) {
+		$(".fm_identify_trigger").click(function(e) {
 			e.preventDefault();
 			if (fm.collapse) {
 				fm.setActiveTab(null);
@@ -170,12 +165,11 @@ function responsive() {
 			}
 			$(".fm_measurement").hide();
 			$(".fm_basemap_list").hide();
-			$(".fm_search").toggle();
-			$(".fm_location_input").focus();
+			$(".fm_navegacion").hide();
+			$(".fm_identify").toggle();
 			return false;
 		});
-
-		$(".fm_results_trigger").click(function(e) {
+		$(".fm_navegacion_trigger").click(function(e) {
 			e.preventDefault();
 			if (fm.collapse) {
 				fm.setActiveTab(null);
@@ -183,8 +177,8 @@ function responsive() {
 			}
 			$(".fm_measurement").hide();
 			$(".fm_basemap_list").hide();
-			$(".fm_search").hide();
-			$(".fm_results").toggle();
+			$(".fm_navegacion").toggle();
+			$(".fm_identify").hide();
 			return false;
 		});
 
@@ -326,7 +320,7 @@ function responsive() {
 					var graphic = new esri.Graphic(pt,
 							new esri.symbol.PictureMarkerSymbol(
 									'images/i_target.png', 38, 38));
-					// animateGraphicSymbol(graphic);
+					
 					fm.animateMapSymbol(graphic);
 				}
 
@@ -374,28 +368,27 @@ function responsive() {
 	this.initApp = function() {
 		fm.setBindings();
 		fm.generateEmbedCode();
-
 		fm.setResponsive();
-		// getBasemaps();
-
-		// init info
+		
+		$("#tabs1").tabs();
+		$("#tabs2").tabs();
+		
+		$(".fm_measurement").draggable({
+			cursor : 'move'
+		});
+		$(".fm_identify").draggable({
+			cursor : 'move'
+		});
+		$(".fm_navegacion").draggable({
+			cursor : 'move'
+		});
+		
 		$(".fm_description").show();
 		if (!(fm.collapse))
 			fm.setActiveTab(".fm_details_trigger");
 	}
 }
 
-// helpers
-function hasTouch() {
-	return false;
-	// return !!('ontouchstart' in window);
-	/*
-	 * try { document.createEvent("TouchEvent"); console.log('device has
-	 * touch'); return true; } catch (e) { console.log('device does not touch');
-	 * return false; } /*
-	 */
-}
-// end helpers
 
 $(document).ready(function() {
 	res = new responsive();

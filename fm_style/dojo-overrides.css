@@ -68,27 +68,3 @@
 #botonera {
 	text-align: center;
 }
-
-.dojoxGrid {
-	width: 100%;
-	height: 100% !important;
-}
-
-.dojoxGrid .dojoxGridMasterHeader {
-	display: block !important;
-}
-
-.dojoxGrid .dojoxGridMasterHeader .dojoxGridHeader {
-	width: 100% !important;
-}
-
-.fm_container, #fm_results {
-	height: 100%;
-}
-
-.fm_results {
-	left: 10%;
-	top: 20%;
-	width: 80%;
-	height: 60%;
-}
