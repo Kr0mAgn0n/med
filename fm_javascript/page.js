@@ -201,26 +201,6 @@ function responsive() {
 			var panel = $(this).data('panel');
 			fm.showPanel(panel);
 		});
-
-		if (hasTouch()) {
-			// alert('device has touch');
-			console.log('device has touch');
-			/*
-			 * $( ".fm_overlay" ).draggable({ cursor: 'move', containment:
-			 * 'window', handle: '.fm_handle' });
-			 */
-			/*
-			 * .touch({ animate: false, sticky: false, dragx: true, dragy: true,
-			 * rotate: false, resort: true, scale: false }); /*
-			 */
-		} else {
-			// alert('device does not touch');
-			console.log('device does not touch');
-			/*
-			 * $( ".fm_overlay" ).draggable({ cursor: 'move', containment:
-			 * 'window', handle: '.fm_handle' });
-			 */
-		}
 	}
 
 	this.setActiveTab = function(tab) {
