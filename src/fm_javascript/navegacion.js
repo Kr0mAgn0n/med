@@ -3,7 +3,7 @@ var navToolbar;
 
 function iniciarNavegacion() {
 	navToolbar = new esri.toolbars.Navigation(map);
-
+	
 	prevExtent = new dijit.form.Button({
 		iconClass : 'prevExtentIcon',
 		label : 'Extensión previa',
@@ -16,7 +16,7 @@ function iniciarNavegacion() {
 
 	nextExtent = new dijit.form.Button({
 		iconClass : 'nextExtentIcon',
-		label : 'Extensión siguiente',
+		label: 'Extensión siguiente',
 		onClick : function() {
 			if (!navToolbar.isLastExtent())
 				navToolbar.zoomToNextExtent();
@@ -25,7 +25,7 @@ function iniciarNavegacion() {
 
 	fullExtent = new dijit.form.Button({
 		iconClass : 'fullExtentIcon',
-		label : 'Extensión inicial',
+		label: 'Extensión completa',
 		onClick : function() {
 			map.setExtent(initExtent);
 		}

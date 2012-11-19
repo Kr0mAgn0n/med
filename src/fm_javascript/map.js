@@ -17,8 +17,8 @@ dojo.require("esri.toolbars.Navigation");
 var map;
 var currentBasemap;
 var identifyTask, identifyParams;
-var store, grid, datos;
 var initExtent;
+var measurement
 
 function init() {
 
@@ -37,14 +37,6 @@ function init() {
 		wrapAround180 : true,
 		sliderStyle : "small",
 		logo : false,
-	});
-
-	dojo.connect(map, 'onUpdateStart', function() {
-		activarCargando();
-	});
-
-	dojo.connect(map, 'onUpdateEnd', function() {
-		desactivarCargando();
 	});
 
 	createBasemapGallery()
@@ -77,13 +69,6 @@ function init() {
 	toc.startup();
 
 	/*
-	 * legend = new esri.dijit.Legend({ map : map, layerInfos : [ { layer :
-	 * centros_poblados, title : "Centros Poblados" }, { layer :
-	 * limites_politicos, title : "Límites Políticos" } ] }, 'toc');
-	 * legend.startup();
-	 */
-
-	/*
 	 * La declaración de la capa de OpenStreet es necesaria para el
 	 * funcionamiento del Overview
 	 */
@@ -105,35 +90,7 @@ function init() {
 			map.resize();
 	});
 
-	datos = {
-		items : []
-	};
-
-	grid = new dojox.grid.EnhancedGrid({}, dojo.create("div", {}, dojo
-			.byId("fm_results")));
-
-	grid.startup();
-
-	dojo.connect(window, "onresize", function() {
-		grid.resize();
-		grid.update();
-	});
-
-	dojo.connect(grid, "onRowClick", function(e) {
-		map.graphics.clear();
-		aux = grid.getItem(e.rowIndex).longitud[0].split(" ");
-		aux2 = grid.getItem(e.rowIndex).latitud[0].split(" ");
-		point = new esri.geometry.Point(aux[1], aux2[1],
-				new esri.SpatialReference({
-					wkid : 5373
-				}));
-		point = esri.geometry.geographicToWebMercator(point);
-		var graphic = new esri.Graphic(point,
-				new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38,
-						38));
-		map.graphics.add(graphic);
-		map.centerAndZoom(point, 14);
-	});
+	inicializarGrid();
 
 	printer = new esri.dijit.Print(
 			{
@@ -243,8 +200,10 @@ function onMapLoaded() {
 		scalebarUnit : 'metric'
 	});
 
-	var measurement = new esri.dijit.Measurement({
-		map : map
+	measurement = new esri.dijit.Measurement({
+		map : map,
+		defaultAreaUnit : esri.Units.SQUARE_KILOMETERS,
+		defaultLengthUnit : esri.Units.KILOMETERS
 	}, dojo.byId('measurementDiv'));
 	measurement.startup();
 

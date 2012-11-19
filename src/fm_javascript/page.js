@@ -105,22 +105,27 @@ function responsive() {
 	}
 
 	this.setBindings = function() {
-		$(".fm_find_me").click(function() {
-			if ($(this).hasClass('fm_on')) {
-				// turn off
-				$(this).removeClass('fm_on');
-			} else {
-				// turn on
-				res.findMe();
-				$(this).addClass('fm_on');
-			}
-		});
 		$(".fm_close").click(function() {
 			if ($(this).hasClass('fm_hide'))
 				$(this).hide();
 			$(this).parent().hide();
 			if (fm.collapse)
 				fm.setActiveTab(null);
+
+			if ($(this).parent().hasClass('fm_measurement')) {
+				measurement.setTool('area', false);
+				measurement.setTool('distance', false);
+				measurement.setTool('location', false);
+				measurement.clearResult();
+			}
+
+			if ($(this).parent().hasClass('fm_identify')) {
+				punto.setChecked(false);
+				mano_alzada.setChecked(false);
+				extension.setChecked(false);
+				drawToolbar.deactivate();
+			}
+
 		});
 
 		$(".fm_basemap_trigger").click(function(e) {
@@ -129,6 +134,17 @@ function responsive() {
 				fm.setActiveTab(null);
 				$(".fm_right_content").hide();
 			}
+
+			measurement.setTool('area', false);
+			measurement.setTool('distance', false);
+			measurement.setTool('location', false);
+			measurement.clearResult();
+
+			punto.setChecked(false);
+			mano_alzada.setChecked(false);
+			extension.setChecked(false);
+			drawToolbar.deactivate();
+
 			$(".fm_measurement").hide();
 			$(".fm_identify").hide();
 			$(".fm_navegacion").hide();
@@ -141,6 +157,12 @@ function responsive() {
 				fm.setActiveTab(null);
 				$(".fm_right_content").hide();
 			}
+
+			punto.setChecked(false);
+			mano_alzada.setChecked(false);
+			extension.setChecked(false);
+			drawToolbar.deactivate();
+
 			$(".fm_basemap_list").hide();
 			$(".fm_identify").hide();
 			$(".fm_navegacion").hide();
@@ -153,6 +175,12 @@ function responsive() {
 				fm.setActiveTab(null);
 				$(".fm_right_content").hide();
 			}
+
+			measurement.setTool('area', false);
+			measurement.setTool('distance', false);
+			measurement.setTool('location', false);
+			measurement.clearResult();
+
 			$(".fm_measurement").hide();
 			$(".fm_basemap_list").hide();
 			$(".fm_navegacion").hide();
@@ -165,19 +193,21 @@ function responsive() {
 				fm.setActiveTab(null);
 				$(".fm_right_content").hide();
 			}
+
+			measurement.setTool('area', false);
+			measurement.setTool('distance', false);
+			measurement.setTool('location', false);
+			measurement.clearResult();
+
+			punto.setChecked(false);
+			mano_alzada.setChecked(false);
+			extension.setChecked(false);
+			drawToolbar.deactivate();
+
 			$(".fm_measurement").hide();
 			$(".fm_basemap_list").hide();
 			$(".fm_navegacion").toggle();
 			$(".fm_identify").hide();
-			return false;
-		});
-
-		$(".fm_basemap_list").on('click', 'a', null, function(e) {
-			e.preventDefault();
-			var name = this.getAttribute('data-name');
-			setBasemap(name);
-			$(".fm_basemap_list").toggle();
-			fm.setActiveTab(null);
 			return false;
 		});
 
@@ -290,7 +320,7 @@ function responsive() {
 					var graphic = new esri.Graphic(pt,
 							new esri.symbol.PictureMarkerSymbol(
 									'images/i_target.png', 38, 38));
-					
+
 					fm.animateMapSymbol(graphic);
 				}
 
@@ -339,10 +369,10 @@ function responsive() {
 		fm.setBindings();
 		fm.generateEmbedCode();
 		fm.setResponsive();
-		
+
 		$("#tabs1").tabs();
 		$("#tabs2").tabs();
-		
+
 		$(".fm_measurement").draggable({
 			cursor : 'move'
 		});
@@ -355,13 +385,12 @@ function responsive() {
 		$(".fm_basemap_list").draggable({
 			cursor : 'move'
 		});
-		
+
 		$(".fm_description").show();
 		if (!(fm.collapse))
 			fm.setActiveTab(".fm_details_trigger");
 	}
 }
-
 
 $(document).ready(function() {
 	res = new responsive();
