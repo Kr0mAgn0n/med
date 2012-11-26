@@ -407,6 +407,7 @@ nav {
 	height: 16px;
 	text-align: center;
 }
+
 .fullExtentIcon {
 	background-image: url('fm_icons/fullExtent.png');
 	background-repeat: no-repeat;
@@ -415,6 +416,22 @@ nav {
 	text-align: center;
 }
 
+.img-enlaces {
+	cursor: pointer;
+	padding: 5px;
+}
+
+#csv {
+	display: none;
+}
+
+#csvSubmit {
+	background: none;
+	background-image: url('../images/csv.png');
+	box-shadow: none;
+	width: 25px;
+	height: 25px;
+}
 /***************************/
 
 /* anything but phone */
@@ -454,7 +471,6 @@ nav {
 		background: url(fm_icons/navegacion-w.png) no-repeat;
 	}
 
-
 	.fm_button_active .fm_basemap_icon, .fm_button:hover .fm_basemap_icon {
 		background: url(fm_icons/map2.png) no-repeat;
 	}
@@ -488,7 +504,6 @@ nav {
 	.fm_button_active .fm_navegacion_icon, .fm_button:hover .fm_navegacion_icon {
 		background: url(fm_icons/navegacion.png) no-repeat;
 	}
-
 
 	.fm_close {
 		background: url(fm_icons/close.png) no-repeat;

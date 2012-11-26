@@ -9,6 +9,7 @@ dojo.require("esri.layers.FeatureLayer");
 dojo.require("esri.tasks.query");
 dojo.require("dojox.grid.EnhancedGrid");
 dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("dojox.grid.enhanced.plugins.exporter.CSVWriter");
 dojo.require("esri.dijit.Print");
 dojo.require("dijit.Toolbar");
 dojo.require("esri.toolbars.draw");
@@ -83,7 +84,8 @@ function init() {
 
 	llenarFormulario();
 
-	dojo.connect(dojo.byId("buscar"), "onclick", busqueda);
+	dojo.connect(dojo.byId("formulario"), "onsubmit", busqueda);
+	//$("#formulario").submit(busqueda);
 
 	dojo.connect(window, "onresize", function() {
 		if (map)

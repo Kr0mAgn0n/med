@@ -1,33 +1,49 @@
-var store, grid, datos;
+var store, storeExporter, grid, gridExporter, datos, datosExporter;
 
 function inicializarGrid() {
 	datos = {
-			items : []
-		};
+		items : []
+	};
 
-		grid = new dojox.grid.EnhancedGrid({}, dojo.create("div", {}, dojo
-				.byId("fm_results")));
+	datosExporter = {
+		items : []
+	};
 
-		grid.startup();
+	grid = new dojox.grid.EnhancedGrid({
+		escapeHTMLInData : false,
+	}, dojo.create("div", {}, dojo.byId("fm_results")));
 
-		dojo.connect(window, "onresize", function() {
-			grid.resize();
-			grid.update();
-		});
+	grid.startup();
 
-		dojo.connect(grid, "onRowClick", function(e) {
-			map.graphics.clear();
-			aux = grid.getItem(e.rowIndex).longitud[0].split(" ");
-			aux2 = grid.getItem(e.rowIndex).latitud[0].split(" ");
-			point = new esri.geometry.Point(aux[1], aux2[1],
-					new esri.SpatialReference({
-						wkid : 5373
-					}));
-			point = esri.geometry.geographicToWebMercator(point);
-			var graphic = new esri.Graphic(point,
-					new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38,
-							38));
-			map.graphics.add(graphic);
-			map.centerAndZoom(point, 14);
-		});	
+	dojo.connect(window, "onresize", function() {
+		grid.resize();
+		grid.update();
+	});
+
+	gridExporter = new dojox.grid.EnhancedGrid({
+		plugins : {
+			exporter : true
+		}
+	});
+
 }
+
+function hacerZoom(longitud, latitud) {
+	map.graphics.clear();
+	point = new esri.geometry.Point(longitud, latitud,
+			new esri.SpatialReference({
+				wkid : 5373
+			}));
+	point = esri.geometry.geographicToWebMercator(point);
+	var graphic = new esri.Graphic(point, new esri.symbol.PictureMarkerSymbol(
+			'images/i_target.png', 38, 38));
+	map.graphics.add(graphic);
+	map.centerAndZoom(point, 14);
+}
+
+function exportarTodo() {
+	gridExporter.exportGrid("csv", function(str) {
+		//window.open('data:text/csv;charset=utf-8,' + escape(str));
+		
+	});
+};

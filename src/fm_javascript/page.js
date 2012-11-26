@@ -80,7 +80,6 @@ function responsive() {
 		fm.jRes.addFunc({
 			breakpoint : 'phone',
 			enter : function() {
-				hideZoomControl();
 				// $( ".fm_overlay" ).draggable( 'disable' );
 				fm.mobile = true;
 				fm.collapse = true;

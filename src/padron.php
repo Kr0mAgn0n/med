@@ -1,16 +1,16 @@
 <?php
 
-$ubigeo = $_GET['ubigeo'];
+$ubigeo = $_POST['ubigeo'];
 //codDreUgel:
-$codCentroPoblado = $_GET['codCentroPoblado'];
-$nomCentroPoblado = $_GET['nomCentroPoblado'];
-$codigoModular = $_GET['codigoModular'];
-$nombreIE = $_GET['nombreIE'];
-$codigoLocal = $_GET['codigoLocal'];
-$direccionIE = $_GET['direccionIE'];
+$codCentroPoblado = $_POST['codCentroPoblado'];
+$nomCentroPoblado = $_POST['nomCentroPoblado'];
+$codigoModular = $_POST['codigoModular'];
+$nombreIE = $_POST['nombreIE'];
+$codigoLocal = $_POST['codigoLocal'];
+$direccionIE = $_POST['direccionIE'];
 //progarti:
 //progise:
-$gestiones = $_GET['gestiones'];
+$gestiones = $_POST['gestiones'];
 //areas:
 
 $url = "http://escale.minedu.gob.pe/padron/rest/iiee?ubigeo=" . $ubigeo . "&codCentroPoblado=" . $codCentroPoblado . "&nomCentroPoblado=" . $nomCentroPoblado . "&codigoModular=" . $codigoModular . "&nombreIE=" . $nombreIE . "&codigoLocal=" . $codigoLocal . "&direccionIE=" . $direccionIE . "&gestiones=" . $gestiones;
