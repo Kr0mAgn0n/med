@@ -143,56 +143,56 @@
 								</li>
 							</ul>
 							<div id="tabs1-1">
-								<table class="formulario">
-									<tr>
-										<td><label>Departamento</label></td>
-										<td>
-										<select id="departamento">
-											<option></option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label>Provincia</label></td>
-										<td>
-										<select id="provincia">
-											<option></option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label>Distrito</label></td>
-										<td>
-										<select id="distrito">
-											<option></option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label>Ubigeo</label></td>
-										<td>
-										<input id="ubigeo" type='text' placeholder='Ubigeo ...' />
-										</td>
-									</tr>
-								</table>
+									<table class="formulario">
+										<tr>
+											<td><label>Departamento</label></td>
+											<td>
+											<select id="departamento" name="departamento">
+												<option></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>Provincia</label></td>
+											<td>
+											<select id="provincia" name="provincia">
+												<option></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>Distrito</label></td>
+											<td>
+											<select id="distrito" name="distrito">
+												<option></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>Ubigeo</label></td>
+											<td>
+											<input id="ubigeo" name="ubigeo" type='text' placeholder='Ubigeo ...' />
+											</td>
+										</tr>
+									</table>
 							</div>
 							<div id="tabs1-2">
 								<table class="formulario">
 									<tr>
 										<td><label>Dirección Regional</label></td>
 										<td>
-										<select id="direccion_regional">
+										<select id="direccion_regional" name="direccion_regional">
 											<option></option>
 										</select></td>
 									</tr>
 									<tr>
 										<td><label>UGEL</label></td>
 										<td>
-										<select id="ugel">
+										<select id="ugel" name="ugel">
 											<option></option>
 										</select></td>
 									</tr>
 									<tr>
 										<td><label>Código UGEL</label></td>
 										<td>
-										<input id="codigo_ugel" type='text' placeholder='Código UGEL ...' />
+										<input id="codigo_ugel" name="codigo_ugel" type='text' placeholder='Código UGEL ...' />
 										</td>
 									</tr>
 								</table>
@@ -214,84 +214,87 @@
 									<tr>
 										<td><label>Nombre IIEE</label></td>
 										<td>
-										<input id="nombre_iiee" type='text' placeholder='Nombre IIEE ...' />
+										<input id="nombre_iiee" name="nombre_iiee" type='text' placeholder='Nombre IIEE ...' />
 										</td>
 									</tr>
 									<tr>
 										<td><label>Código Modular</label></td>
 										<td>
-										<input id="codigo_modular" type='text' placeholder='Código Modular ...'
+										<input id="codigo_modular" name="codigo_modular" type='text' placeholder='Código Modular ...'
 										/>
 										</td>
 									</tr>
 									<tr>
 										<td><label>Código Local</label></td>
 										<td>
-										<input id="codigo_local" type='text' placeholder='Código Local ...' />
+										<input id="codigo_local" name="codigo_local" type='text' placeholder='Código Local ...' />
 										</td>
 									</tr>
 									<tr>
 										<td><label>Dirección</label></td>
 										<td>
-										<input id="direccion" type='text' placeholder='Dirección ...' />
+										<input id="direccion" name="direccion" type='text' placeholder='Dirección ...' />
 										</td>
 									</tr>
 									<tr>
 										<td><label>Nombre CCPP</label></td>
 										<td>
-										<input id="nombre_ccpp1" type='text' placeholder='Nombre CCPP ...' />
+										<input id="nombre_ccpp1" name="nombre_ccpp1" type='text' placeholder='Nombre CCPP ...' />
 										</td>
 									</tr>
 									<tr>
 										<td><label>Localidad</label></td>
 										<td>
-										<input id="localidad" type='text' placeholder='Localidad ...' />
+										<input id="localidad" name="localidad" type='text' placeholder='Localidad ...' />
 										</td>
 									</tr>
 									<tr>
 										<td><label>Nivel/Modalidad</label></td>
 										<td>
-										<select id="nivel_modalidad">
+										<select id="nivel_modalidad" name="nivel_modalidad">
 											<option></option>
 										</select></td>
 									</tr>
 									<tr>
 										<td><label>Gestión</label></td>
 										<td>
-										<select id="gestion">
+										<select id="gestion" name="gestion">
 											<option></option>
 										</select></td>
 									</tr>
 								</table>
+
 							</div>
 							<div id="tabs2-2">
 								<table class="formulario">
 									<tr>
 										<td><label>Nombre CCPP</label></td>
 										<td>
-										<input id="nombre_ccpp2" type='text' placeholder='Nombre CCPP ...' />
+										<input id="nombre_ccpp2" name="nombre_ccpp2" type='text' placeholder='Nombre CCPP ...' />
 										</td>
 									</tr>
 									<tr>
 										<td><label>Código CCPP</label></td>
 										<td>
-										<input id="codigo_ccpp" type='text' placeholder='Código CCPP ...' />
+										<input id="codigo_ccpp" name="codigo_ccpp" type='text' placeholder='Código CCPP ...' />
 										</td>
 									</tr>
 								</table>
 							</div>
 						</div>
 						<div id="botonera">
-							<button id="buscar">
-								Buscar
-							</button>
+							<input id="buscar" type="submit" name="Buscar">
 							<button>
 								Limpiar criterios
 							</button>
 						</div>
 					</div>
 					<div class='fm_results fm_panel'>
-						<a onclick="exportarTodo()"><img src="images/csv.png" /></a>
+						<form action="csv.php" method="post">
+							<textarea id="csv" type="text" name="csv"></textarea>
+							<input id="csvSubmit" type="submit" value="">
+						</form>
+						<!-- <a onclick="exportarTodo()"><img src="images/csv.png" /></a> -->
 						<div id='fm_results'></div>
 					</div>
 				</div>
