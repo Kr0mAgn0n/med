@@ -84,8 +84,7 @@ function init() {
 
 	llenarFormulario();
 
-	dojo.connect(dojo.byId("formulario"), "onsubmit", busqueda);
-	//$("#formulario").submit(busqueda);
+	dojo.connect(dojo.byId("buscar"), "onclick", busqueda);
 
 	dojo.connect(window, "onresize", function() {
 		if (map)
@@ -93,34 +92,6 @@ function init() {
 	});
 
 	inicializarGrid();
-
-	printer = new esri.dijit.Print(
-			{
-				map : map,
-				templates : [ {
-					label : "Map",
-					format : "PDF",
-					layout : "MAP_ONLY",
-					exportOptions : {
-						width : 500,
-						height : 400,
-						dpi : 96
-					}
-				}, {
-					label : "Layout",
-					format : "PDF",
-					layout : "A4 Portrait",
-					layoutOptions : {
-						titleText : "My Print",
-						authorText : "esri",
-						copyrightText : "My Company",
-						scalebarUnit : "Miles",
-					}
-				} ],
-				url : "http://escale.minedu.gob.pe/medgis/rest/services/Utilities/PrintingTools/GPServer/Export Web Map Task"
-			}, dojo.byId("printer"));
-
-	printer.startup();
 
 	iniciarIdentify();
 
