@@ -1,25 +1,28 @@
+dojo.require("esri.map");
+dojo.require("esri.dijit.Legend");
+dojo.require("esri.arcgis.utils");
 dojo.require("esri.dijit.Measurement");
 dojo.require("esri.dijit.Scalebar");
-dojo.require("esri.map");
 dojo.require("agsjs.layers.GoogleMapsLayer");
-dojo.require("agsjs.dijit.TOC");
-dojo.require("dojo.fx");
 dojo.require("esri.dijit.OverviewMap");
-dojo.require("esri.layers.FeatureLayer");
 dojo.require("esri.tasks.query");
 dojo.require("dojox.grid.EnhancedGrid");
 dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("dojox.grid.enhanced.plugins.exporter.CSVWriter");
-dojo.require("esri.dijit.Print");
 dojo.require("dijit.Toolbar");
 dojo.require("esri.toolbars.draw");
 dojo.require("esri.toolbars.Navigation");
+dojo.require("esri.layers.osm");
+dojo.require("esri.dijit.Legend");
+dojo.require("dojo.fx");
+dojo.require("agsjs.dijit.TOC");
 
-var map;
-var currentBasemap;
+var map, print_map, initExtent;
+var basemaps;
 var identifyTask, identifyParams;
 var initExtent;
-var measurement
+var measurement;
+var centros_poblados, limites_politicos, ie;
 
 function init() {
 
@@ -40,39 +43,67 @@ function init() {
 		logo : false,
 	});
 
-	createBasemapGallery()
+	createBasemapGallery(map, "basemapList");
 
-	centros_poblados = new esri.layers.ArcGISDynamicMapServiceLayer(
-			"http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
-	map.addLayer(centros_poblados);
+	/*basemapGalleryPrint = new esri.dijit.BasemapGallery({
+	showArcGISBasemaps : false,
+	basemaps : basemaps,
+	google : {
+	apiOptions : {
+	v : '3.6'
+	},
+	mapOptions : {
+	streetViewControl : false
+	}
+	},
+	map : print_map
+	});
 
-	limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer(
-			"http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer");
-	// map.addLayer(limites_politicos);
+	basemapGalleryPrint.startup();
+	basemapGalleryPrint.select('GoogleHybrid');*/
 
-	ie = new esri.layers.ArcGISDynamicMapServiceLayer(
-			"http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
-	// map.addLayer(ie);
+	dojo.connect(dojo.byId("imprimir"), "onclick", function(){
+		window.print();
+	});
 
-	var toc = new agsjs.dijit.TOC({
-		map : map,
-		layerInfos : [ {
-			layer : centros_poblados,
-			title : "Centros Poblados"
-		}, {
-			layer : limites_politicos,
-			title : "Límites Políticos"
-		}, {
-			layer : ie,
-			title : "Instituciones Educativas"
-		} ]
-	}, 'toc');
-	toc.startup();
+	centros_poblados = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
+
+	limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer");
+
+	ie = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
+
+	layerInfos = [];
+
+	layerInfos.push({
+		layer : centros_poblados,
+		title : "Centros Poblados"
+	});
+
+	layerInfos.push({
+		layer : limites_politicos,
+		title : "Límites Políticos"
+	});
+
+	layerInfos.push({
+		layer : ie,
+		title : "Instituciones Educativas"
+	});
+
+	dojo.connect(map, 'onLayersAddResult', function(results) {
+		var toc = new agsjs.dijit.TOC({
+			map : map,
+			layerInfos : layerInfos
+		}, 'legendDiv');
+		toc.startup();
+	});
+
+	map.addLayers([centros_poblados, limites_politicos, ie]);
 
 	/*
 	 * La declaración de la capa de OpenStreet es necesaria para el
 	 * funcionamiento del Overview
 	 */
+
 	osml = new esri.layers.OpenStreetMapLayer();
 	var overviewMapDijit = new esri.dijit.OverviewMap({
 		map : map,
@@ -91,7 +122,7 @@ function init() {
 			map.resize();
 	});
 
-	inicializarGrid();
+	iniciarGrid();
 
 	iniciarIdentify();
 
@@ -105,43 +136,42 @@ function init() {
 
 }
 
-function createBasemapGallery() {
-	var basemaps = [];
+function createBasemapGallery(mapa, div) {
+	basemaps = [];
 	basemaps.push(new esri.dijit.Basemap({
-		layers : [ new esri.dijit.BasemapLayer({
+		layers : [new esri.dijit.BasemapLayer({
 			type : 'GoogleMapsRoad'
-		}) ],
+		})],
 		title : "Google Road",
 		id : 'GoogleRoad',
 		thumbnailUrl : dojo.moduleUrl("agsjs.dijit", "images/googleroad.png")
 	}));
 	basemaps.push(new esri.dijit.Basemap({
-		layers : [ new esri.dijit.BasemapLayer({
+		layers : [new esri.dijit.BasemapLayer({
 			type : 'GoogleMapsSatellite'
-		}) ],
+		})],
 		title : "Google Satellite",
 		id : 'GoogleSatellite',
-		thumbnailUrl : dojo.moduleUrl("agsjs.dijit",
-				"images/googlesatellite.png")
+		thumbnailUrl : dojo.moduleUrl("agsjs.dijit", "images/googlesatellite.png")
 	}));
 	basemaps.push(new esri.dijit.Basemap({
-		layers : [ new esri.dijit.BasemapLayer({
+		layers : [new esri.dijit.BasemapLayer({
 			type : 'GoogleMapsHybrid'
-		}) ],
+		})],
 		title : "Google Hybrid",
 		id : 'GoogleHybrid',
 		thumbnailUrl : dojo.moduleUrl("agsjs.dijit", "images/googlehybrid.png")
 	}));
 	basemaps.push(new esri.dijit.Basemap({
-		layers : [ new esri.dijit.BasemapLayer({
+		layers : [new esri.dijit.BasemapLayer({
 			type : 'OpenStreetMap'
-		}) ],
+		})],
 		title : "OpenStreet",
 		id : 'OpenStreetMap',
 		thumbnailUrl : "images/bm-street.jpg"
 	}));
 
-	var basemapGallery = new esri.dijit.BasemapGallery({
+	basemapGallery = new esri.dijit.BasemapGallery({
 		showArcGISBasemaps : false,
 		basemaps : basemaps,
 		google : {
@@ -152,16 +182,12 @@ function createBasemapGallery() {
 				streetViewControl : false
 			}
 		},
-		map : map
-	}, "basemapList");
+		map : mapa
+	}, div);
 
 	basemapGallery.startup();
 	basemapGallery.select('GoogleHybrid');
 
-	dojo.connect(basemapGallery, "onError", function(msg) {
-		if (console)
-			console.log(msg)
-	});
 }
 
 function onMapLoaded() {
@@ -210,6 +236,7 @@ function activarCargando() {
 function desactivarCargando() {
 	dojo.style('cargando', 'display', 'none');
 }
+
 // ** end helpers **
 
 /* window events */
@@ -227,4 +254,4 @@ window.onresize = function() {
 		console.log('map not found');
 }
 
-dojo.ready(init);
+dojo.addOnLoad(init);

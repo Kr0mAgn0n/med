@@ -1,6 +1,6 @@
 var store, storeExporter, grid, gridExporter, datos, datosExporter;
 
-function inicializarGrid() {
+function iniciarGrid() {
 	datos = {
 		items : []
 	};

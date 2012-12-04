@@ -16,33 +16,55 @@
 		<link rel="icon" type="image/png" href="fm_style/fm_icons/globe2.png"/>
 		<!-- <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/dojo/dijit/themes/tundra/tundra.css"
 		/>-->
-		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dijit/themes/tundra/tundra.css"/>
+		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/dojo/dijit/themes/tundra/tundra.css">
+		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/esri/css/esri.css" />
+		<!-- <link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dijit/themes/tundra/tundra.css"/>
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/esri/dijit/css/Popup.css"/>
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/esri/dijit/css/PopupMobile.css"/>
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojo/resources/dojo.css"/>
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css"/>
-		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css"/>
-		<!-- <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.1/js/dojo/dijit/themes/tundra/tundra.css"/>
-		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.1/js/esri/dijit/css/Popup.css"/>
-		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.1/js/esri/dijit/css/PopupMobile.css"/>
-		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.1/js/dojo/dojo/resources/dojo.css"/>
-		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.1/js/dojo/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css"/>
-		<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.1/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css"/> -->
+		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css"/> -->
 		<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css"/>
 		<link rel='stylesheet' type='text/css' href='fm_style/page.css' />
-		<script type="text/javascript" src='fm_javascript/page-header.js'></script>
+		<link rel='stylesheet' type='text/css' media="print" href='fm_style/print.css' />
+
+		<link rel="apple-touch-icon" href="fm_style/fm_icons/globe2.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="fm_style/fm_icons/globe2-72.png"/>
+		<link rel="apple-touch-icon" sizes="114x114" href="fm_style/fm_icons/globe2-114.png"/>
+		<link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css'/>
+
+		<script type="text/javascript">
+			var djConfig = {
+				parseOnLoad : true,
+				packages : [{
+					"name" : "agsjs",
+					//"location" : location.pathname.replace(/\/[^/]+$/, "") + '/fm_javascript/lib/agsjs'
+					"location" : 'http://gmaps-utility-gis.googlecode.com/svn/tags/agsjs/2.04/xbuild/agsjs' // for xdomain load
+				}]
+			};
+		</script>
+		<!-- <script type="text/javascript" src="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/"></script> -->
+		<script type="text/javascript" src='http://serverapi.arcgisonline.com/jsapi/arcgis/?v=3.2'></script>
+		<script type="text/javascript" src='fm_javascript/map.js'></script>
+		<script type='text/javascript' src='fm_javascript/lib/jRespond.min.js'></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 		<!--[if lte IE 8]>
 		<link rel='stylesheet' type='text/css' href='fm_style/ie.css' />
 		<script type='text/javascript' src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
 		<script type='text/javascript' src='fm_javascript/lib/respond.min.js'></script>
 		<![endif]-->
-		<link rel="apple-touch-icon" href="fm_style/fm_icons/globe2.png" />
-		<link rel="apple-touch-icon" sizes="72x72" href="fm_style/fm_icons/globe2-72.png"/>
-		<link rel="apple-touch-icon" sizes="114x114" href="fm_style/fm_icons/globe2-114.png"/>
-		<link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css'/>
+		<script type='text/javascript' src='fm_javascript/page.js'></script>
+		<script type='text/javascript' src='fm_javascript/formulario.js'></script>
+		<script type='text/javascript' src='fm_javascript/busqueda.js'></script>
+		<script type='text/javascript' src='fm_javascript/identify.js'></script>
+		<script type='text/javascript' src='fm_javascript/navegacion.js'></script>
+		<script type='text/javascript' src='fm_javascript/grid.js'></script>
+		<script type='text/javascript' src='fm_javascript/print.js'></script>
 	</head>
 
 	<body class="tundra">
+
 		<div id="cargando">
 			<img src="images/cargando.gif" />
 		</div>
@@ -71,6 +93,47 @@
 				<div id="fullExtent"></div>
 			</div>
 		</div>
+		<div class='fm_print fm_overlay'>
+			<div class='fm_close'></div>
+			<div id="print">
+				<div id="controles">
+					<div id="print_basemapGallery"></div>
+					<div id="print_form">
+						<table>
+							<tbody>
+								<tr>
+									<td><label>Título:</label></td>
+									<td>
+									<input id="map_title" />
+									</td>
+								</tr>
+								<tr>
+									<td><label>Subtítulo:</label></td>
+									<td>
+									<input id="map_subtitle" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div id="botonera_print">
+							<button id="imprimir">
+								Imprimir
+							</button>
+						</div>
+					</div>
+				</div>
+				<div id="visual">
+					<div id="print_area">
+						<div id="print_title"></div>
+						<div id="print_subtitle"></div>
+						<div id="print_map"></div>
+						<div id="print_legend"></div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
 
 		<header>
 			<div class='fm_title_bar'>
@@ -83,33 +146,29 @@
 				<a href='#' class='fm_measure_trigger fm_button'> <span class='fm_icon fm_measure_icon'></span> <span class='fm_icon_text fm_show'>Medición</span> </a>
 				<a href='#' class='fm_identify_trigger fm_button'> <span class='fm_icon fm_identify_icon'></span> <span class='fm_icon_text fm_show'>Identificar</span> </a>
 				<a href='#' class='fm_navegacion_trigger fm_button'> <span class='fm_icon fm_navegacion_icon'></span> <span class='fm_icon_text fm_show'>Navegación</span> </a>
+				<a href='#' class='fm_print_trigger fm_button'> <span class='fm_icon fm_print_icon'></span> <span class='fm_icon_text fm_show'>Imprimir</span> </a>
 
 				<!-- float right elements are displayed in reverse order -->
 				<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right' data-panel='fm_description'> <span class='fm_icon fm_details_icon'></span> <span class='fm_icon_text'>Detalles</span> </a>
 				<a href='#' class='fm_settings_trigger fm_trigger fm_button fm_float_right' data-panel='fm_settings'> <span class='fm_icon fm_settings_icon'></span> <span class='fm_icon_text'>Configuración</span> </a>
 				<a href='#' class='fm_legend_trigger fm_trigger fm_button fm_float_right' data-panel='fm_legend'> <span class='fm_icon fm_legend_icon'></span> <span class='fm_icon_text'>Leyenda</span> </a>
-				<a href='#' class='fm_trigger fm_button fm_float_right' data-panel='fm_print'> <span class='fm_icon fm_print_icon'></span> <span class='fm_icon_text'>Imprimir</span> </a>
-				<a href='#' class='fm_share_trigger fm_trigger fm_button fm_float_right' data-panel='fm_share'> <span class='fm_icon fm_share_icon'></span> <span class='fm_icon_text'>Compartir</span> </a>
 
+				<a href='#' class='fm_share_trigger fm_trigger fm_button fm_float_right' data-panel='fm_share'> <span class='fm_icon fm_share_icon'></span> <span class='fm_icon_text'>Compartir</span> </a>
 				<a href='#' class='fm_find_trigger fm_trigger fm_button fm_float_right' data-panel='fm_find'> <span class='fm_icon fm_search_icon'></span> <span class='fm_icon_text'>Búsqueda</span> </a>
 				<a href='#' class='fm_results_trigger fm_trigger fm_button fm_float_right' data-panel='fm_results'> <span class='fm_icon fm_results_icon'></span> <span class='fm_icon_text'>Resultados</span> </a>
 
 			</div>
 		</nav>
 		<div class='fm_container_main'>
-			<!--div class='fm_left_content collapse'>
-			<div class='fm_close fm_hide'><img src='images/close.png' class='fm_close_icon' /></div>
-			<div class='fm_container'>sample description</div>
-			</div-->
+
 			<div class='fm_center_content fm_right'>
 				<img src='fm_style/fm_icons/crosshairs-gray.png' class='fm_find_me' />
-				<div id='map' class='fm_map tundra'></div>
+				<div id='map' class='fm_map tundra'>
+
+				</div>
 			</div>
 			<div class='fm_right_content'>
 				<div class='fm_close fm_hide'></div>
-				<!--div class='fm_panel_header'>
-				<div class='fm_panel_header_content fm_container'>Header</div>
-				</div-->
 				<div class='*fm_panel_container fm_container'>
 					<div class='fm_description fm_panel'>
 						Descripción del mapa
@@ -118,18 +177,15 @@
 						Configuración de la aplicación
 					</div>
 					<div class='fm_legend fm_panel'>
-						<div id="toc"></div>
+						<div id="legendDiv"></div>
 					</div>
-					<div class='fm_print fm_panel'>
-						<div id="printer"></div>
-					</div>
+
 					<div class='fm_share fm_panel'>
 						<p>
 							Código incrustable:
 						</p>
 						<textarea class='fm_embed_code'></textarea>
 					</div>
-
 					<div class='fm_find fm_panel'>
 						<div id="tabs1">
 							<ul>
@@ -143,35 +199,35 @@
 								</li>
 							</ul>
 							<div id="tabs1-1">
-									<table class="formulario">
-										<tr>
-											<td><label>Departamento</label></td>
-											<td>
-											<select id="departamento" name="departamento">
-												<option></option>
-											</select></td>
-										</tr>
-										<tr>
-											<td><label>Provincia</label></td>
-											<td>
-											<select id="provincia" name="provincia">
-												<option></option>
-											</select></td>
-										</tr>
-										<tr>
-											<td><label>Distrito</label></td>
-											<td>
-											<select id="distrito" name="distrito">
-												<option></option>
-											</select></td>
-										</tr>
-										<tr>
-											<td><label>Ubigeo</label></td>
-											<td>
-											<input id="ubigeo" name="ubigeo" type='text' placeholder='Ubigeo ...' />
-											</td>
-										</tr>
-									</table>
+								<table class="formulario">
+									<tr>
+										<td><label>Departamento</label></td>
+										<td>
+										<select id="departamento" name="departamento">
+											<option></option>
+										</select></td>
+									</tr>
+									<tr>
+										<td><label>Provincia</label></td>
+										<td>
+										<select id="provincia" name="provincia">
+											<option></option>
+										</select></td>
+									</tr>
+									<tr>
+										<td><label>Distrito</label></td>
+										<td>
+										<select id="distrito" name="distrito">
+											<option></option>
+										</select></td>
+									</tr>
+									<tr>
+										<td><label>Ubigeo</label></td>
+										<td>
+										<input id="ubigeo" name="ubigeo" type='text' placeholder='Ubigeo ...' />
+										</td>
+									</tr>
+								</table>
 							</div>
 							<div id="tabs1-2">
 								<table class="formulario">
@@ -294,7 +350,6 @@
 							<textarea id="csv" type="text" name="csv"></textarea>
 							<input id="csvSubmit" type="submit" value="">
 						</form>
-						<!-- <a onclick="exportarTodo()"><img src="images/csv.png" /></a> -->
 						<div id='fm_results'></div>
 					</div>
 				</div>
@@ -308,30 +363,7 @@
 
 			</div>
 		</footer>
-		<script type='text/javascript' src='fm_javascript/lib/jRespond.min.js'></script>
-		<!-- <script type='text/javascript' src='http://code.jquery.com/jquery.min.js'></script>-->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-		<!-- <script type='text/javascript' src='fm_javascript/lib/jquery-ui-1.8.21.custom.min.js'></script>-->
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
-		<script type="text/javascript">
-			var djConfig = {
-				parseOnLoad : true,
-				packages : [{
-					"name" : "agsjs",
-					"location" : location.pathname.replace(/\/[^/]+$/, "") + '/fm_javascript/lib/agsjs'
-					//"location" : 'http://gmaps-utility-gis.googlecode.com/svn/tags/agsjs/2.02/xbuild/agsjs' // for xdomain load
-				}]
-			};
-		</script>
-		<script type="text/javascript" src="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/"></script>
-		<!-- <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=3.1"></script> -->
-		<script type="text/javascript" src='fm_javascript/map.js'></script>
-		<script type='text/javascript' src='fm_javascript/page.js'></script>
-		<script type='text/javascript' src='fm_javascript/formulario.js'></script>
-		<script type='text/javascript' src='fm_javascript/busqueda.js'></script>
-		<script type='text/javascript' src='fm_javascript/identify.js'></script>
-		<script type='text/javascript' src='fm_javascript/navegacion.js'></script>
-		<script type='text/javascript' src='fm_javascript/grid.js'></script>
+
 	</body>
 
 </html>

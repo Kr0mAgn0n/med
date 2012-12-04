@@ -136,17 +136,6 @@ nav {
 	right: 0;
 }
 
-.fm_find_me {
-	position: absolute;
-	top: 78px;
-	left: 10px;
-	z-index: 480;
-	cursor: pointer;
-}
-.fm_find_me.fm_on {
-	background: url(fm_icons/crosshairs-gray-on.png) no-repeat;
-}
-
 .fm_overlay {
 	display: none;
 	position: absolute;
@@ -187,30 +176,6 @@ nav {
 	float: right;
 }
 
-.fm_basemap_image {
-	width: 130px;
-	-moz-border-radius: 1px;
-	-webkit-border-radius: 1px;
-	border-radius: 1px;
-	-webkit-box-shadow: 0 0 0 6px white, 0 0 0 7px black;
-	-moz-box-shadow: 0 0 0 6px white, 0 0 0 7px black;
-	box-shadow: 0 0 0 6px white, 0 0 0 7px black;
-}
-.fm_basemap_option {
-	font-family: sans-serif;
-	color: black;
-	text-decoration: none;
-	font-size: .8em;
-	text-align: center;
-	display: inline-block;
-	float: left;
-	margin: 10px 10px 10px 10px;
-}
-.fm_basemap_option label {
-	display: block;
-	margin-top: 5px;
-}
-
 .fm_icon_text {
 	display: none;
 }
@@ -232,26 +197,6 @@ nav {
 /** buttons, icons, inputs **/
 .fm_trigger, .fm_button {
 	display: inline-block;
-}
-
-.fm_location_input {
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	background-color: #ffffff;
-	font-size: 1em;
-	border: none;
-	padding: 0 5px 0 5px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	width: 85%;
-}
-
-.fm_location_button {
-	cursor: pointer;
-	width: 20px;
-	height: 20px;
-	display: inline-block;
-	background-size: 1em 1em;
 }
 
 .fm_basemap_list {
@@ -432,10 +377,85 @@ nav {
 	width: 25px;
 	height: 25px;
 }
+
+.fm_print {
+	width: 90%;
+	height: 90%;
+	left: 5%;
+	top: 5%;
+	overflow-y: scroll;
+	padding: 20px;
+}
+
+#print_basemapGallery, #print_form {
+	width: 50%;
+	float: left;
+}
+
+#print_title, #print_subtitle {
+	height: 5%;
+	text-align: center;
+}
+
+#print_title {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#print_subtitle {
+	font-size: 12px;
+}
+
+#visual, #controles {
+	overflow: hidden;
+}
+
+
+
+#print_area {
+	display: block;
+	width: 212mm;
+	height: 150mm;
+	border-style: solid;
+	border-width: 3px;
+	padding: 20px;
+	margin: auto;
+}
+
+#print_map {
+	width: 60%;
+	height: 90%;
+	float: left;
+	position: relative;
+}
+
+#print_legend {
+	float: left;
+	height: 100%;
+	padding: 20px;
+}
+
+#print #controles {
+	padding: 20px;
+}
+
+#print_scalebar {
+	position: relative;
+	left: 40px;
+	bottom: 40px;
+}
+
+.scalebar_bottom-left {
+	bottom: 40px;
+}
+
+.esriScalebarLabel {
+	color: #000;
+}
 /***************************/
 
 /* anything but phone */
-@media all and (min-width: 800px) {
+@media screen and (min-width: 800px) {
 	/* desktop images */
 	.fm_basemap_icon {
 		background: url(fm_icons/map2-w.png) no-repeat;
@@ -622,13 +642,11 @@ nav {
 }
 
 /* laptop */
-@media all and (max-width: 1279px) {
-	.
-	*fm_center_content.fm_right {
+@media screen and (max-width: 1279px) {
+	.fm_center_content.fm_right {
 		right: 0px;
 	}
-	.
-	*fm_center_content.fm_left {
+	.fm_center_content.fm_left {
 		left: 0px;
 	}
 	.fm_search {
@@ -638,7 +656,7 @@ nav {
 }
 
 /* tab */
-@media all and (max-width: 1023px) {
+@media screen and (max-width: 1023px) {
 	.fm_right_content {
 		display: none;
 	}
@@ -657,7 +675,7 @@ nav {
 }
 
 /* phone */
-@media all and (max-width: 799px) {
+@media screen and (max-width: 799px) {
 	/* image overrides */
 	.fm_basemap_icon {
 		background: url(fm_mobile_icons/map2-w.png) no-repeat;

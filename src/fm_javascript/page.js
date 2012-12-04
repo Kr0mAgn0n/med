@@ -147,6 +147,7 @@ function responsive() {
 			$(".fm_measurement").hide();
 			$(".fm_identify").hide();
 			$(".fm_navegacion").hide();
+			$(".fm_print").hide();
 			$(".fm_basemap_list").toggle();
 			return false;
 		});
@@ -165,6 +166,7 @@ function responsive() {
 			$(".fm_basemap_list").hide();
 			$(".fm_identify").hide();
 			$(".fm_navegacion").hide();
+			$(".fm_print").hide();
 			$(".fm_measurement").toggle();
 			return false;
 		});
@@ -183,6 +185,7 @@ function responsive() {
 			$(".fm_measurement").hide();
 			$(".fm_basemap_list").hide();
 			$(".fm_navegacion").hide();
+			$(".fm_print").hide();
 			$(".fm_identify").toggle();
 			return false;
 		});
@@ -206,7 +209,35 @@ function responsive() {
 			$(".fm_measurement").hide();
 			$(".fm_basemap_list").hide();
 			$(".fm_navegacion").toggle();
+			$(".fm_print").hide();
 			$(".fm_identify").hide();
+			return false;
+		});
+		$(".fm_print_trigger").click(function(e) {
+			e.preventDefault();
+			if (fm.collapse) {
+				fm.setActiveTab(null);
+				$(".fm_right_content").hide();
+			}
+
+			measurement.setTool('area', false);
+			measurement.setTool('distance', false);
+			measurement.setTool('location', false);
+			measurement.clearResult();
+
+			punto.setChecked(false);
+			mano_alzada.setChecked(false);
+			extension.setChecked(false);
+			drawToolbar.deactivate();
+
+			$(".fm_measurement").hide();
+			$(".fm_basemap_list").hide();
+			$(".fm_navegacion").hide();
+			$(".fm_identify").hide();
+			$(".fm_print").toggle();
+			
+			iniciarImpresion();	
+			
 			return false;
 		});
 
