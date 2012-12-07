@@ -124,6 +124,10 @@ function responsive() {
 				extension.setChecked(false);
 				drawToolbar.deactivate();
 			}
+			
+			if ($(this).parent().hasClass('fm_print')) {
+				destruirImpresion();
+			}
 
 		});
 
@@ -236,7 +240,7 @@ function responsive() {
 			$(".fm_identify").hide();
 			$(".fm_print").toggle();
 			
-			iniciarImpresion();	
+			iniciarImpresion();
 			
 			return false;
 		});

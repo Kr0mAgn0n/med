@@ -26,13 +26,17 @@
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css"/> -->
 		<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css"/>
 		<link rel='stylesheet' type='text/css' href='fm_style/page.css' />
+		<style id="page_size" type="text/css" media="print">
+			@page {
+				size: 297mm 210mm;
+				margin: 12.7mm;
+			}
+		</style>
 		<link rel='stylesheet' type='text/css' media="print" href='fm_style/print.css' />
-
 		<link rel="apple-touch-icon" href="fm_style/fm_icons/globe2.png" />
 		<link rel="apple-touch-icon" sizes="72x72" href="fm_style/fm_icons/globe2-72.png"/>
 		<link rel="apple-touch-icon" sizes="114x114" href="fm_style/fm_icons/globe2-114.png"/>
 		<link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css'/>
-
 		<script type="text/javascript">
 			var djConfig = {
 				parseOnLoad : true,
@@ -96,29 +100,103 @@
 		<div class='fm_print fm_overlay'>
 			<div class='fm_close'></div>
 			<div id="print">
+				<div id="print_dialog" data-dojo-type="dijit.Dialog" title="Ayuda para Firefox">
+					<p>
+						Se ha detectado que su navegador es Firefox. Firefox no soporta la propiedad de impresión avanzada. Para imprimir correctamente con este navegador haga lo siguiente:
+					</p>
+					<ol>
+						<li>
+							<p>
+								Haga click en "Imprimir" en el dialogo de impresión.
+							</p>
+							<center><img src='images/printing/firefox/imprimir.png' />
+							</center>
+						</li>
+						<li>
+							<p>
+								Se le va a presentar una ventana como esta
+							</p>
+							<center><img src='images/printing/firefox/ventana1.png' />
+							</center>
+						</li>
+						<li>
+							<p>
+								Haga click en "Configuración de página" ("Page Setup")
+							</p>
+							<center><img src='images/printing/firefox/ventana2.png' />
+							</center>
+						</li>
+						<li>
+							<p>
+								Elija el tamaño del papel y la orientación que eligió en el cuadro de dialogo de impresión
+							</p>
+							<center><img src='images/printing/firefox/ventana3.png' />
+							</center>
+							<br />
+							<br />
+							<center><img src='images/printing/firefox/ventana4.png' />
+							</center>
+						</li>
+						<li><p>Regrese a la pestaña anterior</p>
+							<center><img src='images/printing/firefox/ventana5.png' />
+							</center>
+						</li>
+						<li><p>Imprima</p>
+							<center><img src='images/printing/firefox/ventana6.png' />
+							</center>
+						</li>
+					</ol>
+				</div>
 				<div id="controles">
-					<div id="print_basemapGallery"></div>
-					<div id="print_form">
-						<table>
-							<tbody>
-								<tr>
-									<td><label>Título:</label></td>
-									<td>
-									<input id="map_title" />
-									</td>
-								</tr>
-								<tr>
-									<td><label>Subtítulo:</label></td>
-									<td>
-									<input id="map_subtitle" />
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<div id="botonera_print">
-							<button id="imprimir">
-								Imprimir
-							</button>
+					<div id="print_basemapGallery_container">
+						<div id="print_basemapGallery"></div>
+					</div>
+					<div id="print_form_container">
+						<div id="print_form">
+							<table>
+								<tbody>
+									<tr>
+										<td><label>Título:</label></td>
+										<td>
+										<input id="map_title" data-dojo-type="dijit.form.TextBox" />
+										</td>
+									</tr>
+									<tr>
+										<td><label>Subtítulo:</label></td>
+										<td>
+										<input id="map_subtitle" data-dojo-type="dijit.form.TextBox" />
+										</td>
+									</tr>
+									<tr>
+										<td><label>Tamaño:</label></td>
+										<td>
+										<select id="print_map_size" data-dojo-type="dijit.form.Select">
+											<option value="a4_apaisada">A4 - Apaisada</option>
+											<option value="a4_normal">A4 - Normal</option>
+											<option value="a3_apaisada">A3 - Apaisada</option>
+											<option value="a3_normal">A3 - Normal</option>
+										</select></td>
+									</tr>
+									<tr>
+										<td>
+										<button id="imprimir" data-dojo-type="dijit.form.Button" type="button">
+											Imprimir
+										</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div id="print_layers_container">
+						<div id="print_layers">
+							<input id="activar_print_centros_poblados" type="checkbox" checked="checked" data-dojo-type="dijit.form.CheckBox" />
+							<label>Centros Poblados</label>
+							<br />
+							<input id="activar_print_limites_politicos" type="checkbox" checked="checked" data-dojo-type="dijit.form.CheckBox" />
+							<label>Límites Políticos</label>
+							<br />
+							<input id="activar_print_ie" type="checkbox" checked="checked" data-dojo-type="dijit.form.CheckBox" />
+							<label>Insituciones Educativas</label>
 						</div>
 					</div>
 				</div>
@@ -127,11 +205,15 @@
 						<div id="print_title"></div>
 						<div id="print_subtitle"></div>
 						<div id="print_map"></div>
-						<div id="print_legend"></div>
+						<div id="print_legend_container">
+							<div id="print_legend"></div>
+						</div>
+						<div id="print_logo">
+							<img src="images/logo_sigmed.png"/>
+						</div>
 
 					</div>
 				</div>
-
 			</div>
 		</div>
 

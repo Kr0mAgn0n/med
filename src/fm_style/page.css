@@ -4,20 +4,10 @@
  */
 
 /* Start Reset CSS */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-ol, ul {
-	list-style: none;
-}
+
 blockquote, q {
 	quotes: none;
 }
@@ -28,10 +18,6 @@ blockquote:before, blockquote:after, q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
-}
-
-* {
-	outline: none;
 }
 /* End Reset CSS */
 
@@ -140,7 +126,7 @@ nav {
 	display: none;
 	position: absolute;
 	background-color: white;
-	z-index: 1000;
+	z-index: 900;
 	-moz-border-radius: 1px;
 	-webkit-border-radius: 1px;
 	border-radius: 1px;
@@ -379,17 +365,27 @@ nav {
 }
 
 .fm_print {
-	width: 90%;
-	height: 90%;
-	left: 5%;
-	top: 5%;
-	overflow-y: scroll;
+	width: 80%;
+	height: 80%;
+	left: 10%;
+	top: 10%;
+	overflow: auto;
 	padding: 20px;
 }
 
-#print_basemapGallery, #print_form {
-	width: 50%;
+
+#print_basemapGallery_container, #print_form_container, #print_layers_container {
+	width: 33.33%;
 	float: left;
+}
+
+#print_basemapGallery, #print_form table, #print_layers {
+	margin: auto;
+	display: table;
+}
+
+#print_form table td {
+	padding: 5px;
 }
 
 #print_title, #print_subtitle {
@@ -406,11 +402,15 @@ nav {
 	font-size: 12px;
 }
 
-#visual, #controles {
+
+#controles {
+	padding: 20px;
 	overflow: hidden;
 }
 
-
+#visual {
+	overflow: auto;
+}
 
 #print_area {
 	display: block;
@@ -420,23 +420,29 @@ nav {
 	border-width: 3px;
 	padding: 20px;
 	margin: auto;
+	position: relative;
 }
 
 #print_map {
-	width: 60%;
+	width: 70%;
 	height: 90%;
 	float: left;
 	position: relative;
 }
 
-#print_legend {
+#print_legend_container {
 	float: left;
-	height: 100%;
 	padding: 20px;
 }
 
-#print #controles {
-	padding: 20px;
+#print_logo {
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+}
+
+#print_right {
+	float: left;
 }
 
 #print_scalebar {
@@ -452,6 +458,16 @@ nav {
 .esriScalebarLabel {
 	color: #000;
 }
+
+.esriLegendGroupLayer {
+	display: none !important;
+}
+
+.esriLegendLayerLabel, .esriLegendServiceLabel {
+	display: none;
+}
+
+
 /***************************/
 
 /* anything but phone */

@@ -16,8 +16,13 @@ dojo.require("esri.layers.osm");
 dojo.require("esri.dijit.Legend");
 dojo.require("dojo.fx");
 dojo.require("agsjs.dijit.TOC");
+dojo.require("dijit.form.Select");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.CheckBox");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.Dialog");
 
-var map, print_map, initExtent;
+var map, initExtent;
 var basemaps;
 var identifyTask, identifyParams;
 var initExtent;
@@ -43,26 +48,10 @@ function init() {
 		logo : false,
 	});
 
-	createBasemapGallery(map, "basemapList");
+	basemapGallery = createBasemapGallery(map, "basemapList");
 
-	/*basemapGalleryPrint = new esri.dijit.BasemapGallery({
-	showArcGISBasemaps : false,
-	basemaps : basemaps,
-	google : {
-	apiOptions : {
-	v : '3.6'
-	},
-	mapOptions : {
-	streetViewControl : false
-	}
-	},
-	map : print_map
-	});
 
-	basemapGalleryPrint.startup();
-	basemapGalleryPrint.select('GoogleHybrid');*/
-
-	dojo.connect(dojo.byId("imprimir"), "onclick", function(){
+	dojo.connect(dijit.byId("imprimir"), "onClick", function(){
 		window.print();
 	});
 
@@ -127,6 +116,7 @@ function init() {
 	iniciarIdentify();
 
 	iniciarNavegacion();
+	
 
 	onMapLoaded();
 
@@ -171,7 +161,7 @@ function createBasemapGallery(mapa, div) {
 		thumbnailUrl : "images/bm-street.jpg"
 	}));
 
-	basemapGallery = new esri.dijit.BasemapGallery({
+	gallery = new esri.dijit.BasemapGallery({
 		showArcGISBasemaps : false,
 		basemaps : basemaps,
 		google : {
@@ -185,8 +175,10 @@ function createBasemapGallery(mapa, div) {
 		map : mapa
 	}, div);
 
-	basemapGallery.startup();
-	basemapGallery.select('GoogleHybrid');
+	gallery.startup();
+	gallery.select('GoogleHybrid');
+	
+	return gallery;
 
 }
 
