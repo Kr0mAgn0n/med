@@ -21,6 +21,7 @@ dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.Dialog");
+dojo.require("dojo.json");
 
 var map, initExtent;
 var basemaps;

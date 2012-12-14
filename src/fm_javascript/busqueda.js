@@ -1,7 +1,7 @@
 function busqueda() {
 	activarCargando();
 
-ubigeo = dojo.byId("ubigeo");
+	ubigeo = dojo.byId("ubigeo");
 	nombre_iiee = dojo.byId("nombre_iiee");
 	codigo_modular = dojo.byId("codigo_modular");
 	codigo_local = dojo.byId("codigo_local");
@@ -12,28 +12,32 @@ ubigeo = dojo.byId("ubigeo");
 	gestion = dojo.byId("gestion");
 	nombre_ccpp2 = dojo.byId("nombre_ccpp2");
 	codigo_ccpp = dojo.byId("codigo_ccpp");
+	codigo_ugel = dojo.byId("codigo_ugel");
 
 	var xhrArgs = {
-		url : "padron.php",
+		url : "http://escale.minedu.gob.pe/mapaeducativolenguas/restservicesig/service/restsig.svc/padron",
 		handleAs : "json",
 		content : {
-			ubigeo : ubigeo.value,
-			codCentroPoblado : codigo_ccpp.value,
-			nomCentroPoblado : nombre_ccpp1.value,
-			codigoModular : codigo_modular.value,
-			nombreIE : nombre_iiee.value,
-			codigoLocal : codigo_local.value,
-			direccionIE : direccion.value,
-			gestiones : gestion.value,
-			niveles : nivel_modalidad.value
+			codgeo : ubigeo.value,
+			codugel : codigo_ugel.value,
+			codmod : codigo_modular.value,
+			anexo : '',
+			nombreie : nombre_iiee.value,
+			codlocal : codigo_local.value,
+			direccion : direccion.value,
+			cenpob : nombre_ccpp1.value,
+			localidad : localidad.vaue,
+			nivmod : nivel_modalidad.value,
+			gesdep : gestion.value,
+			codcp : ''
 		},
-		load : function(data) {
-			console.log(data);
-			datos = {
-				items : []
-			};
+		load : function(resp) {
 
-			datosExporter = {
+			var data = dojo.json.parse(resp);
+
+			//console.log(data);
+
+			datos = {
 				items : []
 			};
 
@@ -56,6 +60,9 @@ ubigeo = dojo.byId("ubigeo");
 				'name' : 'Código del Centro Poblado',
 				'field' : 'codigo_del_centro_poblado'
 			}], [{
+				'name' : 'Localidad',
+				'field' : 'localidad'
+			}], [{
 				'name' : 'Código Local',
 				'field' : 'codigo_local'
 			}], [{
@@ -77,6 +84,12 @@ ubigeo = dojo.byId("ubigeo");
 				'name' : 'Alumnos',
 				'field' : 'alumnos'
 			}], [{
+				'name' : 'Altitud',
+				'field' : 'altitud'
+			}], [{
+				'name' : 'Fuente CP',
+				'field' : 'fuente_cp'
+			}], [{
 				'name' : 'Latitud',
 				'field' : 'latitud'
 			}], [{
@@ -86,6 +99,10 @@ ubigeo = dojo.byId("ubigeo");
 				'name' : 'Enlaces',
 				'field' : 'enlaces'
 			}]];
+
+			datosExporter = {
+				items : []
+			};
 
 			layoutExporter = [[{
 				'name' : 'Ubigeo',
@@ -106,6 +123,9 @@ ubigeo = dojo.byId("ubigeo");
 				'name' : 'Código del Centro Poblado',
 				'field' : 'codigo_del_centro_poblado'
 			}], [{
+				'name' : 'Localidad',
+				'field' : 'localidad'
+			}], [{
 				'name' : 'Código Local',
 				'field' : 'codigo_local'
 			}], [{
@@ -127,6 +147,12 @@ ubigeo = dojo.byId("ubigeo");
 				'name' : 'Alumnos',
 				'field' : 'alumnos'
 			}], [{
+				'name' : 'Altitud',
+				'field' : 'altitud'
+			}], [{
+				'name' : 'Fuente CP',
+				'field' : 'fuente_cp'
+			}], [{
 				'name' : 'Latitud',
 				'field' : 'latitud'
 			}], [{
@@ -134,86 +160,76 @@ ubigeo = dojo.byId("ubigeo");
 				'field' : 'longitud'
 			}]];
 
-			if (isEmpty(data)) {
-				alert("La busqueda no devolvió resultados.");
-			} else {
-				/*
-				 * Esta condicional es importante porque hay caso en que
-				 * data.items es un objeto y necesitamos que sea un array
-				 * para poder pasarlo por dojo.forEach
-				 */
-				if (!dojo.isArray(data.items)) {
-					aux = data.items;
-					data = {
-						items : []
-					};
-					data.items.push(aux);
-				}
+			dojo.forEach(data.Rows, function(item) {
+				items = {
+					ubigeo : 'Ubigeo: ' + item.CODIGO_UBIGEO,
+					departamento : 'Departamento: ' + item.DEPARTAMENTO,
+					provincia : 'Provincia: ' + item.PROVINCIA,
+					distrito : 'Distrito: ' + item.DISTRITO,
+					nombre_del_centro_poblado : 'Nombre del Centro Poblado: ' + item.NOMBRE_CENTRO_POBLADO,
+					codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.COD_CENTRO_POBLADO,
+					localidad : 'Localidad: ' + item.NOMBRE_LOCALIDAD,
+					codigo_local : 'Código Local: ' + item.CODIGO_LOCAL,
+					codigo_modular : 'Código Modular: ' + item.CODIGO_MODULAR,
+					nombre_ie : 'Nombre de la IE: ' + item.NOMBRE_ESCUELA,
+					nivel : 'Nivel: ' + item.NIVEL_MODALIDAD,
+					direccion : 'Dirección: ' + item.DIRECCION_ESCUELA,
+					docentes : 'Docentes: ' + item.TOTAL_DOCENTES,
+					alumnos : 'Alumnos: ' + item.TOTAL_ALUMNOS,
+					altitud : 'Altitud: ' + item.ALTITUD,
+					fuente_cp : 'Fuente CP: ' + item.FUENTECP,
+					latitud : 'Latitud: ' + item.LATITUD_DEC,
+					longitud : 'Longitud: ' + item.LONGITUD_DEC,
+					enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD_DEC + "," + item.LATITUD_DEC + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(\"" + item.CODIGO_MODULAR + "\",\"" + item.ANEXO + "\");'><img src='images/ficha.png'></a>"
+				};
 
-				dojo.forEach(data.items, function(item) {
-					items = {
-						ubigeo : 'Ubigeo: ' + item.ubigeo,
-						departamento : 'Departamento: ' + item.departamento,
-						provincia : 'Provincia: ' + item.provincia,
-						distrito : 'Distrito: ' + item.distrito,
-						nombre_del_centro_poblado : 'Nombre del Centro Poblado: ' + item.centroPoblado,
-						codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.codCentroPoblado,
-						codigo_local : 'Código Local: ' + item.codigoLocal,
-						codigo_modular : 'Código Modular: ' + item.codigoModular,
-						nombre_ie : 'Nombre de la IE: ' + item.nombreIE,
-						nivel : 'Nivel: ' + item.nivelModalidad,
-						direccion : 'Dirección: ' + item.direccion,
-						docentes : 'Docentes: ' + item.docentes,
-						alumnos : 'Alumnos: ' + item.alumnos,
-						latitud : 'Latitud: ' + item.coordY,
-						longitud : 'Longitud: ' + item.coordX,
-						enlaces : '<a class="img-enlaces" onclick="hacerZoom(' + item.coordX + ',' + item.coordY + ');"><img src="images/zoom.png"></a><a class="img-enlaces"><img src="images/ficha.png"></a>'
-					};
+				itemsExporter = {
+					ubigeo : item.CODIGO_UBIGEO,
+					departamento : item.DEPARTAMENTO,
+					provincia : item.PROVINCIA,
+					distrito : item.DISTRITO,
+					nombre_del_centro_poblado : item.NOMBRE_CENTRO_POBLADO,
+					codigo_del_centro_poblado : item.COD_CENTRO_POBLADO,
+					localidad : item.NOMBRE_LOCALIDAD,
+					codigo_local : item.CODIGO_LOCAL,
+					codigo_modular : item.CODIGO_MODULAR,
+					nombre_ie : item.NOMBRE_ESCUELA,
+					nivel : item.NIVEL_MODALIDAD,
+					direccion : item.DIRECCION_ESCUELA,
+					docentes : item.TOTAL_DOCENTES,
+					alumnos : item.TOTAL_ALUMNOS,
+					altitud : item.ALTITUD,
+					fuente_cp : item.FUENTECP,
+					latitud : item.LATITUD_DEC,
+					longitud : item.LONGITUD_DEC
+				};
 
-					itemsExporter = {
-						ubigeo : item.ubigeo,
-						departamento : item.departamento,
-						provincia : item.provincia,
-						distrito : item.distrito,
-						nombre_del_centro_poblado : item.centroPoblado,
-						codigo_del_centro_poblado : item.codCentroPoblado,
-						codigo_local : item.codigoLocal,
-						codigo_modular : item.codigoModular,
-						nombre_ie : item.nombreIE,
-						nivel : item.nivelModalidad,
-						direccion : item.direccion,
-						docentes : item.docentes,
-						alumnos : item.alumnos,
-						latitud : item.coordY,
-						longitud : item.coordX,
-					};
+				datos.items.push(items);
+				datosExporter.items.push(itemsExporter);
+			});
 
-					datos.items.push(items);
-					datosExporter.items.push(itemsExporter);
-				});
+			console.log(datos.items);
 
-				store = new dojo.data.ItemFileWriteStore({
-					data : datos
-				});
+			store = new dojo.data.ItemFileWriteStore({
+				data : datos
+			});
 
-				grid.setStructure(layout);
+			grid.setStructure(layout);
 
-				grid.setStore(store);
+			grid.setStore(store);
 
-				storeExporter = new dojo.data.ItemFileWriteStore({
-					data : datosExporter
-				});
+			storeExporter = new dojo.data.ItemFileWriteStore({
+				data : datosExporter
+			});
 
-				gridExporter.setStructure(layoutExporter);
+			gridExporter.setStructure(layoutExporter);
 
-				gridExporter.setStore(storeExporter);
+			gridExporter.setStore(storeExporter);
 
-				gridExporter.exportGrid("csv", function(str) {
-					dojo.byId("csv").value = str;
-				});
+			gridExporter.exportGrid("csv", function(str) {
+				dojo.byId("csv").value = str;
+			});
 
-			}
-			console.log(data);
 
 			dojo.query(".fm_button").removeClass("fm_button_active");
 			dojo.query(".fm_results_trigger").addClass("fm_button_active");
@@ -222,16 +238,14 @@ ubigeo = dojo.byId("ubigeo");
 
 			desactivarCargando();
 		}
-	};
+	}
 
 	var deferred = dojo.xhrGet(xhrArgs);
 
 }
 
-function isEmpty(obj) {
-	for (var prop in obj)
-	if (obj.hasOwnProperty(prop))
-		return false;
-
-	return true;
+function irAFicha(codmod, anexo) {
+	console.log(codmod);
+	console.log(anexo);
+	window.open("http://escale.minedu.gob.pe/PadronWeb/info/ce?cod_mod=" + codmod + "&anexo=" + anexo);
 }

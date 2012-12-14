@@ -1,17 +1,18 @@
 <?php
+$codgeo = $_GET['codgeo'];
+$codugel = $_GET['codugel'];
+$codmod = $_GET['codmod'];
+$anexo = $_GET['anexo'];
+$nombreie = $_GET['nombreie'];
+$codlocal = $_GET['codlocal'];
+$direccion = $_GET['direccion'];
+$cenpob = $_GET['cenpob'];
+$localidad = $_GET['localidad'];
+$nivmod = $_GET['nivmod'];
+$gesdep = $_GET['gesdep'];
+$codcp = $_GET['codcp'];
 
-$ubigeo = $_GET['ubigeo'];
-//codDreUgel:
-$codCentroPoblado = $_GET['codCentroPoblado'];
-$nomCentroPoblado = $_GET['nomCentroPoblado'];
-$codigoModular = $_GET['codigoModular'];
-$nombreIE = $_GET['nombreIE'];
-$codigoLocal = $_GET['codigoLocal'];
-$direccionIE = $_GET['direccionIE'];
-$gestiones = $_POST['gestiones'];
+$url = "http://escale.minedu.gob.pe/mapaeducativolenguas/restservicesig/service/restsig.svc/padron?codgeo=" . $codgeo . "&codugel=" . $codugel . "&codmod=" . $codmod . "&anexo=" . $anexo . "&nombreie=" . $nombreie . "&codlocal=" . $codlocal . "&direccion=" . $direccion . "&cenpob=" . $cenpob . "&localidad=" . $localidad . "&nivmod=" . $nivmod . "&gesdep=" . $gesdep . "&codcp=" . $codcp;
 
-$url = "http://escale.minedu.gob.pe/padron/rest/iiee?ubigeo=" . $ubigeo . "&codCentroPoblado=" . $codCentroPoblado . "&nomCentroPoblado=" . $nomCentroPoblado . "&codigoModular=" . $codigoModular . "&nombreIE=" . $nombreIE . "&codigoLocal=" . $codigoLocal . "&direccionIE=" . $direccionIE . "&gestiones=" . $gestiones;
-
-$xml = simplexml_load_file($url);
-echo json_encode($xml);
+echo file_get_contents($url);
 ?>

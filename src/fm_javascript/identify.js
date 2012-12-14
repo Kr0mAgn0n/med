@@ -52,8 +52,7 @@ function iniciarIdentify() {
 function manejadorDrawEnd(geometria) {
 	activarCargando();
 
-	identifyTask = new esri.tasks.IdentifyTask(
-			"http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
+	identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
 	identifyParams = new esri.tasks.IdentifyParameters();
 	identifyParams.geometry = geometria;
 	identifyParams.tolerance = 3;
@@ -64,136 +63,120 @@ function manejadorDrawEnd(geometria) {
 	identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_VISIBLE;
 	var deferred = identifyTask.execute(identifyParams);
 
-	deferred
-			.then(function(respuesta) {
-				datos = {
-					items : []
-				};
+	deferred.then(function(respuesta) {
+		datos = {
+			items : []
+		};
 
-				datosExporter = {
-					items : []
-				};
+		datosExporter = {
+			items : []
+		};
 
-				layout = [ [ {
-					'name' : 'Ubigeo',
-					'field' : 'ubigeo'
-				} ], [ {
-					'name' : 'Nombre del Centro Poblado',
-					'field' : 'nombre_del_centro_poblado'
-				} ], [ {
-					'name' : 'Código del Centro Poblado',
-					'field' : 'codigo_del_centro_poblado'
-				} ], [ {
-					'name' : 'Con Institución Educativa',
-					'field' : 'con_ie'
-				} ], [ {
-					'name' : 'Fuente',
-					'field' : 'fuente_g'
-				} ], [ {
-					'name' : 'Altitud',
-					'field' : 'altitud'
-				} ], [ {
-					'name' : 'Latitud',
-					'field' : 'latitud'
-				} ], [ {
-					'name' : 'Longitud',
-					'field' : 'longitud'
-				} ], [ {
-					'name' : 'Enlaces',
-					'field' : 'enlaces'
-				} ] ];
+		layout = [[{
+			'name' : 'Ubigeo',
+			'field' : 'ubigeo'
+		}], [{
+			'name' : 'Nombre del Centro Poblado',
+			'field' : 'nombre_del_centro_poblado'
+		}], [{
+			'name' : 'Código del Centro Poblado',
+			'field' : 'codigo_del_centro_poblado'
+		}], [{
+			'name' : 'Con Institución Educativa',
+			'field' : 'con_ie'
+		}], [{
+			'name' : 'Fuente',
+			'field' : 'fuente_g'
+		}], [{
+			'name' : 'Altitud',
+			'field' : 'altitud'
+		}], [{
+			'name' : 'Latitud',
+			'field' : 'latitud'
+		}], [{
+			'name' : 'Longitud',
+			'field' : 'longitud'
+		}], [{
+			'name' : 'Enlaces',
+			'field' : 'enlaces'
+		}]];
 
-				layoutExporter = [ [ {
-					'name' : 'Ubigeo',
-					'field' : 'ubigeo'
-				} ], [ {
-					'name' : 'Nombre del Centro Poblado',
-					'field' : 'nombre_del_centro_poblado'
-				} ], [ {
-					'name' : 'Código del Centro Poblado',
-					'field' : 'codigo_del_centro_poblado'
-				} ], [ {
-					'name' : 'Con Institución Educativa',
-					'field' : 'con_ie'
-				} ], [ {
-					'name' : 'Fuente',
-					'field' : 'fuente_g'
-				} ], [ {
-					'name' : 'Altitud',
-					'field' : 'altitud'
-				} ], [ {
-					'name' : 'Latitud',
-					'field' : 'latitud'
-				} ], [ {
-					'name' : 'Longitud',
-					'field' : 'longitud'
-				} ] ];
+		layoutExporter = [[{
+			'name' : 'Ubigeo',
+			'field' : 'ubigeo'
+		}], [{
+			'name' : 'Nombre del Centro Poblado',
+			'field' : 'nombre_del_centro_poblado'
+		}], [{
+			'name' : 'Código del Centro Poblado',
+			'field' : 'codigo_del_centro_poblado'
+		}], [{
+			'name' : 'Con Institución Educativa',
+			'field' : 'con_ie'
+		}], [{
+			'name' : 'Fuente',
+			'field' : 'fuente_g'
+		}], [{
+			'name' : 'Altitud',
+			'field' : 'altitud'
+		}], [{
+			'name' : 'Latitud',
+			'field' : 'latitud'
+		}], [{
+			'name' : 'Longitud',
+			'field' : 'longitud'
+		}]];
 
-				dojo
-						.forEach(
-								respuesta,
-								function(respuesta) {
-									items = {
-										ubigeo : 'Ubigeo: '
-												+ respuesta.feature.attributes.UBIGEO,
-										codigo_del_centro_poblado : 'Código del Centro Poblado: '
-												+ respuesta.feature.attributes.CODCP,
-										nombre_del_centro_poblado : 'Nombre del Centro Poblado: '
-												+ respuesta.feature.attributes.NOMCP,
-										con_ie : '¿Tiene IE?: '
-												+ respuesta.feature.attributes.CON_IE,
-										fuente_g : 'Fuente: '
-												+ respuesta.feature.attributes.FUENTE_G,
-										altitud : 'Altitud: '
-												+ respuesta.feature.attributes.Z,
-										latitud : 'Latitud: '
-												+ respuesta.feature.attributes.YGD,
-										longitud : 'Longitud: '
-												+ respuesta.feature.attributes.XGD,
-										enlaces : '<a class="img-enlaces" onclick="hacerZoom('
-												+ respuesta.feature.attributes.XGD
-												+ ','
-												+ respuesta.feature.attributes.YGD
-												+ ');"><img src="images/zoom.png"></a><a class="img-enlaces"><img src="images/ficha.png"></a>'
+		dojo.forEach(respuesta, function(respuesta) {
+			items = {
+				ubigeo : 'Ubigeo: ' + respuesta.feature.attributes.UBIGEO,
+				codigo_del_centro_poblado : 'Código del Centro Poblado: ' + respuesta.feature.attributes.CODCP,
+				nombre_del_centro_poblado : 'Nombre del Centro Poblado: ' + respuesta.feature.attributes.NOMCP,
+				con_ie : '¿Tiene IE?: ' + respuesta.feature.attributes.CON_IE,
+				fuente_g : 'Fuente: ' + respuesta.feature.attributes.FUENTE_G,
+				altitud : 'Altitud: ' + respuesta.feature.attributes.Z,
+				latitud : 'Latitud: ' + respuesta.feature.attributes.YGD,
+				longitud : 'Longitud: ' + respuesta.feature.attributes.XGD,
+				enlaces : '<a class="img-enlaces" onclick="hacerZoom(' + respuesta.feature.attributes.XGD + ',' + respuesta.feature.attributes.YGD + ');"><img src="images/zoom.png"></a><a class="img-enlaces"><img src="images/ficha.png"></a>'
 
-									};
+			};
 
-									itemsExporter = {
-										ubigeo : respuesta.feature.attributes.UBIGEO,
-										codigo_del_centro_poblado : respuesta.feature.attributes.CODCP,
-										nombre_del_centro_poblado : respuesta.feature.attributes.NOMCP,
-										con_ie : respuesta.feature.attributes.CON_IE,
-										fuente_g : respuesta.feature.attributes.FUENTE_G,
-										altitud : respuesta.feature.attributes.Z,
-										latitud : respuesta.feature.attributes.YGD,
-										longitud : respuesta.feature.attributes.XGD,
-									};
+			itemsExporter = {
+				ubigeo : respuesta.feature.attributes.UBIGEO,
+				codigo_del_centro_poblado : respuesta.feature.attributes.CODCP,
+				nombre_del_centro_poblado : respuesta.feature.attributes.NOMCP,
+				con_ie : respuesta.feature.attributes.CON_IE,
+				fuente_g : respuesta.feature.attributes.FUENTE_G,
+				altitud : respuesta.feature.attributes.Z,
+				latitud : respuesta.feature.attributes.YGD,
+				longitud : respuesta.feature.attributes.XGD,
+			};
 
-									datos.items.push(items);
-									datosExporter.items.push(itemsExporter);
-								});
+			datos.items.push(items);
+			datosExporter.items.push(itemsExporter);
+		});
 
-				store = new dojo.data.ItemFileWriteStore({
-					data : datos
-				});
-				grid.setStructure(layout);
-				grid.setStore(store);
+		store = new dojo.data.ItemFileWriteStore({
+			data : datos
+		});
+		grid.setStructure(layout);
+		grid.setStore(store);
 
-				storeExporter = new dojo.data.ItemFileWriteStore({
-					data : datosExporter
-				});
-				gridExporter.setStructure(layoutExporter);
-				gridExporter.setStore(storeExporter);
-				
-				gridExporter.exportGrid("csv", function(str) {
-					dojo.byId("csv").value = str;
-				});
+		storeExporter = new dojo.data.ItemFileWriteStore({
+			data : datosExporter
+		});
+		gridExporter.setStructure(layoutExporter);
+		gridExporter.setStore(storeExporter);
 
-				dojo.query(".fm_button").removeClass("fm_button_active");
-				dojo.query(".fm_results_trigger").addClass("fm_button_active");
-				dojo.query(".fm_panel").style('display', 'none');
-				dojo.query(".fm_results").style('display', 'block');
+		gridExporter.exportGrid("csv", function(str) {
+			dojo.byId("csv").value = str;
+		});
 
-				desactivarCargando();
-			});
+		dojo.query(".fm_button").removeClass("fm_button_active");
+		dojo.query(".fm_results_trigger").addClass("fm_button_active");
+		dojo.query(".fm_panel").style('display', 'none');
+		dojo.query(".fm_results").style('display', 'block');
+
+		desactivarCargando();
+	});
 }
