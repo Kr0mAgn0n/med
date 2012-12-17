@@ -9,6 +9,7 @@ dojo.require("esri.tasks.query");
 dojo.require("dojox.grid.EnhancedGrid");
 dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("dojox.grid.enhanced.plugins.exporter.CSVWriter");
+dojo.require("dojox.grid.enhanced.plugins.Pagination");
 dojo.require("dijit.Toolbar");
 dojo.require("esri.toolbars.draw");
 dojo.require("esri.toolbars.Navigation");
@@ -21,6 +22,7 @@ dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.Dialog");
+dojo.require("dijit.form.Form");
 dojo.require("dojo.json");
 
 var map, initExtent;
@@ -28,7 +30,7 @@ var basemaps;
 var identifyTask, identifyParams;
 var initExtent;
 var measurement;
-var centros_poblados, limites_politicos, ie;
+var centros_poblados, limites_politicos, ie, ugel_layer;
 
 function init() {
 
@@ -62,6 +64,8 @@ function init() {
 
 	ie = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
 
+	ugel_layer = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer");
+
 	layerInfos = [];
 
 	layerInfos.push({
@@ -78,6 +82,11 @@ function init() {
 		layer : ie,
 		title : "Instituciones Educativas"
 	});
+	
+	layerInfos.push({
+		layer : ugel_layer,
+		title : "UGEL"
+	});
 
 	dojo.connect(map, 'onLayersAddResult', function(results) {
 		var toc = new agsjs.dijit.TOC({
@@ -87,7 +96,7 @@ function init() {
 		toc.startup();
 	});
 
-	map.addLayers([centros_poblados, limites_politicos, ie]);
+	map.addLayers([centros_poblados, limites_politicos, ie, ugel_layer]);
 
 	/*
 	 * La declaración de la capa de OpenStreet es necesaria para el

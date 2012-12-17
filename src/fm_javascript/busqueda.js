@@ -35,8 +35,6 @@ function busqueda() {
 
 			var data = dojo.json.parse(resp);
 
-			//console.log(data);
-
 			datos = {
 				items : []
 			};
@@ -107,55 +105,55 @@ function busqueda() {
 			layoutExporter = [[{
 				'name' : 'Ubigeo',
 				'field' : 'ubigeo'
-			}], [{
+			}, {
 				'name' : 'Departamento',
 				'field' : 'departamento'
-			}], [{
+			}, {
 				'name' : 'Provincia',
 				'field' : 'provincia'
-			}], [{
+			}, {
 				'name' : 'Distrito',
 				'field' : 'distrito'
-			}], [{
+			}, {
 				'name' : 'Nombre del Centro Poblado',
 				'field' : 'nombre_del_centro_poblado'
-			}], [{
+			}, {
 				'name' : 'Código del Centro Poblado',
 				'field' : 'codigo_del_centro_poblado'
-			}], [{
+			}, {
 				'name' : 'Localidad',
 				'field' : 'localidad'
-			}], [{
+			}, {
 				'name' : 'Código Local',
 				'field' : 'codigo_local'
-			}], [{
+			}, {
 				'name' : 'Código Modular',
 				'field' : 'codigo_modular'
-			}], [{
+			}, {
 				'name' : 'Nombre IE',
 				'field' : 'nombre_ie'
-			}], [{
+			}, {
 				'name' : 'Nivel',
 				'field' : 'nivel'
-			}], [{
+			}, {
 				'name' : 'Dirección',
 				'field' : 'direccion'
-			}], [{
+			}, {
 				'name' : 'Docentes',
 				'field' : 'docentes'
-			}], [{
+			}, {
 				'name' : 'Alumnos',
 				'field' : 'alumnos'
-			}], [{
+			}, {
 				'name' : 'Altitud',
 				'field' : 'altitud'
-			}], [{
+			}, {
 				'name' : 'Fuente CP',
 				'field' : 'fuente_cp'
-			}], [{
+			}, {
 				'name' : 'Latitud',
 				'field' : 'latitud'
-			}], [{
+			}, {
 				'name' : 'Longitud',
 				'field' : 'longitud'
 			}]];
@@ -208,8 +206,6 @@ function busqueda() {
 				datosExporter.items.push(itemsExporter);
 			});
 
-			console.log(datos.items);
-
 			store = new dojo.data.ItemFileWriteStore({
 				data : datos
 			});
@@ -227,9 +223,9 @@ function busqueda() {
 			gridExporter.setStore(storeExporter);
 
 			gridExporter.exportGrid("csv", function(str) {
+				console.log(str);
 				dojo.byId("csv").value = str;
 			});
-
 
 			dojo.query(".fm_button").removeClass("fm_button_active");
 			dojo.query(".fm_results_trigger").addClass("fm_button_active");

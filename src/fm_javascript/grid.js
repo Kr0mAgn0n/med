@@ -11,6 +11,16 @@ function iniciarGrid() {
 
 	grid = new dojox.grid.EnhancedGrid({
 		escapeHTMLInData : false,
+		plugins : {
+			pagination : {
+				description : true,
+				sizeSwitch : false,
+				pageStepper : true,
+				gotoButton : true,
+				maxPageStep : 4,
+				position : "top"
+			}
+		}
 	}, dojo.create("div", {}, dojo.byId("fm_results")));
 
 	grid.startup();
@@ -25,18 +35,15 @@ function iniciarGrid() {
 			exporter : true
 		}
 	});
-
 }
 
 function hacerZoom(longitud, latitud) {
 	map.graphics.clear();
-	point = new esri.geometry.Point(longitud, latitud,
-			new esri.SpatialReference({
-				wkid : 5373
-			}));
+	point = new esri.geometry.Point(longitud, latitud, new esri.SpatialReference({
+		wkid : 5373
+	}));
 	point = esri.geometry.geographicToWebMercator(point);
-	var graphic = new esri.Graphic(point, new esri.symbol.PictureMarkerSymbol(
-			'images/i_target.png', 38, 38));
+	var graphic = new esri.Graphic(point, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
 	map.graphics.add(graphic);
 	map.centerAndZoom(point, 14);
 }
@@ -44,6 +51,6 @@ function hacerZoom(longitud, latitud) {
 function exportarTodo() {
 	gridExporter.exportGrid("csv", function(str) {
 		//window.open('data:text/csv;charset=utf-8,' + escape(str));
-		
+
 	});
 };
