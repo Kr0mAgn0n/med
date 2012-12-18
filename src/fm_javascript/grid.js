@@ -1,4 +1,9 @@
 var store, storeExporter, grid, gridExporter, datos, datosExporter;
+var gridMemory = {
+	memory : [],
+	//selectedIndex,
+	//tipo
+};
 
 function iniciarGrid() {
 	datos = {
@@ -53,4 +58,54 @@ function exportarTodo() {
 		//window.open('data:text/csv;charset=utf-8,' + escape(str));
 
 	});
-};
+}
+
+function prevGrid() {
+	console.log(gridMemory);
+	if (gridMemory.selectedIndex - 1 >= 0) {
+		grid.setStructure(gridMemory.memory[gridMemory.selectedIndex - 1].layout);
+		grid.setStore(gridMemory.memory[gridMemory.selectedIndex - 1].store);
+		gridExporter.setStructure(gridMemory.memory[gridMemory.selectedIndex - 1].layoutExporter);
+		gridExporter.setStore(gridMemory.memory[gridMemory.selectedIndex - 1].storeExporter);
+
+		gridExporter.exportGrid("csv", function(str) {
+			console.log(str);
+			dojo.byId("csv").value = str;
+		});
+
+		if (gridMemory.memory[gridMemory.selectedIndex - 1].tipo == 'ie') {
+			dojo.byId("resultMessage").innerHTML = "Filtro por Instituciones Educativas";
+		}
+
+		if (gridMemory.memory[gridMemory.selectedIndex - 1].tipo == 'cp') {
+			dojo.byId("resultMessage").innerHTML = "Filtro por Centros Poblados";
+		}
+
+		gridMemory.selectedIndex--;
+	}
+}
+
+function nextGrid() {
+	console.log(gridMemory);
+	if (gridMemory.selectedIndex + 1 < gridMemory.memory.length) {
+		grid.setStructure(gridMemory.memory[gridMemory.selectedIndex + 1].layout);
+		grid.setStore(gridMemory.memory[gridMemory.selectedIndex + 1].store);
+		gridExporter.setStructure(gridMemory.memory[gridMemory.selectedIndex + 1].layoutExporter);
+		gridExporter.setStore(gridMemory.memory[gridMemory.selectedIndex + 1].storeExporter);
+
+		gridExporter.exportGrid("csv", function(str) {
+			console.log(str);
+			dojo.byId("csv").value = str;
+		});
+
+		if (gridMemory.memory[gridMemory.selectedIndex + 1].tipo == 'ie') {
+			dojo.byId("resultMessage").innerHTML = "Filtro por Instituciones Educativas";
+		}
+
+		if (gridMemory.memory[gridMemory.selectedIndex + 1].tipo == 'cp') {
+			dojo.byId("resultMessage").innerHTML = "Filtro por Centros Poblados";
+		}
+
+		gridMemory.selectedIndex++
+	}
+}

@@ -23,6 +23,8 @@ dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.Dialog");
 dojo.require("dijit.form.Form");
+dojo.require("dijit.layout.TabContainer");
+dojo.require("dijit.layout.ContentPane");
 dojo.require("dojo.json");
 
 var map, initExtent;
@@ -114,7 +116,7 @@ function init() {
 
 	llenarFormulario();
 
-	dojo.connect(dojo.byId("buscar"), "onclick", busqueda);
+	dojo.connect(dijit.byId("searchForm"), "onSubmit", busqueda);
 
 	dojo.connect(window, "onresize", function() {
 		if (map)
@@ -127,13 +129,11 @@ function init() {
 
 	iniciarNavegacion();
 	
-
 	onMapLoaded();
 
 	desactivarCargando();
 
 	dojo.style('cargando', 'opacity', 0.5);
-
 }
 
 function createBasemapGallery(mapa, div) {

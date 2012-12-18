@@ -404,9 +404,6 @@ function responsive() {
 		fm.generateEmbedCode();
 		fm.setResponsive();
 
-		$("#tabs1").tabs();
-		$("#tabs2").tabs();
-
 		$(".fm_measurement").draggable({
 			cursor : 'move'
 		});

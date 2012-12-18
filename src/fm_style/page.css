@@ -208,19 +208,67 @@ nav {
 	padding: 10px;
 }
 
-.fm_container {
+.fm_container, .fm_panel {
 	width: 100%;
 	height: 100%;
+}
+
+.formulario td {
+	width: 50%;
+}
+
+.formulario .dijitTextBox, .formulario .dijitSelect {
+	width: 100%;
+}
+
+.formulario .dijitButtonContents {
+	width: 90%;
+}
+
+#resultHeader {
+	height: 40px;
+	width: 100%;
+}
+
+#resultHeader .dijitButton {
+	float: left;
+}
+
+#exportForm {
+	float: left;
+}
+
+#resultMessage {
+	position: absolute;
+	left: 150px;
 }
 
 .fm_results {
 	width: 100%;
 	height: 100% !important;
+	position: relative;
 }
 
 #fm_results {
 	width: 100%;
-	height: 90%;
+	bottom: 0;
+	top: 40px;
+	position: absolute;
+}
+
+.prevGrid {
+	background-image: url('../images/arrow-left.png');
+	background-repeat: no-repeat;
+	width: 22px;
+	height: 22px;
+	
+}
+
+.nextGrid {
+	background-image: url('../images/arrow-right.png');
+	background-repeat: no-repeat;
+	width: 22px;
+	height: 22px;
 }
 
 .fm_results .dojoxGrid {
@@ -361,12 +409,11 @@ nav {
 	display: none;
 }
 
-#csvSubmit {
-	background: none;
+.csvSubmit {
 	background-image: url('../images/csv.png');
-	box-shadow: none;
-	width: 25px;
-	height: 25px;
+	background-repeat: no-repeat;
+	width: 22px;
+	height: 22px;
 }
 
 .fm_print {

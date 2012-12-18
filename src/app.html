@@ -26,7 +26,7 @@
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojo/resources/dojo.css"/>
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css"/>
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/mapaeducativolenguas/arcgis_js_api/library/3.1/jsapi/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css"/> -->
-		<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css"/>
+		<!-- <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css"/> -->
 		<link rel='stylesheet' type='text/css' href='fm_style/page.css' />
 		<style id="page_size" type="text/css" media="print">
 			@page {
@@ -277,172 +277,162 @@
 						<textarea class='fm_embed_code'></textarea>
 					</div>
 					<div class='fm_find fm_panel'>
-						<div id="tabs1">
-							<ul>
-								<li>
-									<a href="#tabs1-1">Ubigeo</a>
-
-								</li>
-								<li>
-									<a href="#tabs1-2">DRE y UGEL</a>
-
-								</li>
-							</ul>
-							<div id="tabs1-1">
-								<table class="formulario">
-									<tr>
-										<td><label>Departamento</label></td>
-										<td>
-										<select id="departamento" name="departamento">
-											<option></option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label>Provincia</label></td>
-										<td>
-										<select id="provincia" name="provincia">
-											<option></option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label>Distrito</label></td>
-										<td>
-										<select id="distrito" name="distrito">
-											<option></option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label>Ubigeo</label></td>
-										<td>
-										<input id="ubigeo" name="ubigeo" type='text' placeholder='Ubigeo ...' />
-										</td>
-									</tr>
-								</table>
+						<div id="searchForm" data-dojo-type="dijit.form.Form">
+							<div id="tabs1" data-dojo-type="dijit.layout.TabContainer" doLayout="false">
+								<div id="tabs1_1" data-dojo-type="dijit.layout.ContentPane" title="Ubigeo" selected="true">
+									<table class="formulario">
+										<tr>
+											<td><label>Departamento</label></td>
+											<td>
+											<select id="departamento" name="departamento" data-dojo-type="dijit.form.Select">
+												<option></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>Provincia</label></td>
+											<td>
+											<select id="provincia" name="provincia" data-dojo-type="dijit.form.Select">
+												<option></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>Distrito</label></td>
+											<td>
+											<select id="distrito" name="distrito" data-dojo-type="dijit.form.Select">
+												<option></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>Ubigeo</label></td>
+											<td>
+											<input id="ubigeo" name="ubigeo" type='text' placeholder='Ubigeo ...' data-dojo-type="dijit.form.TextBox"/>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div id="tabs1_2" data-dojo-type="dijit.layout.ContentPane" title="DRE y UGEL">
+									<table class="formulario">
+										<tr>
+											<td><label>Dirección Regional</label></td>
+											<td>
+											<select id="direccion_regional" name="direccion_regional" data-dojo-type="dijit.form.Select">
+												<option></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>UGEL</label></td>
+											<td>
+											<select id="ugel" name="ugel" data-dojo-type="dijit.form.Select">
+												<option></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>Código UGEL</label></td>
+											<td>
+											<input id="codigo_ugel" name="codigo_ugel" type='text' placeholder='Código UGEL ...' data-dojo-type="dijit.form.TextBox"/>
+											</td>
+										</tr>
+									</table>
+								</div>
 							</div>
-							<div id="tabs1-2">
-								<table class="formulario">
-									<tr>
-										<td><label>Dirección Regional</label></td>
-										<td>
-										<select id="direccion_regional" name="direccion_regional">
-											<option></option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label>UGEL</label></td>
-										<td>
-										<select id="ugel" name="ugel">
-											<option></option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label>Código UGEL</label></td>
-										<td>
-										<input id="codigo_ugel" name="codigo_ugel" type='text' placeholder='Código UGEL ...' />
-										</td>
-									</tr>
-								</table>
+							<br />
+							<div id="tabs2" data-dojo-type="dijit.layout.TabContainer" doLayout="false">
+								<div data-dojo-type="dijit.layout.ContentPane" title="Padrón II.EE." selected="true">
+									<table class="formulario">
+										<tr>
+											<td><label>Nombre IIEE</label></td>
+											<td>
+											<input id="nombre_iiee" name="nombre_iiee" type='text' placeholder='Nombre IIEE ...' data-dojo-type="dijit.form.TextBox" />
+											</td>
+										</tr>
+										<tr>
+											<td><label>Código Modular</label></td>
+											<td>
+											<input id="codigo_modular" name="codigo_modular" type='text' placeholder='Código Modular ...' data-dojo-type="dijit.form.TextBox" />
+											</td>
+										</tr>
+										<tr>
+											<td><label>Código Local</label></td>
+											<td>
+											<input id="codigo_local" name="codigo_local" type='text' placeholder='Código Local ...' data-dojo-type="dijit.form.TextBox"/>
+											</td>
+										</tr>
+										<tr>
+											<td><label>Nombre CCPP</label></td>
+											<td>
+											<input id="nombre_ccpp1" name="nombre_ccpp1" type='text' placeholder='Nombre CCPP ...' data-dojo-type="dijit.form.TextBox"/>
+											</td>
+										</tr>
+										<tr>
+											<td><label>Código CCPP</label></td>
+											<td>
+											<input id="codigo_ccpp1" name="codigo_ccpp1" type='text' placeholder='Código CCPP ...' data-dojo-type="dijit.form.TextBox"/>
+											</td>
+										</tr>
+										<tr>
+											<td><label>Localidad</label></td>
+											<td>
+											<input id="localidad" name="localidad" type='text' placeholder='Localidad ...' data-dojo-type="dijit.form.TextBox"/>
+											</td>
+										</tr>
+										<tr>
+											<td><label>Nivel/Modalidad</label></td>
+											<td>
+											<select id="nivel_modalidad" name="nivel_modalidad" data-dojo-type="dijit.form.Select">
+												<option></option>
+											</select></td>
+										</tr>
+										<tr>
+											<td><label>Gestión</label></td>
+											<td>
+											<select id="gestion" name="gestion" data-dojo-type="dijit.form.Select">
+												<option></option>
+											</select></td>
+										</tr>
+									</table>
+								</div>
+								<br />
+								<div data-dojo-type="dijit.layout.ContentPane" title="Centros Poblados">
+									<table class="formulario">
+										<tr>
+											<td><label>Nombre CCPP</label></td>
+											<td>
+											<input id="nombre_ccpp2" name="nombre_ccpp2" type='text' placeholder='Nombre CCPP ...' data-dojo-type="dijit.form.TextBox"/>
+											</td>
+										</tr>
+										<tr>
+											<td><label>Código CCPP</label></td>
+											<td>
+											<input id="codigo_ccpp2" name="codigo_ccpp2" type='text' placeholder='Código CCPP ...' data-dojo-type="dijit.form.TextBox"/>
+											</td>
+										</tr>
+									</table>
+								</div>
 							</div>
-						</div>
-						<div id="tabs2">
-							<ul>
-								<li>
-									<a href="#tabs2-1">Padrón IIEE</a>
-
-								</li>
-								<li>
-									<a href="#tabs2-2">Centros Poblados</a>
-
-								</li>
-							</ul>
-							<div id="tabs2-1">
-								<table class="formulario">
-									<tr>
-										<td><label>Nombre IIEE</label></td>
-										<td>
-										<input id="nombre_iiee" name="nombre_iiee" type='text' placeholder='Nombre IIEE ...' />
-										</td>
-									</tr>
-									<tr>
-										<td><label>Código Modular</label></td>
-										<td>
-										<input id="codigo_modular" name="codigo_modular" type='text' placeholder='Código Modular ...'
-										/>
-										</td>
-									</tr>
-									<tr>
-										<td><label>Código Local</label></td>
-										<td>
-										<input id="codigo_local" name="codigo_local" type='text' placeholder='Código Local ...' />
-										</td>
-									</tr>
-									<tr>
-										<td><label>Dirección</label></td>
-										<td>
-										<input id="direccion" name="direccion" type='text' placeholder='Dirección ...' />
-										</td>
-									</tr>
-									<tr>
-										<td><label>Nombre CCPP</label></td>
-										<td>
-										<input id="nombre_ccpp1" name="nombre_ccpp1" type='text' placeholder='Nombre CCPP ...' />
-										</td>
-									</tr>
-									<tr>
-										<td><label>Localidad</label></td>
-										<td>
-										<input id="localidad" name="localidad" type='text' placeholder='Localidad ...' />
-										</td>
-									</tr>
-									<tr>
-										<td><label>Nivel/Modalidad</label></td>
-										<td>
-										<select id="nivel_modalidad" name="nivel_modalidad">
-											<option></option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label>Gestión</label></td>
-										<td>
-										<select id="gestion" name="gestion">
-											<option></option>
-										</select></td>
-									</tr>
-								</table>
-
+							<br />
+							<div id="botonera">
+								<button id="buscar" type="submit" data-dojo-type="dijit.form.Button">
+									Buscar
+								</button>
+								<button data-dojo-type="dijit.form.Button" type="reset">
+									Limpiar criterios
+								</button>
 							</div>
-							<div id="tabs2-2">
-								<table class="formulario">
-									<tr>
-										<td><label>Nombre CCPP</label></td>
-										<td>
-										<input id="nombre_ccpp2" name="nombre_ccpp2" type='text' placeholder='Nombre CCPP ...' />
-										</td>
-									</tr>
-									<tr>
-										<td><label>Código CCPP</label></td>
-										<td>
-										<input id="codigo_ccpp" name="codigo_ccpp" type='text' placeholder='Código CCPP ...' />
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-						<div id="botonera">
-							<input id="buscar" type="submit" name="Buscar">
-							<button>
-								Limpiar criterios
-							</button>
 						</div>
 					</div>
+
 					<div class='fm_results fm_panel'>
-						<form action="csv.php" method="post">
-							<textarea id="csv" type="text" name="csv"></textarea>
-							<input id="csvSubmit" type="submit" value="">
-							<img src="images/arrow-left.png"/>
-							<img src="images/arrow-right.png"/>
-						</form>
-						<br />
+						<div id="resultHeader">
+							<div id="exportForm">
+								<form id="export" action="csv.php" method="post">
+									<textarea id="csv" type="text" name="csv"></textarea>
+									<button id="csvSubmit" type="submit" data-dojo-type="dijit.form.Button" iconClass="csvSubmit"></button>
+								</form>
+							</div>
+							<button id="prevGrid" data-dojo-type="dijit.form.Button" iconClass="prevGrid" onClick="prevGrid"></button>
+							<button id="nextGrid" data-dojo-type="dijit.form.Button" iconClass="nextGrid" onclick="nextGrid"></button>
+							<div id="resultMessage"></div>
+						</div>
 						<div id='fm_results'></div>
 					</div>
 				</div>

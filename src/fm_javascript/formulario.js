@@ -1,15 +1,15 @@
 function llenarFormulario() {
 	// Guardando inputs del formulario en variables
-	departamento = dojo.byId("departamento");
-	provincia = dojo.byId("provincia");
-	distrito = dojo.byId("distrito");
-	ubigeo = dojo.byId("ubigeo");
-	nivel_modalidad = dojo.byId("nivel_modalidad");
-	gestion = dojo.byId("gestion");
-	
-	direccion_regional = dojo.byId("direccion_regional");
-	ugel = dojo.byId("ugel");
-	codigo_ugel = dojo.byId("codigo_ugel");
+	var departamento = dijit.byId("departamento");
+	var provincia = dijit.byId("provincia");
+	var distrito = dijit.byId("distrito");
+	var ubigeo = dijit.byId("ubigeo");
+	var nivel_modalidad = dijit.byId("nivel_modalidad");
+	var gestion = dijit.byId("gestion");
+
+	var direccion_regional = dijit.byId("direccion_regional");
+	var ugel = dijit.byId("ugel");
+	var codigo_ugel = dijit.byId("codigo_ugel");
 
 	// Creando QueryTask para llamar los departamentos
 	depQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/1");
@@ -22,32 +22,34 @@ function llenarFormulario() {
 	depQuery.outFields = ["IDDPTO", "NOMBDEP"];
 	// Estos son los campos a llamar
 	depQueryTask.execute(depQuery, function(resultado) {
+		var departamentoOptions = [];
+		var direccionRegionalOptions = []
 		dojo.forEach(resultado.features, function(feature) {// Los campos se guardan en el campo de features del resultado del query
-			dojo.create("option", {
+			departamentoOptions.push({
 				value : feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
-				innerHTML : feature.attributes["NOMBDEP"],
-				onclick : function() {
-					centrarExtent(feature.geometry.getExtent());
-				}
-			}, departamento);
-			
-			dojo.create("option", {
+				label : feature.attributes["NOMBDEP"],
+				extent: feature.geometry.getExtent()				
+			});
+
+			direccionRegionalOptions.push({
 				value : feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
-				innerHTML : feature.attributes["NOMBDEP"],
-				onclick : function() {
-					centrarExtent(feature.geometry.getExtent());
-				}
-			}, direccion_regional);
+				label : feature.attributes["NOMBDEP"],
+				extent: feature.geometry.getExtent()
+			});
 		});
+		
+		departamento.addOption(departamentoOptions);
+		direccion_regional.addOption(direccionRegionalOptions);
 	});
 
 	// Enlazando el envento 'onchange' al select del departamento para cargar dinámicamente los campos de provincias
-	dojo.connect(departamento, "onchange", function() {
-		ubigeo.value = departamento.value;
-		dojo.empty(provincia);
-		dojo.create("option", {}, provincia);
-		dojo.empty(distrito);
-		dojo.create("option", {}, distrito);
+	dojo.connect(departamento, "onChange", function(newvalue) {
+		centrarExtent(departamento.getOptions(newvalue).extent);
+		ubigeo.set('value', departamento.value);
+		provincia.removeOption(provincia.getOptions());
+		provincia.addOption(dojo.create("option", {}));
+		distrito.removeOption(distrito.getOptions());
+		distrito.addOption(dojo.create("option", {}));
 		if (departamento.value != '') {
 			provQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/2");
 			provQuery = new esri.tasks.Query();
@@ -55,27 +57,30 @@ function llenarFormulario() {
 			provQuery.returnGeometry = true;
 			provQuery.outFields = ["IDPROV", "NOMBPROV"];
 			provQueryTask.execute(provQuery, function(resultado) {
+				
+				var provinciaOptions = []
 				dojo.forEach(resultado.features, function(feature) {
-					dojo.create("option", {
+					provinciaOptions.push({
 						value : feature.attributes["IDPROV"],
-						innerHTML : feature.attributes["NOMBPROV"],
-						onclick : function() {
-							centrarExtent(feature.geometry.getExtent());
-						}
-					}, provincia);
+						label : feature.attributes["NOMBPROV"],
+						extent : feature.geometry.getExtent()
+					});
 				});
+				provincia.addOption(provinciaOptions);
 			});
 		}
 	});
 
-	dojo.connect(provincia, "onchange", function() {
+	dojo.connect(provincia, "onChange", function(newvalue) {
+		centrarExtent(provincia.getOptions(newvalue).extent);
+		
 		if (provincia.value != '')
-			ubigeo.value = provincia.value;
+			ubigeo.set('value', provincia.value);
 		else
-			ubigeo.value = departamento.value;
+			ubigeo.set('value', departamento.value);
 
-		dojo.empty(distrito);
-		dojo.create("option", {}, distrito);
+		distrito.removeOption(distrito.getOptions());
+		distrito.addOption(dojo.create("option", {}));
 		if (provincia.value != '') {
 			distQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/3");
 			distQuery = new esri.tasks.Query();
@@ -83,30 +88,34 @@ function llenarFormulario() {
 			distQuery.returnGeometry = true;
 			distQuery.outFields = ["IDDIST", "NOMBDIST"];
 			distQueryTask.execute(distQuery, function(resultado) {
+				var distritoOptions = []
 				dojo.forEach(resultado.features, function(feature) {
-					dojo.create("option", {
+					distritoOptions.push({
 						value : feature.attributes["IDDIST"],
-						innerHTML : feature.attributes["NOMBDIST"],
-						onclick : function() {
-							centrarExtent(feature.geometry.getExtent());
-						}
-					}, distrito);
+						label : feature.attributes["NOMBDIST"],
+						extent : feature.geometry.getExtent()
+					});
 				});
+				distrito.addOption(distritoOptions);
 			});
 		}
 	});
 
-	dojo.connect(distrito, "onchange", function() {
+	dojo.connect(distrito, "onChange", function(newvalue) {
+		centrarExtent(distrito.getOptions(newvalue).extent)
+		
 		if (distrito.value != '')
-			ubigeo.value = distrito.value;
+			ubigeo.set('value', distrito.value);
 		else
-			ubigeo.value = provincia.value;
+			ubigeo.set('value', provincia.value);
 	});
-	
-	dojo.connect(direccion_regional, "onchange", function() {
-		codigo_ugel.value = direccion_regional.value;
-		dojo.empty(ugel);
-		dojo.create("option", {}, ugel);
+
+	dojo.connect(direccion_regional, "onChange", function(newvalue) {
+		centrarExtent(direccion_regional.getOptions(newvalue).extent);
+		
+		codigo_ugel.set('value', direccion_regional.value);
+		ugel.removeOption(ugel.getOptions());
+		ugel.addOption(dojo.create("option", {}));
 		if (direccion_regional.value != '') {
 			ugelQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer/1");
 			ugelQuery = new esri.tasks.Query();
@@ -114,98 +123,133 @@ function llenarFormulario() {
 			ugelQuery.returnGeometry = true;
 			ugelQuery.outFields = ["CODUGEL", "UGEL"];
 			ugelQueryTask.execute(ugelQuery, function(resultado) {
+				var ugelOptions = [];
 				dojo.forEach(resultado.features, function(feature) {
-					dojo.create("option", {
+					ugelOptions.push({
 						value : feature.attributes["CODUGEL"],
-						innerHTML : feature.attributes["UGEL"],
-						onclick : function() {
-							centrarExtent(feature.geometry.getExtent());
-						}
-					}, ugel);
+						label : feature.attributes["UGEL"],
+						extent : feature.geometry.getExtent()
+					});
 				});
+				ugel.addOption(ugelOptions);
 			});
 		}
 	});
-	
-	dojo.connect(ugel, "onchange", function() {
+
+	dojo.connect(ugel, "onChange", function(newvalue) {
+		centrarExtent(ugel.getOptions(newvalue).extent);
+		
 		if (ugel.value != '')
-			codigo_ugel.value = ugel.value;
+			codigo_ugel.set('value', ugel.value);
 		else
-			codigo_ugel.value = direccion_regional.value;
+			codigo_ugel.set('value', direccion_regional.value);
 	});
 
 	// Lenado del campo Nivel/Modalidad
-	dojo.create("option", {
-		innerHTML : "Inicial",
+	nivelOptions = [];
+	
+	
+	nivelOptions.push({
+		label : "Inicial",
 		value : "A1"
-	}, nivel_modalidad);
-	dojo.create("option", {
-		innerHTML : "Proyecto"
-	}, nivel_modalidad);
-	dojo.create("option", {
-		innerHTML : "Primaria EBR",
+	});
+	
+	nivelOptions.push({
+		label : "Proyecto"
+	});
+	
+	nivelOptions.push({
+		label : "Primaria EBR",
 		value : "B0"
-	}, nivel_modalidad);
-	dojo.create("option", {
-		innerHTML : "Secundaria EBR",
+	});
+	
+	nivelOptions.push({
+		label : "Secundaria EBR",
 		value : "F0"
-	}, nivel_modalidad);
-	dojo.create("option", {
-		innerHTML : "Primaria EDA",
+	});
+	
+	nivelOptions.push({
+		label : "Primaria EDA",
 		value : "C0"
-	}, nivel_modalidad);
-	dojo.create("option", {
-		innerHTML : "Secundaria EDA",
+	});
+	
+	nivelOptions.push({
+		label : "Secundaria EDA",
 		value : "G0"
-	}, nivel_modalidad);
-	dojo.create("option", {
-		innerHTML : "Básica alternativa",
+	});
+	
+	nivelOptions.push({
+		label : "Básica alternativa",
 		value : "D0"
-	}, nivel_modalidad);
-	dojo.create("option", {
-		innerHTML : "Superior no universitaria",
+	});
+	
+	nivelOptions.push({
+		label : "Superior no universitaria",
 		value : "K0"
-	}, nivel_modalidad);
-	dojo.create("option", {
-		innerHTML : "Especial",
+	});
+	
+	nivelOptions.push({
+		label : "Especial",
 		value : "E0"
-	}, nivel_modalidad);
-	dojo.create("option", {
-		innerHTML : "CETPRO",
+	});
+	
+	nivelOptions.push({
+		label : "CETPRO",
 		value : "L0"
-	}, nivel_modalidad);
+	});
 
+	nivel_modalidad.addOption(nivelOptions);
+	
 	// Llenado de campo Gestión
-	dojo.create("option", {
-		innerHTML : "Ministerio de Educación"
-	}, gestion);
-	dojo.create("option", {
-		innerHTML : "Otro sector público (FF.AA)"
-	}, gestion);
-	dojo.create("option", {
-		innerHTML : "Municipalidad"
-	}, gestion);
-	dojo.create("option", {
-		innerHTML : "Nacionales en convenio"
-	}, gestion);
-	dojo.create("option", {
-		innerHTML : "Cooperativo"
-	}, gestion);
-	dojo.create("option", {
-		innerHTML : "Comunidad o asociación religiosa"
-	}, gestion);
-	dojo.create("option", {
-		innerHTML : "Comunidad"
-	}, gestion);
-	dojo.create("option", {
-		innerHTML : "Particular"
-	}, gestion);
-	dojo.create("option", {
-		innerHTML : "Empresa"
-	}, gestion);
-	dojo.create("option", {
-		innerHTML : "Asociación civil / Institución benéfica"
-	}, gestion);
+	gestionOptions = [];
+	
+	gestionOptions.push({
+		label : "Ministerio de Educación"
+	});
+	
+	gestionOptions.push({
+		label : "Otro sector público (FF.AA)"
+	});
+	
+	gestionOptions.push({
+		label : "Municipalidad"
+	});
+	
+	gestionOptions.push({
+		label : "Nacionales en convenio"
+	});
+	
+	gestionOptions.push({
+		label : "Cooperativo"
+	});
+	
+	gestionOptions.push({
+		label : "Comunidad o asociación religiosa"
+	});
+	
+	gestionOptions.push({
+		label : "Comunidad"
+	});
+	
+	gestionOptions.push({
+		label : "Particular"
+	});
+	
+	gestionOptions.push({
+		label : "Empresa"
+	});
+	
+	gestionOptions.push({
+		label : "Asociación civil / Institución benéfica"
+	});
+
+	gestion.addOption(gestionOptions);
+
+	//Este código resulve el problema de display de las tabs
+	dojo.connect(dojo.query(".fm_find_trigger")[0], "onclick", function() {
+		dijit.byId("tabs1").resize();
+		dijit.byId("tabs2").resize();
+	});
 }
 
 function centrarExtent(extent) {
