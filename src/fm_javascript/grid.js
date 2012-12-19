@@ -24,6 +24,10 @@ function iniciarGrid() {
 				gotoButton : true,
 				maxPageStep : 4,
 				position : "top"
+			},
+			indirectSelection : {
+				width : "0",
+				styles : "text-align: center;"
 			}
 		}
 	}, dojo.create("div", {}, dojo.byId("fm_results")));
@@ -48,7 +52,7 @@ function hacerZoom(longitud, latitud) {
 		wkid : 5373
 	}));
 	point = esri.geometry.geographicToWebMercator(point);
-	var graphic = new esri.Graphic(point, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
+	graphic = new esri.Graphic(point, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
 	map.graphics.add(graphic);
 	map.centerAndZoom(point, 14);
 }
@@ -73,13 +77,19 @@ function prevGrid() {
 			dojo.byId("csv").value = str;
 		});
 
-		if (gridMemory.memory[gridMemory.selectedIndex - 1].tipo == 'ie') {
-			dojo.byId("resultMessage").innerHTML = "Filtro por Instituciones Educativas";
-		}
+		switch (gridMemory.memory[gridMemory.selectedIndex - 1].tipo) {
+			case 'ie':
+				dojo.byId("resultMessage").innerHTML = "Filtro por Instituciones Educativas";
+				break;
 
-		if (gridMemory.memory[gridMemory.selectedIndex - 1].tipo == 'cp') {
-			dojo.byId("resultMessage").innerHTML = "Filtro por Centros Poblados";
-		}
+			case 'cp':
+				dojo.byId("resultMessage").innerHTML = "Filtro por Centros Poblados";
+				break;
+
+			case 'identifyCP':
+				dojo.byId("resultMessage").innerHTML = "Identificador de Centros Poblados";
+				break;
+		};
 
 		gridMemory.selectedIndex--;
 	}
@@ -98,14 +108,53 @@ function nextGrid() {
 			dojo.byId("csv").value = str;
 		});
 
-		if (gridMemory.memory[gridMemory.selectedIndex + 1].tipo == 'ie') {
-			dojo.byId("resultMessage").innerHTML = "Filtro por Instituciones Educativas";
-		}
+		switch (gridMemory.memory[gridMemory.selectedIndex + 1].tipo) {
+			case 'ie':
+				dojo.byId("resultMessage").innerHTML = "Filtro por Instituciones Educativas";
+				break;
 
-		if (gridMemory.memory[gridMemory.selectedIndex + 1].tipo == 'cp') {
-			dojo.byId("resultMessage").innerHTML = "Filtro por Centros Poblados";
-		}
+			case 'cp':
+				dojo.byId("resultMessage").innerHTML = "Filtro por Centros Poblados";
+				break;
+
+			case 'identifyCP':
+				dojo.byId("resultMessage").innerHTML = "Identificador de Centros Poblados";
+				break;
+		};
 
 		gridMemory.selectedIndex++
 	}
+}
+
+function zoomToSelection() {
+	map.graphics.clear();
+	gridExporter.selection.deselectAll();
+		
+	rowsSelected = grid.selection.getSelected();
+	
+	dojo.forEach(rowsSelected, function(row) {
+		gridExporter.selection.addToSelection(row._0);
+	});
+
+	points = dojo.map(gridExporter.selection.getSelected(), function(row) {
+		return [row.longitud[0], row.latitud[0]];
+	});
+
+	console.log(points);
+
+	mpJson = {
+		"points" : points,
+		"spatialReference" : ( {
+			" wkid" : 5373
+		})
+	};
+	
+	multipoint = esri.geometry.geographicToWebMercator(new esri.geometry.Multipoint(mpJson));
+	
+	console.log(multipoint);
+	
+	graphic = new esri.Graphic(multipoint, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
+	
+	map.graphics.add(graphic);
+	map.setExtent(multipoint.getExtent(), true);
 }

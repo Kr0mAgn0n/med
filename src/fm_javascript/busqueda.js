@@ -55,12 +55,10 @@ function busqueda(e) {
 	}
 
 	if (dijit.byId("tabs2").selectedChildWidget.title == "Padrón II.EE.") {
-		dojo.byId("resultMessage").innerHTML = "Filtro por Instituciones Educativas";
 		var deferred = dojo.xhrGet(xhrArgsIE);
 	}
 	
 	if (dijit.byId("tabs2").selectedChildWidget.title == "Centros Poblados") {
-		dojo.byId("resultMessage").innerHTML = "Filtro por Centros Poblados";
 		var deferred = dojo.xhrGet(xhrArgsCP);
 	}
 	

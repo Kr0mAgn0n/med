@@ -61,9 +61,11 @@ function manejadorDrawEnd(geometria) {
 	identifyParams.height = map.height;
 	identifyParams.mapExtent = map.extent;
 	identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_VISIBLE;
+	identifyParams.layersIds = [2];
 	var deferred = identifyTask.execute(identifyParams);
 
 	deferred.then(function(respuesta) {
+		
 		datos = {
 			items : []
 		};
@@ -172,6 +174,16 @@ function manejadorDrawEnd(geometria) {
 			dojo.byId("csv").value = str;
 		});
 
+		gridMemory.memory.push({
+			store : store,
+			storeExporter : storeExporter,
+			layout : layout,
+			layoutExporter : layoutExporter,
+			tipo : 'identifyCP'
+		});
+
+		gridMemory.selectedIndex = gridMemory.memory.length - 1;
+		
 		dojo.query(".fm_button").removeClass("fm_button_active");
 		dojo.query(".fm_results_trigger").addClass("fm_button_active");
 		dojo.query(".fm_panel").style('display', 'none');

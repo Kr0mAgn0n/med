@@ -240,7 +240,8 @@ nav {
 
 #resultMessage {
 	position: absolute;
-	left: 150px;
+	left: 200px;
+	top: 8px;
 }
 
 .fm_results {
@@ -256,6 +257,10 @@ nav {
 	position: absolute;
 }
 
+#fm_results .dojoxGridRowSelector {
+	width: 15px;
+}
+
 .prevGrid {
 	background-image: url('../images/arrow-left.png');
 	background-repeat: no-repeat;
@@ -266,6 +271,13 @@ nav {
 
 .nextGrid {
 	background-image: url('../images/arrow-right.png');
+	background-repeat: no-repeat;
+	width: 22px;
+	height: 22px;
+}
+
+.zoomToSelection {
+	background-image: url('../images/zoomToSelection.png');
 	background-repeat: no-repeat;
 	width: 22px;
 	height: 22px;
@@ -310,10 +322,6 @@ nav {
 
 .fm_results .dojoxGridRowTable {
 	width: 100%;
-}
-
-.fm_results .dojoxGridRow {
-	padding: 10px;
 }
 
 .fm_identify {

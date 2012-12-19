@@ -10,6 +10,7 @@ dojo.require("dojox.grid.EnhancedGrid");
 dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("dojox.grid.enhanced.plugins.exporter.CSVWriter");
 dojo.require("dojox.grid.enhanced.plugins.Pagination");
+dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
 dojo.require("dijit.Toolbar");
 dojo.require("esri.toolbars.draw");
 dojo.require("esri.toolbars.Navigation");
