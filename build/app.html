@@ -284,22 +284,22 @@
 										<tr>
 											<td><label>Departamento</label></td>
 											<td>
-											<select id="departamento" name="departamento" data-dojo-type="dijit.form.Select">
-												<option></option>
+											<select id="departamento" name="departamento" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
 										<tr>
 											<td><label>Provincia</label></td>
 											<td>
-											<select id="provincia" name="provincia" data-dojo-type="dijit.form.Select">
-												<option></option>
+											<select id="provincia" name="provincia" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
 										<tr>
 											<td><label>Distrito</label></td>
 											<td>
-											<select id="distrito" name="distrito" data-dojo-type="dijit.form.Select">
-												<option></option>
+											<select id="distrito" name="distrito" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
 										<tr>
@@ -315,15 +315,15 @@
 										<tr>
 											<td><label>Dirección Regional</label></td>
 											<td>
-											<select id="direccion_regional" name="direccion_regional" data-dojo-type="dijit.form.Select">
-												<option></option>
+											<select id="direccion_regional" name="direccion_regional" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
 										<tr>
 											<td><label>UGEL</label></td>
 											<td>
-											<select id="ugel" name="ugel" data-dojo-type="dijit.form.Select">
-												<option></option>
+											<select id="ugel" name="ugel" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
 										<tr>
@@ -348,13 +348,13 @@
 										<tr>
 											<td><label>Código Modular</label></td>
 											<td>
-											<input id="codigo_modular" name="codigo_modular" type='text' placeholder='Código Modular ...' data-dojo-type="dijit.form.TextBox" />
+											<input id="codigo_modular" name="codigo_modular" type='text' placeholder='Código Modular ...' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props="regExp: '\\d{7}'" />
 											</td>
 										</tr>
 										<tr>
 											<td><label>Código Local</label></td>
 											<td>
-											<input id="codigo_local" name="codigo_local" type='text' placeholder='Código Local ...' data-dojo-type="dijit.form.TextBox"/>
+											<input id="codigo_local" name="codigo_local" type='text' placeholder='Código Local ...' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props="regExp: '\\d{7}'"/>
 											</td>
 										</tr>
 										<tr>
@@ -366,7 +366,7 @@
 										<tr>
 											<td><label>Código CCPP</label></td>
 											<td>
-											<input id="codigo_ccpp1" name="codigo_ccpp1" type='text' placeholder='Código CCPP ...' data-dojo-type="dijit.form.TextBox"/>
+											<input id="codigo_ccpp1" name="codigo_ccpp1" type='text' placeholder='Código CCPP ...' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props="regExp: '\\d{6}'" />
 											</td>
 										</tr>
 										<tr>
@@ -403,7 +403,7 @@
 										<tr>
 											<td><label>Código CCPP</label></td>
 											<td>
-											<input id="codigo_ccpp2" name="codigo_ccpp2" type='text' placeholder='Código CCPP ...' data-dojo-type="dijit.form.TextBox"/>
+											<input id="codigo_ccpp2" name="codigo_ccpp2" type='text' placeholder='Código CCPP ...' data-dojo-type="dijit.form.ValidationTextBox" data-dojo-props="regExp: '\\d{6}'"/>
 											</td>
 										</tr>
 									</table>
@@ -431,8 +431,16 @@
 							</div>
 							<button id="prevGrid" data-dojo-type="dijit.form.Button" iconClass="prevGrid" onClick="prevGrid"></button>
 							<button id="nextGrid" data-dojo-type="dijit.form.Button" iconClass="nextGrid" onclick="nextGrid"></button>
-							<button id="zoomToSelection" data-dojo-type="dijit.form.Button" iconClass="zoomToSelection" onclick="zoomToSelection"></button>
-							<div id="resultMessage">Resultados</div>
+							<div id="selectAllDiv">
+								<table id="selectAllTable">
+									<tr>
+										<td><input id="selectAll" data-dojo-type="dijit.form.CheckBox" onChange="selectAllCallback"/></td>
+										<td><label>Seleccionar todo</label></td>
+									</tr>
+								</table>
+								
+								
+							</div>
 						</div>
 						<div id='fm_results'></div>
 					</div>

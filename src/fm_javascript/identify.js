@@ -178,8 +178,7 @@ function manejadorDrawEnd(geometria) {
 			store : store,
 			storeExporter : storeExporter,
 			layout : layout,
-			layoutExporter : layoutExporter,
-			tipo : 'identifyCP'
+			layoutExporter : layoutExporter
 		});
 
 		gridMemory.selectedIndex = gridMemory.memory.length - 1;

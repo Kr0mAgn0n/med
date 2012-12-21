@@ -238,10 +238,9 @@ nav {
 	float: left;
 }
 
-#resultMessage {
+#selectAllDiv {
 	position: absolute;
-	left: 200px;
-	top: 8px;
+	left: 150px;
 }
 
 .fm_results {

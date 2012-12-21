@@ -1,8 +1,7 @@
 var store, storeExporter, grid, gridExporter, datos, datosExporter;
 var gridMemory = {
 	memory : [],
-	//selectedIndex,
-	//tipo
+	//selectedIndex
 };
 
 function iniciarGrid() {
@@ -23,13 +22,16 @@ function iniciarGrid() {
 				pageStepper : true,
 				gotoButton : true,
 				maxPageStep : 4,
-				position : "top"
+				position : "top",
+				defaultPageSize : 25
 			},
 			indirectSelection : {
 				width : "0",
 				styles : "text-align: center;"
 			}
-		}
+		},
+		onSelected : markSelected,
+		onDeselected : markSelected
 	}, dojo.create("div", {}, dojo.byId("fm_results")));
 
 	grid.startup();
@@ -77,20 +79,6 @@ function prevGrid() {
 			dojo.byId("csv").value = str;
 		});
 
-		switch (gridMemory.memory[gridMemory.selectedIndex - 1].tipo) {
-			case 'ie':
-				dojo.byId("resultMessage").innerHTML = "Filtro por Instituciones Educativas";
-				break;
-
-			case 'cp':
-				dojo.byId("resultMessage").innerHTML = "Filtro por Centros Poblados";
-				break;
-
-			case 'identifyCP':
-				dojo.byId("resultMessage").innerHTML = "Identificador de Centros Poblados";
-				break;
-		};
-
 		gridMemory.selectedIndex--;
 	}
 }
@@ -108,53 +96,49 @@ function nextGrid() {
 			dojo.byId("csv").value = str;
 		});
 
-		switch (gridMemory.memory[gridMemory.selectedIndex + 1].tipo) {
-			case 'ie':
-				dojo.byId("resultMessage").innerHTML = "Filtro por Instituciones Educativas";
-				break;
-
-			case 'cp':
-				dojo.byId("resultMessage").innerHTML = "Filtro por Centros Poblados";
-				break;
-
-			case 'identifyCP':
-				dojo.byId("resultMessage").innerHTML = "Identificador de Centros Poblados";
-				break;
-		};
-
 		gridMemory.selectedIndex++
 	}
 }
 
-function zoomToSelection() {
+function selectAllCallback(newvalue) {
+	console.log(newvalue);
+
+	if (newvalue == true)
+		grid.selection.selectRange(0, grid.scroller.rowCount - 1);
+	else
+		grid.selection.deselectAll();
+}
+
+function markSelected() {
 	map.graphics.clear();
-	gridExporter.selection.deselectAll();
-		
+	
+
 	rowsSelected = grid.selection.getSelected();
-	
-	dojo.forEach(rowsSelected, function(row) {
-		gridExporter.selection.addToSelection(row._0);
-	});
 
-	points = dojo.map(gridExporter.selection.getSelected(), function(row) {
-		return [row.longitud[0], row.latitud[0]];
-	});
+	if (rowsSelected.length != 0) {
+		gridExporter.selection.deselectAll();
+		
+		dojo.forEach(rowsSelected, function(row) {
+			gridExporter.selection.addToSelection(row._0);
+		});
 
-	console.log(points);
+		points = dojo.map(gridExporter.selection.getSelected(), function(row) {
+			return [row.longitud[0], row.latitud[0]];
+		});
 
-	mpJson = {
-		"points" : points,
-		"spatialReference" : ( {
-			" wkid" : 5373
-		})
-	};
-	
-	multipoint = esri.geometry.geographicToWebMercator(new esri.geometry.Multipoint(mpJson));
-	
-	console.log(multipoint);
-	
-	graphic = new esri.Graphic(multipoint, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
-	
-	map.graphics.add(graphic);
-	map.setExtent(multipoint.getExtent(), true);
+		mpJson = {
+			"points" : points,
+			"spatialReference" : ( {
+				" wkid" : 5373
+			})
+		};
+
+		multipoint = esri.geometry.geographicToWebMercator(new esri.geometry.Multipoint(mpJson));
+
+		graphic = new esri.Graphic(multipoint, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
+
+		map.graphics.add(graphic);
+		map.setExtent(multipoint.getExtent(), true);
+	} 
+
 }

@@ -1,70 +1,75 @@
 function busqueda(e) {
-	dojo.stopEvent(e);
+	if (e)
+		dojo.stopEvent(e);
 
-	console.log(e);
+	var searchForm = dijit.byId("searchForm");
 
-	activarCargando();
+	if (searchForm.validate()) {
+		activarCargando();
+		processSearch(searchForm);
+	} else
+		alert("Alguno de los datos no es válido.");
 
-	ubigeo = e.currentTarget.ubigeo;
-	nombre_iiee = e.currentTarget.nombre_iiee;
-	codigo_modular = e.currentTarget.codigo_modular;
-	codigo_local = e.currentTarget.codigo_local;
-	//direccion = e.currentTarget.direccion;
-	nombre_ccpp1 = e.currentTarget.nombre_ccpp1;
-	localidad = e.currentTarget.localidad;
-	nivel_modalidad = e.currentTarget.nivel_modalidad;
-	gestion = e.currentTarget.gestion;
-	nombre_ccpp2 = e.currentTarget.nombre_ccpp2;
-	codigo_ccpp1 = e.currentTarget.codigo_ccpp1;
-	codigo_ccpp2 = e.currentTarget.codigo_ccpp2;
-	codigo_ugel = e.currentTarget.codigo_ugel;
+}
+
+function processSearch(searchForm) {
+	var ubigeo = searchForm.getValues().ubigeo;
+	var nombre_iiee = searchForm.getValues().nombre_iiee;
+	var codigo_modular = searchForm.getValues().codigo_modular;
+	var codigo_local = searchForm.getValues().codigo_local;
+	//var direccion = e.currentTarget.direccion;
+	var nombre_ccpp1 = searchForm.getValues().nombre_ccpp1;
+	var localidad = searchForm.getValues().localidad;
+	var nivel_modalidad = searchForm.getValues().nivel_modalidad == null ? "" : searchForm.getValues().nivel_modalidad;
+	var gestion = searchForm.getValues().gestion == null ? "" : searchForm.getValues().gestion;
+	var nombre_ccpp2 = searchForm.getValues().nombre_ccpp2;
+	var codigo_ccpp1 = searchForm.getValues().codigo_ccpp1;
+	var codigo_ccpp2 = searchForm.getValues().codigo_ccpp2;
+	var codigo_ugel = searchForm.getValues().codigo_ugel;
 
 	var xhrArgsIE = {
 		url : "http://escale.minedu.gob.pe/mapaeducativolenguas/restservicesig/service/restsig.svc/padron",
 		handleAs : "json",
 		content : {
-			codgeo : ubigeo.value,
-			codugel : codigo_ugel.value,
-			codmod : codigo_modular.value,
+			codgeo : ubigeo,
+			codugel : codigo_ugel,
+			codmod : codigo_modular,
 			anexo : '',
-			nombreie : nombre_iiee.value,
-			codlocal : codigo_local.value,
+			nombreie : nombre_iiee,
+			codlocal : codigo_local,
 			direccion : '',
-			cenpob : nombre_ccpp1.value,
-			localidad : localidad.vaue,
-			nivmod : nivel_modalidad.value,
-			gesdep : gestion.value,
-			codcp : codigo_ccpp1.value
+			cenpob : nombre_ccpp1,
+			localidad : localidad,
+			nivmod : nivel_modalidad,
+			gesdep : gestion,
+			codcp : codigo_ccpp1
 		},
-		load: processFormIE
-	}
-	
+		load : processFormIE
+	};
+
 	var xhrArgsCP = {
 		url : "http://escale.minedu.gob.pe/mapaeducativolenguas/restservicesig/service/restsig.svc/ccpp",
 		handleAs : "json",
 		content : {
-			codgeo : ubigeo.value,
-			codcp : codigo_ccpp2.value,
-			codugel : codigo_ugel.value,
-			nomcp : nombre_ccpp2.value,
+			ubigeo : ubigeo,
+			codcp : codigo_ccpp2,
+			codugel : codigo_ugel,
+			nomcp : nombre_ccpp2,
 			ubicado : '',
 			area : '',
 			fuentecp : ''
 		},
-		load: processFormCP
-	}
+		load : processFormCP
+	};
 
 	if (dijit.byId("tabs2").selectedChildWidget.title == "Padrón II.EE.") {
 		var deferred = dojo.xhrGet(xhrArgsIE);
 	}
-	
+
 	if (dijit.byId("tabs2").selectedChildWidget.title == "Centros Poblados") {
 		var deferred = dojo.xhrGet(xhrArgsCP);
 	}
-	
-
 }
-
 
 function processFormIE(resp) {
 
@@ -261,15 +266,14 @@ function processFormIE(resp) {
 		console.log(str);
 		dojo.byId("csv").value = str;
 	});
-	
+
 	gridMemory.memory.push({
-		store: store,
-		storeExporter: storeExporter,
-		layout: layout,
-		layoutExporter: layoutExporter,
-		tipo: 'ie'
+		store : store,
+		storeExporter : storeExporter,
+		layout : layout,
+		layoutExporter : layoutExporter
 	});
-	
+
 	gridMemory.selectedIndex = gridMemory.memory.length - 1;
 
 	dojo.query(".fm_button").removeClass("fm_button_active");
@@ -384,9 +388,6 @@ function processFormCP(resp) {
 	}]];
 
 	dojo.forEach(data.Rows, function(item) {
-		console.log(item);
-		console.log(item.NIVEL);
-		console.log(item.LONGITUD_DEC)
 		items = {
 			ubigeo : 'Ubigeo: ' + item.UBIGEO,
 			departamento : 'Departamento: ' + item.DEPARTAMENTO,
@@ -402,7 +403,7 @@ function processFormCP(resp) {
 			altitud : 'Altitud: ' + item.ALT_CP,
 			latitud : 'Latitud: ' + item.LATITUD_DEC,
 			longitud : 'Longitud: ' + item.LONGITUD_DEC,
-			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD_DEC + "," + item.LATITUD_DEC + ");'><img src='images/zoom.png'></a><a class='img-enlaces'><img src='images/ficha.png'></a>"
+			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD_DEC + "," + item.LATITUD_DEC + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAIE(" + item.CODCP + ")'><img src='images/ficha.png'></a>"
 		};
 
 		itemsExporter = {
@@ -446,15 +447,14 @@ function processFormCP(resp) {
 		console.log(str);
 		dojo.byId("csv").value = str;
 	});
-	
+
 	gridMemory.memory.push({
-		store: store,
-		storeExporter: storeExporter,
-		layout: layout,
-		layoutExporter: layoutExporter,
-		tipo: 'cp'
+		store : store,
+		storeExporter : storeExporter,
+		layout : layout,
+		layoutExporter : layoutExporter
 	});
-	
+
 	gridMemory.selectedIndex = gridMemory.memory.length - 1;
 
 	dojo.query(".fm_button").removeClass("fm_button_active");
@@ -465,11 +465,26 @@ function processFormCP(resp) {
 	desactivarCargando();
 }
 
-
-
-
 function irAFicha(codmod, anexo) {
 	console.log(codmod);
 	console.log(anexo);
 	window.open("http://escale.minedu.gob.pe/PadronWeb/info/ce?cod_mod=" + codmod + "&anexo=" + anexo);
+}
+
+function irAIE(codcp) {
+	searchForm = dijit.byId("searchForm");
+	tabs2 = dijit.byId("tabs2");
+
+	searchPrevValues = searchForm.getValues();
+	tabs2PrevChild = tabs2.selectedChildWidget;
+
+	searchForm.reset();
+	newValues = searchForm.getValues();
+	newValues.codigo_ccpp1 = String(codcp);
+	searchForm.setValues(newValues);
+	tabs2.selectChild(tabs2.getChildren()[0]);
+	busqueda();
+	searchForm.reset();
+	searchForm.setValues(searchPrevValues);
+	tabs2.selectChild(tabs2PrevChild);
 }
