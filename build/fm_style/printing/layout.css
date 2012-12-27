@@ -1,0 +1,27 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0; 
+    padding: 0;
+}
+
+body {
+	background-color:#777;
+	overflow:hidden;	
+	font-family: "Trebuchet MS";
+}
+
+#header {
+	background-color:#444;
+	color:yellow;
+	font-size:16pt;
+	text-align:center;
+	font-weight:bold;		
+}
+
+#footer {
+	background-color:#444;
+	color:yellow;
+	font-size:10pt;
+	text-align:center;
+}
