@@ -287,6 +287,8 @@ function processFormIE(resp) {
 function processFormCP(resp) {
 
 	var data = dojo.json.parse(resp);
+	
+	console.log(data);
 
 	datos = {
 		items : []

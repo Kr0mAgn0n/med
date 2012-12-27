@@ -27,14 +27,11 @@ function iniciarGrid() {
 				position : "top",
 				defaultPageSize : 25,
 				onPageStep : function () {
-					console.log("page step!");
-					//grid.selection.deselectAll();
-					console.log(grid.selection.getSelected());
 					grid.selection.clear();
 				}
 			},
 			indirectSelection : {
-				width : "0",
+				width : "1px",
 				styles : "text-align: center;"
 			}
 		},

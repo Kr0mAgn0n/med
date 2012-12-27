@@ -433,7 +433,6 @@ nav {
 	left: 10%;
 	top: 10%;
 	overflow: auto;
-	padding: 20px;
 }
 
 
@@ -534,7 +533,7 @@ nav {
 /***************************/
 
 /* anything but phone */
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1000px) {
 	/* desktop images */
 	.fm_basemap_icon {
 		background: url(fm_icons/map2-w.png) no-repeat;
@@ -721,7 +720,7 @@ nav {
 }
 
 /* laptop */
-@media screen and (max-width: 1279px) {
+/*@media screen and (max-width: 1279px) {
 	.fm_center_content.fm_right {
 		right: 0px;
 	}
@@ -732,10 +731,10 @@ nav {
 		left: 30%;
 		right: 30%;
 	}
-}
+}*/
 
 /* tab */
-@media screen and (max-width: 1023px) {
+/*@media screen and (max-width: 1023px) {
 	.fm_right_content {
 		display: none;
 	}
@@ -751,16 +750,22 @@ nav {
 	.fm_panel {
 		padding-top: 30px;
 	}
-}
+}*/
 
 /* phone */
-@media screen and (max-width: 799px) {
+@media screen and (max-width: 999px) {
 	/* image overrides */
 	.fm_basemap_icon {
 		background: url(fm_mobile_icons/map2-w.png) no-repeat;
 	}
 	.fm_measure_icon {
 		background: url(fm_mobile_icons/ruler3-w.png) no-repeat;
+	}
+	.fm_identify_icon {
+		background: url(fm_icons/identify-w.png) no-repeat;
+	}
+	.fm_navegacion_icon {
+		background: url(fm_icons/navegacion-w.png) no-repeat;
 	}
 	.fm_details_icon {
 		background: url(fm_mobile_icons/info2-w.png) no-repeat;
@@ -789,6 +794,12 @@ nav {
 	}
 	.fm_button_active .fm_measure_icon, .fm_button:hover .fm_measure_icon {
 		background: url(fm_mobile_icons/ruler3.png) no-repeat;
+	}
+	.fm_button_active .fm_identify_icon, .fm_button:hover .fm_identify_icon {
+		background: url(fm_icons/identify.png) no-repeat;
+	}
+	.fm_button_active .fm_navegacion_icon, .fm_button:hover .fm_navegacion_icon {
+		background: url(fm_icons/navegacion.png) no-repeat;
 	}
 	.fm_button_active .fm_details_icon, .fm_button:hover .fm_details_icon {
 		background: url(fm_mobile_icons/info2.png) no-repeat;
@@ -931,6 +942,10 @@ nav {
 	}
 	.fm_float_right {
 		float: none;
+	}
+	
+	#fm_results {
+		top: 70px;
 	}
 }
 

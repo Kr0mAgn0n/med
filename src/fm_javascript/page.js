@@ -10,20 +10,12 @@ function responsive() {
 	// register responsive js
 	this.setResponsive = function() {
 		fm.jRes = jRespond([ {
-			label : 'phone',
+			label : 'mobile',
 			enter : 0,
-			exit : 799
-		}, {
-			label : 'tab',
-			enter : 800,
-			exit : 1023
-		}, {
-			label : 'laptop',
-			enter : 1024,
-			exit : 1279
+			exit : 999
 		}, {
 			label : 'desktop',
-			enter : 1280,
+			enter : 1000,
 			exit : 100000
 		} ]);
 
@@ -42,63 +34,26 @@ function responsive() {
 				console.log('<<< desktop exit >>>');
 			}
 		});
+		
 		fm.jRes.addFunc({
-			breakpoint : 'laptop',
+			breakpoint : 'mobile',
 			enter : function() {
-				$(".fm_left_content").show();
-				$(".fm_right_content").show();
-				$(".fm_left_content.collapse_first").hide();
-				$(".fm_right_content.collapse_first").hide();
-				$(".fm_close.fm_hide").hide();
-				fm.collapse = false;
-				console.log('>>> laptop enter <<<');
-			},
-			exit : function() {
-				$(".fm_close.fm_hide").show();
-				fm.collapse = true;
-				console.log('<<< laptop exit >>>');
-			}
-		});
-		fm.jRes.addFunc({
-			breakpoint : 'tab',
-			enter : function() {
-				hideZoomControl();
-				$(".fm_left_content").hide();
-				$(".fm_right_content").hide();
-				fm.collapse = true;
-				fm.setActiveTab(null);
-				console.log('>>> tab enter <<<');
-			},
-			exit : function() {
-				console.log('<<< tab exit >>>');
-				showZoomControl();
-				$(".fm_left_content").show();
-				$(".fm_right_content").show();
-				fm.collapse = false;
-			}
-		});
-		fm.jRes.addFunc({
-			breakpoint : 'phone',
-			enter : function() {
-				// $( ".fm_overlay" ).draggable( 'disable' );
 				fm.mobile = true;
 				fm.collapse = true;
 				fm.setActiveTab(null);
 				$(".fm_show").hide();
 				$(".fm_left_content").hide();
 				$(".fm_right_content").hide();
-				console.log('>>> phone enter <<<');
+				console.log('>>> mobile enter <<<');
 			},
 			exit : function() {
-				showZoomControl();
-				// $( ".fm_overlay" ).draggable( 'enable' );
 				fm.mobile = false;
 				fm.collapse = false;
 
 				$(".fm_show").show();
 				$(".fm_left_content").show();
 				$(".fm_right_content").show();
-				console.log('<<< phone exit >>>');
+				console.log('<<< mobile exit >>>');
 			}
 		});
 	}
