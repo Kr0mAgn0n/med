@@ -260,6 +260,10 @@ nav {
 	width: 15px;
 }
 
+#fm_results .dojoxGridRowOdd {
+	background-color: #A9FF8E;
+}
+
 .prevGrid {
 	background-image: url('../images/arrow-left.png');
 	background-repeat: no-repeat;

@@ -47,7 +47,7 @@ function llenarFormulario() {
 		console.log("Departamento cambió.");
 		console.log(newvalue);
 
-		if (newvalue != '')
+		if (newvalue && newvalue != '')
 			onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalue);
 		else {
 			provincia.removeOption(provincia.getOptions());
@@ -70,7 +70,7 @@ function llenarFormulario() {
 		console.log("Provincia cambió.");
 		console.log(newvalue);
 
-		if (newvalue != '')
+		if (newvalue && newvalue != '')
 			onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue);
 		else {
 			distrito.removeOption(distrito.getOptions());
@@ -95,7 +95,7 @@ function llenarFormulario() {
 	});
 
 	dojo.connect(direccion_regional, "onChange", function(newvalue) {
-		if (newvalue != '')
+		if (newvalue && newvalue != '')
 			onDireccionRegionalChange(codigo_ugel, direccion_regional, ugel, newvalue);
 		else {
 			ugel.removeOption(ugel.getOptions());
@@ -229,14 +229,16 @@ function centrarExtent(extent) {
 function onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalue) {
 	centrarExtent(departamento.getOptions(newvalue).extent);
 	ubigeo.set('value', departamento.value);
-	/*provincia.removeOption(provincia.getOptions());
-	 provincia.addOption({
-	 label : ':: Seleccione ::'
-	 });
-	 distrito.removeOption(distrito.getOptions());
-	 distrito.addOption({
-	 label : ':: Seleccione ::'
-	 });*/
+	provincia.removeOption(provincia.getOptions());
+	provincia.addOption({
+		label : ':: Seleccione ::',
+		value : ''
+	});
+	distrito.removeOption(distrito.getOptions());
+	distrito.addOption({
+		label : ':: Seleccione ::',
+		value : ''
+	});
 
 	provQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/2");
 	provQuery = new esri.tasks.Query();
@@ -266,8 +268,11 @@ function onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue) 
 	else
 		ubigeo.set('value', departamento.value);
 
-	/*distrito.removeOption(distrito.getOptions());
-	 distrito.addOption({label: ':: Seleccione ::'});*/
+	distrito.removeOption(distrito.getOptions());
+	distrito.addOption({
+		label : ':: Seleccione ::',
+		value : ''
+	});
 
 	distQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/3");
 	distQuery = new esri.tasks.Query();
@@ -292,8 +297,11 @@ function onDireccionRegionalChange(codigo_ugel, direccion_regional, ugel, newval
 	centrarExtent(direccion_regional.getOptions(newvalue).extent);
 
 	codigo_ugel.set('value', direccion_regional.value);
-	/*ugel.removeOption(ugel.getOptions());
-	 ugel.addOption(dojo.create("option", {}));*/
+	ugel.removeOption(ugel.getOptions());
+	ugel.addOption({
+		label : ':: Seleccione ::',
+		value : ''
+	});
 
 	ugelQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer/1");
 	ugelQuery = new esri.tasks.Query();

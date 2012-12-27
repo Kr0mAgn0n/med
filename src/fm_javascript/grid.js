@@ -15,15 +15,23 @@ function iniciarGrid() {
 
 	grid = new dojox.grid.EnhancedGrid({
 		escapeHTMLInData : false,
+		keepSelection : false,
 		plugins : {
 			pagination : {
+				id : "gridPaginator",
 				description : true,
 				sizeSwitch : false,
 				pageStepper : true,
 				gotoButton : true,
 				maxPageStep : 4,
 				position : "top",
-				defaultPageSize : 25
+				defaultPageSize : 25,
+				onPageStep : function () {
+					console.log("page step!");
+					//grid.selection.deselectAll();
+					console.log(grid.selection.getSelected());
+					grid.selection.clear();
+				}
 			},
 			indirectSelection : {
 				width : "0",
@@ -31,7 +39,9 @@ function iniciarGrid() {
 			}
 		},
 		onSelected : markSelected,
-		onDeselected : markSelected
+		onDeselected : function () {
+			map.graphics.clear();
+		}
 	}, dojo.create("div", {}, dojo.byId("fm_results")));
 
 	grid.startup();
@@ -42,6 +52,7 @@ function iniciarGrid() {
 	});
 
 	gridExporter = new dojox.grid.EnhancedGrid({
+		rowsPerPage : 0,
 		plugins : {
 			exporter : true
 		}
@@ -113,7 +124,9 @@ function markSelected() {
 	map.graphics.clear();
 	
 
-	rowsSelected = grid.selection.getSelected();
+	var rowsSelected = grid.selection.getSelected();
+	
+	console.log(rowsSelected);
 
 	if (rowsSelected.length != 0) {
 		gridExporter.selection.deselectAll();
