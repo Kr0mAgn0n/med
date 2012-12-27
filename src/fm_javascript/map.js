@@ -209,6 +209,8 @@ function onMapLoaded() {
 	}, dojo.byId('measurementDiv'));
 	measurement.startup();
 
+	console.log(res);
+
 	dojo.connect(map, 'onMouseMove', res.showCoords);
 	res.showCoords(map.extent.getCenter());
 
