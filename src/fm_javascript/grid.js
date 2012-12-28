@@ -36,9 +36,7 @@ function iniciarGrid() {
 			}
 		},
 		onSelected : markSelected,
-		onDeselected : function () {
-			map.graphics.clear();
-		}
+		onDeselected : markSelected
 	}, dojo.create("div", {}, dojo.byId("fm_results")));
 
 	grid.startup();
