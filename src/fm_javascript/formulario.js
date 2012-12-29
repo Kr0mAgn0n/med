@@ -23,7 +23,7 @@ function llenarFormulario() {
 	// Estos son los campos a llamar
 	depQueryTask.execute(depQuery, function(resultado) {
 		var departamentoOptions = [];
-		var direccionRegionalOptions = []
+		var direccionRegionalOptions = [];
 		dojo.forEach(resultado.features, function(feature) {// Los campos se guardan en el campo de features del resultado del query
 			departamentoOptions.push({
 				value : feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
@@ -47,7 +47,7 @@ function llenarFormulario() {
 		console.log("Departamento cambió.");
 		console.log(newvalue);
 
-		if (newvalue && newvalue != '')
+		if (newvalue && newvalue !== '')
 			onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalue);
 		else {
 			provincia.removeOption(provincia.getOptions());
@@ -70,7 +70,7 @@ function llenarFormulario() {
 		console.log("Provincia cambió.");
 		console.log(newvalue);
 
-		if (newvalue && newvalue != '')
+		if (newvalue && newvalue !== '')
 			onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue);
 		else {
 			distrito.removeOption(distrito.getOptions());
@@ -87,7 +87,7 @@ function llenarFormulario() {
 		console.log("Distrito cambió.");
 		console.log(newvalue);
 
-		if (distrito.value != '') {
+		if (distrito.value !== '') {
 			centrarExtent(distrito.getOptions(newvalue).extent);
 			ubigeo.set('value', distrito.value);
 		} else
@@ -95,7 +95,7 @@ function llenarFormulario() {
 	});
 
 	dojo.connect(direccion_regional, "onChange", function(newvalue) {
-		if (newvalue && newvalue != '')
+		if (newvalue && newvalue !== '')
 			onDireccionRegionalChange(codigo_ugel, direccion_regional, ugel, newvalue);
 		else {
 			ugel.removeOption(ugel.getOptions());
@@ -109,7 +109,7 @@ function llenarFormulario() {
 
 	dojo.connect(ugel, "onChange", function(newvalue) {
 
-		if (ugel.value != '') {
+		if (ugel.value !== '') {
 			centrarExtent(ugel.getOptions(newvalue).extent);
 			codigo_ugel.set('value', ugel.value);
 		} else
@@ -247,7 +247,7 @@ function onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalu
 	provQuery.outFields = ["IDPROV", "NOMBPROV"];
 	provQueryTask.execute(provQuery, function(resultado) {
 
-		var provinciaOptions = []
+		var provinciaOptions = [];
 		dojo.forEach(resultado.features, function(feature) {
 			provinciaOptions.push({
 				value : feature.attributes["IDPROV"],
@@ -263,7 +263,7 @@ function onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalu
 function onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue) {
 	centrarExtent(provincia.getOptions(newvalue).extent);
 
-	if (provincia.value != '')
+	if (provincia.value !== '')
 		ubigeo.set('value', provincia.value);
 	else
 		ubigeo.set('value', departamento.value);
@@ -280,7 +280,7 @@ function onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue) 
 	distQuery.returnGeometry = true;
 	distQuery.outFields = ["IDDIST", "NOMBDIST"];
 	distQueryTask.execute(distQuery, function(resultado) {
-		var distritoOptions = []
+		var distritoOptions = [];
 		dojo.forEach(resultado.features, function(feature) {
 			distritoOptions.push({
 				value : feature.attributes["IDDIST"],

@@ -1,6 +1,7 @@
-var store, storeExporter, grid, gridExporter, datos, datosExporter;
+//var store, storeExporter
+var grid, gridExporter; // datos, datosExporter;
 var gridMemory = {
-	memory : [],
+	memory : []
 	//selectedIndex
 };
 
@@ -15,7 +16,6 @@ function iniciarGrid() {
 
 	grid = new dojox.grid.EnhancedGrid({
 		escapeHTMLInData : false,
-		keepSelection : false,
 		plugins : {
 			pagination : {
 				id : "gridPaginator",
@@ -37,7 +37,11 @@ function iniciarGrid() {
 		},
 		onSelected : markSelected,
 		onDeselected : markSelected
+		//onSelectionChanged : function () {
+			
+		//}
 	}, dojo.create("div", {}, dojo.byId("fm_results")));
+
 
 	grid.startup();
 
@@ -47,7 +51,7 @@ function iniciarGrid() {
 	});
 
 	gridExporter = new dojox.grid.EnhancedGrid({
-		rowsPerPage : 0,
+		//rowsPerPage : 0,
 		plugins : {
 			exporter : true
 		}
@@ -102,17 +106,19 @@ function nextGrid() {
 			dojo.byId("csv").value = str;
 		});
 
-		gridMemory.selectedIndex++
+		gridMemory.selectedIndex++;
 	}
 }
 
 function selectAllCallback(newvalue) {
 	console.log(newvalue);
 
-	if (newvalue == true)
+	if (newvalue === true)
 		grid.selection.selectRange(0, grid.scroller.rowCount - 1);
 	else
-		grid.selection.deselectAll();
+		grid.selection.deselectRange(0, grid.scroller.rowCount - 1);
+		//grid.selection.deselectAll();
+		
 }
 
 function markSelected() {
@@ -121,17 +127,37 @@ function markSelected() {
 
 	var rowsSelected = grid.selection.getSelected();
 	
-	console.log(rowsSelected);
+	//console.log(rowsSelected);
 
-	if (rowsSelected.length != 0) {
-		gridExporter.selection.deselectAll();
+	if (rowsSelected.length !== 0) {
+		//gridExporter.selection.deselectAll();
 		
-		dojo.forEach(rowsSelected, function(row) {
+		/*dojo.forEach(rowsSelected, function(row) {
 			gridExporter.selection.addToSelection(row._0);
 		});
 
 		points = dojo.map(gridExporter.selection.getSelected(), function(row) {
 			return [row.longitud[0], row.latitud[0]];
+		});
+
+		mpJson = {
+			"points" : points,
+			"spatialReference" : ( {
+				" wkid" : 5373
+			})
+		};
+
+		multipoint = esri.geometry.geographicToWebMercator(new esri.geometry.Multipoint(mpJson));
+
+		graphic = new esri.Graphic(multipoint, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
+
+		map.graphics.add(graphic);
+		map.setExtent(multipoint.getExtent(), true);*/
+		
+		points = dojo.map(rowsSelected, function(row) {
+			console.log(row.longitud[0].split(":")[1].trim());
+			console.log(row.latitud[0].split(":")[1].trim());
+			return [row.longitud[0].split(":")[1].trim(), row.latitud[0].split(":")[1].trim()];
 		});
 
 		mpJson = {

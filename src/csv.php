@@ -12,7 +12,7 @@ foreach ($csvData as $csv_line) {
 	$index++;
 }
 
-echo "<table>";
+echo "<table style='background: yellow;'>";
 foreach ($csvTable as $csv_line) {
 	echo "<tr>";	
 	foreach ($csv_line as $csv_column) {		

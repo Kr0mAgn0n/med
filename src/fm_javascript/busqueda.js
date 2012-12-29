@@ -20,8 +20,8 @@ function processSearch(searchForm) {
 	//var direccion = e.currentTarget.direccion;
 	var nombre_ccpp1 = searchForm.getValues().nombre_ccpp1;
 	var localidad = searchForm.getValues().localidad;
-	var nivel_modalidad = searchForm.getValues().nivel_modalidad == null ? "" : searchForm.getValues().nivel_modalidad;
-	var gestion = searchForm.getValues().gestion == null ? "" : searchForm.getValues().gestion;
+	var nivel_modalidad = searchForm.getValues().nivel_modalidad === null ? "" : searchForm.getValues().nivel_modalidad;
+	var gestion = searchForm.getValues().gestion === null ? "" : searchForm.getValues().gestion;
 	var nombre_ccpp2 = searchForm.getValues().nombre_ccpp2;
 	var codigo_ccpp1 = searchForm.getValues().codigo_ccpp1;
 	var codigo_ccpp2 = searchForm.getValues().codigo_ccpp2;
@@ -63,16 +63,15 @@ function processSearch(searchForm) {
 	};
 
 	if (dijit.byId("tabs2").selectedChildWidget.title == "Padrón II.EE.") {
-		var deferred = dojo.xhrGet(xhrArgsIE);
+		deferred = dojo.xhrGet(xhrArgsIE);
 	}
 
 	if (dijit.byId("tabs2").selectedChildWidget.title == "Centros Poblados") {
-		var deferred = dojo.xhrGet(xhrArgsCP);
+		deferred = dojo.xhrGet(xhrArgsCP);
 	}
 }
 
 function processFormIE(resp) {
-
 	var data = dojo.json.parse(resp);
 
 	datos = {
@@ -198,52 +197,57 @@ function processFormIE(resp) {
 		'field' : 'longitud'
 	}]];
 
+	console.log("Se declaró los layouts.");
+
 	dojo.forEach(data.Rows, function(item) {
-		items = {
-			ubigeo : 'Ubigeo: ' + item.CODIGO_UBIGEO,
-			departamento : 'Departamento: ' + item.DEPARTAMENTO,
-			provincia : 'Provincia: ' + item.PROVINCIA,
-			distrito : 'Distrito: ' + item.DISTRITO,
-			nombre_del_centro_poblado : 'Nombre del Centro Poblado: ' + item.NOMBRE_CENTRO_POBLADO,
-			codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.COD_CENTRO_POBLADO,
-			localidad : 'Localidad: ' + item.NOMBRE_LOCALIDAD,
-			codigo_local : 'Código Local: ' + item.CODIGO_LOCAL,
-			codigo_modular : 'Código Modular: ' + item.CODIGO_MODULAR,
-			nombre_ie : 'Nombre de la IE: ' + item.NOMBRE_ESCUELA,
-			nivel : 'Nivel: ' + item.NIVEL_MODALIDAD,
-			direccion : 'Dirección: ' + item.DIRECCION_ESCUELA,
-			docentes : 'Docentes: ' + item.TOTAL_DOCENTES,
-			alumnos : 'Alumnos: ' + item.TOTAL_ALUMNOS,
-			altitud : 'Altitud: ' + item.ALTITUD,
-			fuente_cp : 'Fuente CP: ' + item.FUENTECP,
-			latitud : 'Latitud: ' + item.LATITUD_DEC,
-			longitud : 'Longitud: ' + item.LONGITUD_DEC,
-			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD_DEC + "," + item.LATITUD_DEC + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(\"" + item.CODIGO_MODULAR + "\",\"" + item.ANEXO + "\");'><img src='images/ficha.png'></a>"
-		};
 
-		itemsExporter = {
-			ubigeo : item.CODIGO_UBIGEO,
-			departamento : item.DEPARTAMENTO,
-			provincia : item.PROVINCIA,
-			distrito : item.DISTRITO,
-			nombre_del_centro_poblado : item.NOMBRE_CENTRO_POBLADO,
-			codigo_del_centro_poblado : item.COD_CENTRO_POBLADO,
-			localidad : item.NOMBRE_LOCALIDAD,
-			codigo_local : item.CODIGO_LOCAL,
-			codigo_modular : item.CODIGO_MODULAR,
-			nombre_ie : item.NOMBRE_ESCUELA,
-			nivel : item.NIVEL_MODALIDAD,
-			direccion : item.DIRECCION_ESCUELA,
-			docentes : item.TOTAL_DOCENTES,
-			alumnos : item.TOTAL_ALUMNOS,
-			altitud : item.ALTITUD,
-			fuente_cp : item.FUENTECP,
-			latitud : item.LATITUD_DEC,
-			longitud : item.LONGITUD_DEC
-		};
+		if (item.ESTADO === '1') {
+			items = {
+				ubigeo : 'Ubigeo: ' + item.CODIGO_UBIGEO,
+				departamento : 'Departamento: ' + item.DEPARTAMENTO,
+				provincia : 'Provincia: ' + item.PROVINCIA,
+				distrito : 'Distrito: ' + item.DISTRITO,
+				nombre_del_centro_poblado : 'Nombre del Centro Poblado: ' + item.NOMBRE_CENTRO_POBLADO,
+				codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.COD_CENTRO_POBLADO,
+				localidad : 'Localidad: ' + item.NOMBRE_LOCALIDAD,
+				codigo_local : 'Código Local: ' + item.CODIGO_LOCAL,
+				codigo_modular : 'Código Modular: ' + item.CODIGO_MODULAR,
+				nombre_ie : 'Nombre de la IE: ' + item.NOMBRE_ESCUELA,
+				nivel : 'Nivel: ' + item.NIVEL_MODALIDAD,
+				direccion : 'Dirección: ' + item.DIRECCION_ESCUELA,
+				docentes : 'Docentes: ' + item.TOTAL_DOCENTES,
+				alumnos : 'Alumnos: ' + item.TOTAL_ALUMNOS,
+				altitud : 'Altitud: ' + item.ALTITUD,
+				fuente_cp : 'Fuente CP: ' + item.FUENTECP,
+				latitud : 'Latitud: ' + item.LATITUD_DEC,
+				longitud : 'Longitud: ' + item.LONGITUD_DEC,
+				enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD_DEC + "," + item.LATITUD_DEC + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(\"" + item.CODIGO_MODULAR + "\",\"" + item.ANEXO + "\");'><img src='images/ficha.png'></a>"
+			};
 
-		datos.items.push(items);
-		datosExporter.items.push(itemsExporter);
+			itemsExporter = {
+				ubigeo : item.CODIGO_UBIGEO,
+				departamento : item.DEPARTAMENTO,
+				provincia : item.PROVINCIA,
+				distrito : item.DISTRITO,
+				nombre_del_centro_poblado : item.NOMBRE_CENTRO_POBLADO,
+				codigo_del_centro_poblado : item.COD_CENTRO_POBLADO,
+				localidad : item.NOMBRE_LOCALIDAD,
+				codigo_local : item.CODIGO_LOCAL,
+				codigo_modular : item.CODIGO_MODULAR,
+				nombre_ie : item.NOMBRE_ESCUELA,
+				nivel : item.NIVEL_MODALIDAD,
+				direccion : item.DIRECCION_ESCUELA,
+				docentes : item.TOTAL_DOCENTES,
+				alumnos : item.TOTAL_ALUMNOS,
+				altitud : item.ALTITUD,
+				fuente_cp : item.FUENTECP,
+				latitud : item.LATITUD_DEC,
+				longitud : item.LONGITUD_DEC
+			};
+			datos.items.push(items);
+			datosExporter.items.push(itemsExporter);
+		}
+
 	});
 
 	store = new dojo.data.ItemFileWriteStore({
@@ -254,6 +258,8 @@ function processFormIE(resp) {
 
 	grid.setStore(store);
 
+	console.log("Store agregado a grid");
+
 	storeExporter = new dojo.data.ItemFileWriteStore({
 		data : datosExporter
 	});
@@ -262,10 +268,11 @@ function processFormIE(resp) {
 
 	gridExporter.setStore(storeExporter);
 
-	gridExporter.exportGrid("csv", function(str) {
-		console.log(str);
+	/*gridExporter.exportGrid("csv", function(str) {
 		dojo.byId("csv").value = str;
-	});
+	});*/
+
+	console.log("Store agregado a gridExporter");
 
 	gridMemory.memory.push({
 		store : store,
@@ -287,7 +294,7 @@ function processFormIE(resp) {
 function processFormCP(resp) {
 
 	var data = dojo.json.parse(resp);
-	
+
 	console.log(data);
 
 	datos = {
@@ -422,7 +429,7 @@ function processFormCP(resp) {
 			fuente_cp : item.FUENTE_SIG,
 			altitud : item.ALT_CP,
 			latitud : item.LATITUD_DEC,
-			longitud : item.LONGITUD_DEC,
+			longitud : item.LONGITUD_DEC
 		};
 
 		datos.items.push(items);
@@ -445,10 +452,10 @@ function processFormCP(resp) {
 
 	gridExporter.setStore(storeExporter);
 
-	gridExporter.exportGrid("csv", function(str) {
+	/*gridExporter.exportGrid("csv", function(str) {
 		console.log(str);
 		dojo.byId("csv").value = str;
-	});
+	});*/
 
 	gridMemory.memory.push({
 		store : store,

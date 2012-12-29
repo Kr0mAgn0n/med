@@ -163,16 +163,18 @@ function manejadorDrawEnd(geometria) {
 		});
 		grid.setStructure(layout);
 		grid.setStore(store);
+	
 
 		storeExporter = new dojo.data.ItemFileWriteStore({
 			data : datosExporter
 		});
 		gridExporter.setStructure(layoutExporter);
 		gridExporter.setStore(storeExporter);
-
-		gridExporter.exportGrid("csv", function(str) {
+		
+		
+		/*gridExporter.exportGrid("csv", function(str) {
 			dojo.byId("csv").value = str;
-		});
+		});*/
 
 		gridMemory.memory.push({
 			store : store,

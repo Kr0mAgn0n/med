@@ -1,3 +1,5 @@
+"use strict";
+
 dojo.require("esri.map");
 dojo.require("esri.dijit.Legend");
 dojo.require("esri.arcgis.utils");
@@ -51,10 +53,10 @@ function init() {
 		extent : initExtent,
 		wrapAround180 : true,
 		sliderStyle : "small",
-		logo : false,
+		logo : false
 	});
 
-	basemapGallery = createBasemapGallery(map, "basemapList");
+	var basemapGallery = createBasemapGallery(map, "basemapList");
 
 
 	dojo.connect(dijit.byId("imprimir"), "onClick", function(){
@@ -69,7 +71,7 @@ function init() {
 
 	ugel_layer = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer");
 
-	layerInfos = [];
+	var layerInfos = [];
 
 	layerInfos.push({
 		layer : centros_poblados,
@@ -106,7 +108,7 @@ function init() {
 	 * funcionamiento del Overview
 	 */
 
-	osml = new esri.layers.OpenStreetMapLayer();
+	var osml = new esri.layers.OpenStreetMapLayer();
 	var overviewMapDijit = new esri.dijit.OverviewMap({
 		map : map,
 		baseLayer : osml,
@@ -120,8 +122,10 @@ function init() {
 	dojo.connect(dijit.byId("searchForm"), "onSubmit", busqueda);
 
 	dojo.connect(window, "onresize", function() {
-		if (map)
+		if (map) {
 			map.resize();
+		}
+			
 	});
 
 	iniciarGrid();
@@ -172,7 +176,7 @@ function createBasemapGallery(mapa, div) {
 		thumbnailUrl : "images/bm-street.jpg"
 	}));
 
-	gallery = new esri.dijit.BasemapGallery({
+	var gallery = new esri.dijit.BasemapGallery({
 		showArcGISBasemaps : false,
 		basemaps : basemaps,
 		google : {
@@ -248,15 +252,19 @@ function desactivarCargando() {
 window.onorientationchange = function() {
 	if (map) {
 		map.resize();
-	} else
+	} else {
 		console.log('map not found');
-}
+	}
+		
+};
 
 window.onresize = function() {
 	if (map) {
 		map.resize();
-	} else
+	} else {
 		console.log('map not found');
-}
+	}
+		
+};
 
 dojo.addOnLoad(init);
