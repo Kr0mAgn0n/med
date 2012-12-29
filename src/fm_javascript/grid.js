@@ -155,9 +155,9 @@ function markSelected() {
 		map.setExtent(multipoint.getExtent(), true);*/
 		
 		points = dojo.map(rowsSelected, function(row) {
-			console.log(row.longitud[0].split(":")[1].trim());
-			console.log(row.latitud[0].split(":")[1].trim());
-			return [row.longitud[0].split(":")[1].trim(), row.latitud[0].split(":")[1].trim()];
+			console.log(dojo.trim(row.longitud[0].split(":")[1]));
+			console.log(dojo.trim(row.latitud[0].split(":")[1]));
+			return [dojo.trim(row.longitud[0].split(":")[1]), dojo.trim(row.latitud[0].split(":")[1])];
 		});
 
 		mpJson = {

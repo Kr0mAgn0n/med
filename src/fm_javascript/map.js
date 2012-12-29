@@ -100,6 +100,8 @@ function init() {
 		}, 'legendDiv');
 		toc.startup();
 	});
+	
+	ugel_layer.setVisibility(false);
 
 	map.addLayers([centros_poblados, limites_politicos, ie, ugel_layer]);
 
