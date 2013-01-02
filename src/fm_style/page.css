@@ -260,8 +260,12 @@ nav {
 	width: 15px;
 }
 
-#fm_results .dojoxGridRowOdd {
-	background-color: #A9FF8E;
+.dojoxGridRowOddIE {
+	background-color: #69FF75 !important;
+}
+
+.dojoxGridRowOddCP {
+	background-color: #FF898B !important;
 }
 
 .prevGrid {

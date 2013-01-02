@@ -44,7 +44,11 @@ function processSearch(searchForm) {
 			gesdep : gestion,
 			codcp : codigo_ccpp1
 		},
-		load : processFormIE
+		load : processFormIE,
+		error : function (error) {
+			desactivarCargando();
+			alert("Un error inesperado a ocurrido: " + error);
+		}
 	};
 
 	var xhrArgsCP = {
@@ -59,7 +63,11 @@ function processSearch(searchForm) {
 			area : '',
 			fuentecp : ''
 		},
-		load : processFormCP
+		load : processFormCP,
+		error : function (error) {
+			desactivarCargando();
+			alert("Un error inesperado a ocurrido: " + error);
+		}
 	};
 
 	if (dijit.byId("tabs2").selectedChildWidget.title == "Padrón II.EE.") {
@@ -111,15 +119,6 @@ function processFormIE(resp) {
 	}], [{
 		'name' : 'Nivel',
 		'field' : 'nivel'
-	}], [{
-		'name' : 'Dirección',
-		'field' : 'direccion'
-	}], [{
-		'name' : 'Docentes',
-		'field' : 'docentes'
-	}], [{
-		'name' : 'Alumnos',
-		'field' : 'alumnos'
 	}], [{
 		'name' : 'Altitud',
 		'field' : 'altitud'
@@ -175,15 +174,6 @@ function processFormIE(resp) {
 		'name' : 'Nivel',
 		'field' : 'nivel'
 	}, {
-		'name' : 'Dirección',
-		'field' : 'direccion'
-	}, {
-		'name' : 'Docentes',
-		'field' : 'docentes'
-	}, {
-		'name' : 'Alumnos',
-		'field' : 'alumnos'
-	}, {
 		'name' : 'Altitud',
 		'field' : 'altitud'
 	}, {
@@ -207,16 +197,13 @@ function processFormIE(resp) {
 				departamento : 'Departamento: ' + item.DEPARTAMENTO,
 				provincia : 'Provincia: ' + item.PROVINCIA,
 				distrito : 'Distrito: ' + item.DISTRITO,
-				nombre_del_centro_poblado : 'Nombre del Centro Poblado: ' + item.NOMBRE_CENTRO_POBLADO,
+				nombre_del_centro_poblado : 'Centro Poblado: ' + item.NOMBRE_CENTRO_POBLADO,
 				codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.COD_CENTRO_POBLADO,
 				localidad : 'Localidad: ' + item.NOMBRE_LOCALIDAD,
 				codigo_local : 'Código Local: ' + item.CODIGO_LOCAL,
 				codigo_modular : 'Código Modular: ' + item.CODIGO_MODULAR,
 				nombre_ie : 'Nombre de la IE: ' + item.NOMBRE_ESCUELA,
 				nivel : 'Nivel: ' + item.NIVEL_MODALIDAD,
-				direccion : 'Dirección: ' + item.DIRECCION_ESCUELA,
-				docentes : 'Docentes: ' + item.TOTAL_DOCENTES,
-				alumnos : 'Alumnos: ' + item.TOTAL_ALUMNOS,
 				altitud : 'Altitud: ' + item.ALTITUD,
 				fuente_cp : 'Fuente CP: ' + item.FUENTECP,
 				latitud : 'Latitud: ' + item.LATITUD_DEC,
@@ -236,9 +223,6 @@ function processFormIE(resp) {
 				codigo_modular : item.CODIGO_MODULAR,
 				nombre_ie : item.NOMBRE_ESCUELA,
 				nivel : item.NIVEL_MODALIDAD,
-				direccion : item.DIRECCION_ESCUELA,
-				docentes : item.TOTAL_DOCENTES,
-				alumnos : item.TOTAL_ALUMNOS,
 				altitud : item.ALTITUD,
 				fuente_cp : item.FUENTECP,
 				latitud : item.LATITUD_DEC,
@@ -403,7 +387,7 @@ function processFormCP(resp) {
 			provincia : 'Provincia: ' + item.PROVINCIA,
 			distrito : 'Distrito: ' + item.DISTRITO,
 			codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.CODCP,
-			nombre_del_centro_poblado : 'Código del Centro Poblado: ' + item.DENOMINACION,
+			nombre_del_centro_poblado : 'Centro Poblado: ' + item.DENOMINACION,
 			con_iiee : '¿Tiene IE?: ' + item.CON_IE,
 			numero_de_iiee : 'Número de Instituciones Educativas: ' + item.N_IIEE,
 			nivel : 'Nivel: ' + item.NIVEL,

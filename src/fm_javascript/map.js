@@ -1,5 +1,3 @@
-"use strict";
-
 dojo.require("esri.map");
 dojo.require("esri.dijit.Legend");
 dojo.require("esri.arcgis.utils");
@@ -35,7 +33,7 @@ var basemaps;
 var identifyTask, identifyParams;
 var initExtent;
 var measurement;
-var centros_poblados, limites_politicos, ie, ugel_layer;
+var cp_ie, limites_politicos, ugel_layer;
 
 function init() {
 
@@ -63,29 +61,22 @@ function init() {
 		window.print();
 	});
 
-	centros_poblados = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
+	cp_ie = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
 
-	limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer");
+	limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer");
 
-	ie = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
-
-	ugel_layer = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer");
+	ugel_layer = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_ugel/MapServer");
 
 	var layerInfos = [];
 
 	layerInfos.push({
-		layer : centros_poblados,
-		title : "Centros Poblados"
+		layer : cp_ie,
+		title : "Centros Poblados e IEs"
 	});
 
 	layerInfos.push({
 		layer : limites_politicos,
 		title : "Límites Políticos"
-	});
-
-	layerInfos.push({
-		layer : ie,
-		title : "Instituciones Educativas"
 	});
 	
 	layerInfos.push({
@@ -101,9 +92,10 @@ function init() {
 		toc.startup();
 	});
 	
+	limites_politicos.setVisibility(false);
 	ugel_layer.setVisibility(false);
 
-	map.addLayers([centros_poblados, limites_politicos, ie, ugel_layer]);
+	map.addLayers([cp_ie, limites_politicos, ugel_layer]);
 
 	/*
 	 * La declaración de la capa de OpenStreet es necesaria para el
@@ -126,15 +118,18 @@ function init() {
 	dojo.connect(window, "onresize", function() {
 		if (map) {
 			map.resize();
+			map.setExtent(map.extent);
 		}
 			
 	});
 
+	//initCustom();
+	
 	iniciarGrid();
 
 	iniciarIdentify();
 
-	iniciarNavegacion();
+	iniciarNavegacion();	
 	
 	onMapLoaded();
 

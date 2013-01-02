@@ -1,5 +1,6 @@
 //var store, storeExporter
-var grid, gridExporter; // datos, datosExporter;
+var grid, gridExporter;
+// datos, datosExporter;
 var gridMemory = {
 	memory : []
 	//selectedIndex
@@ -26,22 +27,24 @@ function iniciarGrid() {
 				maxPageStep : 4,
 				position : "top",
 				defaultPageSize : 25,
-				onPageStep : function () {
+				onPageStep : function() {
 					grid.selection.clear();
 				}
 			},
 			indirectSelection : {
-				width : "1px",
+				width : "5px",
 				styles : "text-align: center;"
 			}
 		},
-		onSelected : markSelected,
-		onDeselected : markSelected
-		//onSelectionChanged : function () {
-			
-		//}
+		onSelectionChanged : markSelected
+		/*onSelectionChanged : markSelected,
+		 onDeselected : function (rowIndex) {
+		 if (isDeselectedAll(this)) {
+		 console.log("Se deseleccionó todo.");
+		 onDeselectedAll();
+		 }
+		 }*/
 	}, dojo.create("div", {}, dojo.byId("fm_results")));
-
 
 	grid.startup();
 
@@ -49,6 +52,8 @@ function iniciarGrid() {
 		grid.resize();
 		grid.update();
 	});
+
+	dojo.connect(grid, "");
 
 	gridExporter = new dojox.grid.EnhancedGrid({
 		//rowsPerPage : 0,
@@ -78,6 +83,8 @@ function exportarTodo() {
 
 function prevGrid() {
 	console.log(gridMemory);
+	map.graphics.clear();
+	dijit.byId("selectAll").setChecked(false);
 	if (gridMemory.selectedIndex - 1 >= 0) {
 		grid.setStructure(gridMemory.memory[gridMemory.selectedIndex - 1].layout);
 		grid.setStore(gridMemory.memory[gridMemory.selectedIndex - 1].store);
@@ -95,6 +102,8 @@ function prevGrid() {
 
 function nextGrid() {
 	console.log(gridMemory);
+	map.graphics.clear();
+	dijit.byId("selectAll").setChecked(false);
 	if (gridMemory.selectedIndex + 1 < gridMemory.memory.length) {
 		grid.setStructure(gridMemory.memory[gridMemory.selectedIndex + 1].layout);
 		grid.setStore(gridMemory.memory[gridMemory.selectedIndex + 1].store);
@@ -115,56 +124,44 @@ function selectAllCallback(newvalue) {
 
 	if (newvalue === true)
 		grid.selection.selectRange(0, grid.scroller.rowCount - 1);
-	else
+	else {
+		//var rowsSelected = grid.selection.getSelected();
 		grid.selection.deselectRange(0, grid.scroller.rowCount - 1);
-		//grid.selection.deselectAll();
-		
+		/*if (rowsSelected.length !== 0) {
+			points = dojo.map(rowsSelected, function(row) {
+				return [dojo.trim(row.longitud[0].split(":")[1]), dojo.trim(row.latitud[0].split(":")[1])];
+			});
+
+			mpJson = {
+				"points" : points,
+				"spatialReference" : {
+					" wkid" : 5373
+				}
+			};
+
+			multipoint = esri.geometry.geographicToWebMercator(new esri.geometry.Multipoint(mpJson));
+
+			map.setExtent(multipoint.getExtent(), true);
+		}*/
+	}
+
 }
 
 function markSelected() {
 	map.graphics.clear();
-	
 
 	var rowsSelected = grid.selection.getSelected();
-	
-	//console.log(rowsSelected);
 
 	if (rowsSelected.length !== 0) {
-		//gridExporter.selection.deselectAll();
-		
-		/*dojo.forEach(rowsSelected, function(row) {
-			gridExporter.selection.addToSelection(row._0);
-		});
-
-		points = dojo.map(gridExporter.selection.getSelected(), function(row) {
-			return [row.longitud[0], row.latitud[0]];
-		});
-
-		mpJson = {
-			"points" : points,
-			"spatialReference" : ( {
-				" wkid" : 5373
-			})
-		};
-
-		multipoint = esri.geometry.geographicToWebMercator(new esri.geometry.Multipoint(mpJson));
-
-		graphic = new esri.Graphic(multipoint, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
-
-		map.graphics.add(graphic);
-		map.setExtent(multipoint.getExtent(), true);*/
-		
 		points = dojo.map(rowsSelected, function(row) {
-			console.log(dojo.trim(row.longitud[0].split(":")[1]));
-			console.log(dojo.trim(row.latitud[0].split(":")[1]));
 			return [dojo.trim(row.longitud[0].split(":")[1]), dojo.trim(row.latitud[0].split(":")[1])];
 		});
 
 		mpJson = {
 			"points" : points,
-			"spatialReference" : ( {
+			"spatialReference" : {
 				" wkid" : 5373
-			})
+			}
 		};
 
 		multipoint = esri.geometry.geographicToWebMercator(new esri.geometry.Multipoint(mpJson));
@@ -173,6 +170,21 @@ function markSelected() {
 
 		map.graphics.add(graphic);
 		map.setExtent(multipoint.getExtent(), true);
-	} 
+	}
 
 }
+
+function isDeselectedAll(somegrid) {
+	rowsSelected = somegrid.selection.getSelected();
+
+	if (rowsSelected.length === 0) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
+/*function onDeselectedAll () {
+ map.graphics.clear();
+ }*/

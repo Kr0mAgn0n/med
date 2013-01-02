@@ -52,7 +52,7 @@ function iniciarIdentify() {
 function manejadorDrawEnd(geometria) {
 	activarCargando();
 
-	identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
+	identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
 	identifyParams = new esri.tasks.IdentifyParameters();
 	identifyParams.geometry = geometria;
 	identifyParams.tolerance = 3;
@@ -61,7 +61,7 @@ function manejadorDrawEnd(geometria) {
 	identifyParams.height = map.height;
 	identifyParams.mapExtent = map.extent;
 	identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_VISIBLE;
-	identifyParams.layersIds = [2];
+	identifyParams.layersIds = [4];
 	var deferred = identifyTask.execute(identifyParams);
 
 	deferred.then(function(respuesta) {

@@ -12,12 +12,12 @@ function llenarFormulario() {
 	var codigo_ugel = dijit.byId("codigo_ugel");
 
 	// Creando QueryTask para llamar los departamentos
-	depQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/1");
+	depQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/1");
 	// Creando Query para llamar a los departamentos
 	depQuery = new esri.tasks.Query();
 	depQuery.where = "1=1";
 	// Notar que son sentencias SQL
-	depQuery.returnGeometry = true;
+	depQuery.returnGeometry = false;
 	// Retorna un punto, un polígono, etc, dependiendo de la geometría del servicio
 	depQuery.outFields = ["IDDPTO", "NOMBDEP"];
 	// Estos son los campos a llamar
@@ -27,14 +27,12 @@ function llenarFormulario() {
 		dojo.forEach(resultado.features, function(feature) {// Los campos se guardan en el campo de features del resultado del query
 			departamentoOptions.push({
 				value : feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
-				label : feature.attributes["NOMBDEP"],
-				extent : feature.geometry.getExtent()
+				label : feature.attributes["NOMBDEP"]
 			});
 
 			direccionRegionalOptions.push({
 				value : feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
-				label : feature.attributes["NOMBDEP"],
-				extent : feature.geometry.getExtent()
+				label : feature.attributes["NOMBDEP"]
 			});
 		});
 
@@ -47,8 +45,11 @@ function llenarFormulario() {
 		console.log("Departamento cambió.");
 		console.log(newvalue);
 
-		if (newvalue && newvalue !== '')
+		if (newvalue && newvalue !== ''){
+			console.log("Estoy ejecutando peticiones.");
 			onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalue);
+		}
+			
 		else {
 			provincia.removeOption(provincia.getOptions());
 			provincia.addOption({
@@ -88,7 +89,16 @@ function llenarFormulario() {
 		console.log(newvalue);
 
 		if (distrito.value !== '') {
-			centrarExtent(distrito.getOptions(newvalue).extent);
+			distGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/3");
+			distGeometryQuery = new esri.tasks.Query();
+			distGeometryQuery.where = "IDDIST='" + newvalue + "'";
+			distGeometryQuery.returnGeometry = true;
+			distGeometryQuery.outFields = [];
+			distGeometryQueryTask.execute(distGeometryQuery, function(resultado) {
+				console.log(resultado);
+				feature = resultado.features[0];
+				centrarExtent(feature.geometry.getExtent());
+			});
 			ubigeo.set('value', distrito.value);
 		} else
 			ubigeo.set('value', provincia.value);
@@ -227,7 +237,16 @@ function centrarExtent(extent) {
 }
 
 function onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalue) {
-	centrarExtent(departamento.getOptions(newvalue).extent);
+	depGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/1");
+	depGeometryQuery = new esri.tasks.Query();
+	depGeometryQuery.where = "IDDPTO='" + newvalue + "'";
+	depGeometryQuery.returnGeometry = true;
+	depGeometryQuery.outFields = [];
+	depGeometryQueryTask.execute(depGeometryQuery, function(resultado) {
+		feature = resultado.features[0];
+		centrarExtent(feature.geometry.getExtent());
+	});
+
 	ubigeo.set('value', departamento.value);
 	provincia.removeOption(provincia.getOptions());
 	provincia.addOption({
@@ -240,19 +259,17 @@ function onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalu
 		value : ''
 	});
 
-	provQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/2");
+	provQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/2");
 	provQuery = new esri.tasks.Query();
 	provQuery.where = "IDPROV LIKE '" + departamento.value + "%'";
-	provQuery.returnGeometry = true;
+	provQuery.returnGeometry = false;
 	provQuery.outFields = ["IDPROV", "NOMBPROV"];
 	provQueryTask.execute(provQuery, function(resultado) {
-
 		var provinciaOptions = [];
 		dojo.forEach(resultado.features, function(feature) {
 			provinciaOptions.push({
 				value : feature.attributes["IDPROV"],
-				label : feature.attributes["NOMBPROV"],
-				extent : feature.geometry.getExtent()
+				label : feature.attributes["NOMBPROV"]
 			});
 		});
 		provincia.addOption(provinciaOptions);
@@ -261,7 +278,15 @@ function onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalu
 }
 
 function onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue) {
-	centrarExtent(provincia.getOptions(newvalue).extent);
+	provGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/2");
+	provGeometryQuery = new esri.tasks.Query();
+	provGeometryQuery.where = "IDPROV='" + newvalue + "'";
+	provGeometryQuery.returnGeometry = true;
+	provGeometryQuery.outFields = [];
+	provGeometryQueryTask.execute(depGeometryQuery, function(resultado) {
+		feature = resultado.features[0];
+		centrarExtent(feature.geometry.getExtent());
+	});
 
 	if (provincia.value !== '')
 		ubigeo.set('value', provincia.value);
@@ -274,18 +299,17 @@ function onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue) 
 		value : ''
 	});
 
-	distQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer/3");
+	distQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/3");
 	distQuery = new esri.tasks.Query();
 	distQuery.where = "IDPROV LIKE '" + provincia.value + "%'";
-	distQuery.returnGeometry = true;
+	distQuery.returnGeometry = false;
 	distQuery.outFields = ["IDDIST", "NOMBDIST"];
 	distQueryTask.execute(distQuery, function(resultado) {
 		var distritoOptions = [];
 		dojo.forEach(resultado.features, function(feature) {
 			distritoOptions.push({
 				value : feature.attributes["IDDIST"],
-				label : feature.attributes["NOMBDIST"],
-				extent : feature.geometry.getExtent()
+				label : feature.attributes["NOMBDIST"]
 			});
 		});
 		distrito.addOption(distritoOptions);
