@@ -199,13 +199,13 @@ function processFormIE(resp) {
 				distrito : 'Distrito: ' + item.DISTRITO,
 				nombre_del_centro_poblado : 'Centro Poblado: ' + item.NOMBRE_CENTRO_POBLADO,
 				codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.COD_CENTRO_POBLADO,
-				localidad : 'Localidad: ' + item.NOMBRE_LOCALIDAD,
+				localidad : item.NOMBRE_LOCALIDAD ? 'Localidad: ' + item.NOMBRE_LOCALIDAD : 'Localidad: ',
 				codigo_local : 'Código Local: ' + item.CODIGO_LOCAL,
 				codigo_modular : 'Código Modular: ' + item.CODIGO_MODULAR,
 				nombre_ie : 'Nombre de la IE: ' + item.NOMBRE_ESCUELA,
 				nivel : 'Nivel: ' + item.NIVEL_MODALIDAD,
 				altitud : 'Altitud: ' + item.ALTITUD,
-				fuente_cp : 'Fuente CP: ' + item.FUENTECP,
+				fuente_cp : item.ALTITUD? 'Fuente CP: ' + item.FUENTECP : 'Fuente CP: ',
 				latitud : 'Latitud: ' + item.LATITUD_DEC,
 				longitud : 'Longitud: ' + item.LONGITUD_DEC,
 				enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD_DEC + "," + item.LATITUD_DEC + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(\"" + item.CODIGO_MODULAR + "\",\"" + item.ANEXO + "\");'><img src='images/ficha.png'></a>"
@@ -237,6 +237,8 @@ function processFormIE(resp) {
 	store = new dojo.data.ItemFileWriteStore({
 		data : datos
 	});
+	
+	dijit.byId("selectAll").setChecked(false);
 
 	grid.setStructure(layout);
 
@@ -423,6 +425,8 @@ function processFormCP(resp) {
 	store = new dojo.data.ItemFileWriteStore({
 		data : datos
 	});
+
+	dijit.byId("selectAll").setChecked(false);
 
 	grid.setStructure(layout);
 

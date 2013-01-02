@@ -128,21 +128,21 @@ function selectAllCallback(newvalue) {
 		//var rowsSelected = grid.selection.getSelected();
 		grid.selection.deselectRange(0, grid.scroller.rowCount - 1);
 		/*if (rowsSelected.length !== 0) {
-			points = dojo.map(rowsSelected, function(row) {
-				return [dojo.trim(row.longitud[0].split(":")[1]), dojo.trim(row.latitud[0].split(":")[1])];
-			});
+		 points = dojo.map(rowsSelected, function(row) {
+		 return [dojo.trim(row.longitud[0].split(":")[1]), dojo.trim(row.latitud[0].split(":")[1])];
+		 });
 
-			mpJson = {
-				"points" : points,
-				"spatialReference" : {
-					" wkid" : 5373
-				}
-			};
+		 mpJson = {
+		 "points" : points,
+		 "spatialReference" : {
+		 " wkid" : 5373
+		 }
+		 };
 
-			multipoint = esri.geometry.geographicToWebMercator(new esri.geometry.Multipoint(mpJson));
+		 multipoint = esri.geometry.geographicToWebMercator(new esri.geometry.Multipoint(mpJson));
 
-			map.setExtent(multipoint.getExtent(), true);
-		}*/
+		 map.setExtent(multipoint.getExtent(), true);
+		 }*/
 	}
 
 }
@@ -153,8 +153,10 @@ function markSelected() {
 	var rowsSelected = grid.selection.getSelected();
 
 	if (rowsSelected.length !== 0) {
-		points = dojo.map(rowsSelected, function(row) {
-			return [dojo.trim(row.longitud[0].split(":")[1]), dojo.trim(row.latitud[0].split(":")[1])];
+		var points = [];
+		dojo.forEach(rowsSelected, function(row) {
+			if (dojo.trim(row.longitud[0].split(":")[1]) !== '-80' && dojo.trim(row.latitud[0].split(":")[1]) !== '-10')
+				points.push([dojo.trim(row.longitud[0].split(":")[1]), dojo.trim(row.latitud[0].split(":")[1])]);
 		});
 
 		mpJson = {

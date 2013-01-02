@@ -92,7 +92,6 @@ function init() {
 		toc.startup();
 	});
 	
-	limites_politicos.setVisibility(false);
 	ugel_layer.setVisibility(false);
 
 	map.addLayers([cp_ie, limites_politicos, ugel_layer]);

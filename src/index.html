@@ -49,7 +49,7 @@
 		<script type='text/javascript' src='fm_javascript/navegacion.js'></script>
 		<script type='text/javascript' src='fm_javascript/grid.js'></script>
 		<script type='text/javascript' src='fm_javascript/print.js'></script>
-		<script type='text/javascript' src='fm_javascript/custom.js'></script>
+		<script type='text/javascript' src='fm_javascript/export.js'></script>
 	</head>
 
 	<body class="tundra">
@@ -405,9 +405,9 @@
 					<div class='fm_results fm_panel'>
 						<div id="resultHeader">
 							<div id="exportForm">
-								<form id="export" action="csv.php" method="post">
+								<form id="exportador" data-dojo-type="dijit.form.Form" data-dojo-props="action: 'csv.php', method: 'post'">
 									<textarea id="csv" type="text" name="csv"></textarea>
-									<button id="csvSubmit" type="submit" data-dojo-type="dijit.form.Button" iconClass="csvSubmit"></button>
+									<button id="csvSubmit" data-dojo-type="dijit.form.Button" data-dojo-props="iconClass: 'csvSubmit', onClick: exportGrid"></button>
 								</form>
 							</div>
 							<button id="prevGrid" data-dojo-type="dijit.form.Button" iconClass="prevGrid" onClick="prevGrid"></button>
