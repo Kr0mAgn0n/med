@@ -120,7 +120,15 @@ function llenarFormulario() {
 	dojo.connect(ugel, "onChange", function(newvalue) {
 
 		if (ugel.value !== '') {
-			centrarExtent(ugel.getOptions(newvalue).extent);
+			ugelGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer/1");
+			ugelGeometryQuery = new esri.tasks.Query();
+			ugelGeometryQuery.where = "CODUGEL='" + newvalue + "'";
+			ugelGeometryQuery.returnGeometry = true;
+			ugelGeometryQuery.outFields = [];
+			ugelGeometryQueryTask.execute(ugelGeometryQuery, function(resultado) {
+				feature = resultado.features[0];
+				centrarExtent(feature.geometry.getExtent());
+			});
 			codigo_ugel.set('value', ugel.value);
 		} else
 			codigo_ugel.set('value', direccion_regional.value);
@@ -329,8 +337,16 @@ function onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue) 
 }
 
 function onDireccionRegionalChange(codigo_ugel, direccion_regional, ugel, newvalue) {
-	centrarExtent(direccion_regional.getOptions(newvalue).extent);
-
+	direccionGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/2");
+	direccionGeometryQuery = new esri.tasks.Query();
+	direccionGeometryQuery.where = "IDDPTO='" + newvalue + "'";
+	direccionGeometryQuery.returnGeometry = true;
+	direccionGeometryQuery.outFields = [];
+	direccionGeometryQueryTask.execute(direccionGeometryQuery, function(resultado) {
+		feature = resultado.features[0];
+		centrarExtent(feature.geometry.getExtent());
+	});
+	
 	codigo_ugel.set('value', direccion_regional.value);
 	ugel.removeOption(ugel.getOptions());
 	ugel.addOption({
@@ -341,15 +357,14 @@ function onDireccionRegionalChange(codigo_ugel, direccion_regional, ugel, newval
 	ugelQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer/1");
 	ugelQuery = new esri.tasks.Query();
 	ugelQuery.where = "CODUGEL LIKE '" + direccion_regional.value + "%'";
-	ugelQuery.returnGeometry = true;
+	ugelQuery.returnGeometry = false;
 	ugelQuery.outFields = ["CODUGEL", "UGEL"];
 	ugelQueryTask.execute(ugelQuery, function(resultado) {
 		var ugelOptions = [];
 		dojo.forEach(resultado.features, function(feature) {
 			ugelOptions.push({
 				value : feature.attributes["CODUGEL"],
-				label : feature.attributes["UGEL"],
-				extent : feature.geometry.getExtent()
+				label : feature.attributes["UGEL"]
 			});
 		});
 		ugel.addOption(ugelOptions);
