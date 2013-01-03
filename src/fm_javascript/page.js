@@ -80,6 +80,7 @@ function responsive() {
 				mano_alzada.setChecked(false);
 				extension.setChecked(false);
 				drawToolbar.deactivate();
+				map.graphics.clear();
 			}
 
 			if ($(this).parent().hasClass('fm_print')) {

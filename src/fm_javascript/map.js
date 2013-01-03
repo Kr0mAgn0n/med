@@ -23,6 +23,7 @@ dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.Dialog");
+dojo.require("dijit.Tooltip");
 dojo.require("dijit.form.Form");
 dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.layout.ContentPane");
@@ -36,6 +37,10 @@ var measurement;
 var cp_ie, limites_politicos, ugel_layer;
 
 function init() {
+	bienvenida_dialog = dijit.byId("bienvenida_dialog");
+	bienvenida_dialog.show();
+
+	initTooltips();
 
 	initExtent = new esri.geometry.Extent({
 		"xmin" : -9052049.2735,
@@ -56,8 +61,7 @@ function init() {
 
 	var basemapGallery = createBasemapGallery(map, "basemapList");
 
-
-	dojo.connect(dijit.byId("imprimir"), "onClick", function(){
+	dojo.connect(dijit.byId("imprimir"), "onClick", function() {
 		window.print();
 	});
 
@@ -78,7 +82,7 @@ function init() {
 		layer : limites_politicos,
 		title : "Límites Políticos"
 	});
-	
+
 	layerInfos.push({
 		layer : ugel_layer,
 		title : "UGEL"
@@ -91,7 +95,7 @@ function init() {
 		}, 'legendDiv');
 		toc.startup();
 	});
-	
+
 	ugel_layer.setVisibility(false);
 
 	map.addLayers([cp_ie, limites_politicos, ugel_layer]);
@@ -119,17 +123,17 @@ function init() {
 			map.resize();
 			map.setExtent(map.extent);
 		}
-			
+
 	});
 
 	//initCustom();
-	
+
 	iniciarGrid();
 
 	iniciarIdentify();
 
-	iniciarNavegacion();	
-	
+	iniciarNavegacion();
+
 	onMapLoaded();
 
 	desactivarCargando();
@@ -188,7 +192,7 @@ function createBasemapGallery(mapa, div) {
 
 	gallery.startup();
 	gallery.select('GoogleHybrid');
-	
+
 	return gallery;
 
 }
@@ -251,7 +255,7 @@ window.onorientationchange = function() {
 	} else {
 		console.log('map not found');
 	}
-		
+
 };
 
 window.onresize = function() {
@@ -260,7 +264,7 @@ window.onresize = function() {
 	} else {
 		console.log('map not found');
 	}
-		
+
 };
 
 dojo.addOnLoad(init);

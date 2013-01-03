@@ -131,10 +131,12 @@ function processFormIE(resp) {
 		'field' : 'fuente_cp'
 	}], [{
 		'name' : 'Latitud',
-		'field' : 'latitud'
+		'field' : 'latitud',
+		'hidden' : true
 	}], [{
 		'name' : 'Longitud',
-		'field' : 'longitud'
+		'field' : 'longitud',
+		'hidden' : true
 	}], [{
 		'name' : 'Enlaces',
 		'field' : 'enlaces'
@@ -243,6 +245,8 @@ function processFormIE(resp) {
 	});
 
 	dijit.byId("selectAll").setChecked(false);
+	
+	grid.onStyleRow = styleRowIE;
 
 	grid.setStructure(layout);
 
@@ -268,7 +272,8 @@ function processFormIE(resp) {
 		store : store,
 		storeExporter : storeExporter,
 		layout : layout,
-		layoutExporter : layoutExporter
+		layoutExporter : layoutExporter,
+		type : 'ie'
 	});
 
 	gridMemory.selectedIndex = gridMemory.memory.length - 1;
@@ -277,6 +282,10 @@ function processFormIE(resp) {
 	dojo.query(".fm_results_trigger").addClass("fm_button_active");
 	dojo.query(".fm_panel").style('display', 'none');
 	dojo.query(".fm_results").style('display', 'block');
+
+	dojo.query(".dojoxGridRowOdd").style({
+		'background' : 'red'
+	});
 
 	desactivarCargando();
 }
@@ -329,10 +338,12 @@ function processFormCP(resp) {
 		'field' : 'altitud'
 	}], [{
 		'name' : 'Latitud',
-		'field' : 'latitud'
+		'field' : 'latitud',
+		'hidden' : true
 	}], [{
 		'name' : 'Longitud',
-		'field' : 'longitud'
+		'field' : 'longitud',
+		'hidden' : true
 	}], [{
 		'name' : 'Enlaces',
 		'field' : 'enlaces'
@@ -431,6 +442,8 @@ function processFormCP(resp) {
 	});
 
 	dijit.byId("selectAll").setChecked(false);
+	
+	grid.onStyleRow = styleRowCP;
 
 	grid.setStructure(layout);
 
@@ -453,7 +466,8 @@ function processFormCP(resp) {
 		store : store,
 		storeExporter : storeExporter,
 		layout : layout,
-		layoutExporter : layoutExporter
+		layoutExporter : layoutExporter,
+		type: 'cp'
 	});
 
 	gridMemory.selectedIndex = gridMemory.memory.length - 1;
@@ -509,4 +523,34 @@ function isBlank(searchForm) {
 	} else {
 		return false;
 	}
+}
+
+function styleRowIE(row) {
+	console.log(row);
+	if (row.index % 2 !== 0) {
+		//if (!row.over) {
+			row.customStyles += 'background: #EBC97A;';
+		//}
+	}
+	
+	if (row.over) {
+		row.customStyles += 'background: #7FC5EB';
+	}
+	//grid.focus.styleRow(row);
+	//grid.edit.styleRow(row);
+}
+
+function styleRowCP(row) {
+	console.log(row);
+	if (row.index % 2 !== 0) {
+		//if (!row.over) {
+			row.customStyles += 'background: #9CEB94;';
+		//}
+	}
+	
+	if (row.over) {
+		row.customStyles += 'background: #7FC5EB';
+	}
+	//grid.focus.styleRow(row);
+	//grid.edit.styleRow(row);
 }

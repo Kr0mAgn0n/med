@@ -261,7 +261,7 @@ nav {
 }
 
 .dojoxGridRowOddIE {
-	background-color: #69FF75 !important;
+	background-color: red !important;
 }
 
 .dojoxGridRowOddCP {
@@ -948,6 +948,21 @@ nav {
 
 	#fm_results {
 		top: 70px;
+	}
+	
+	.fm_print {
+		width: 600px;
+		height: 370px;
+		left: 50%;
+		top: 50%;
+		margin-top: -205px;
+		margin-left: -320px;
+		overflow: auto;
+		padding: 20px;
+	}
+	
+	#print_form_container, #print_layers_container {
+		margin-bottom : 20px;
 	}
 }
 

@@ -131,11 +131,12 @@ function llenarFormulario() {
 
 	nivelOptions.push({
 		label : "Inicial",
-		value : "A1"
+		value : "A1|A2|A3"
 	});
 
 	nivelOptions.push({
-		label : "Proyecto"
+		label : "Programa",
+		value : "A5"
 	});
 
 	nivelOptions.push({
@@ -165,7 +166,7 @@ function llenarFormulario() {
 
 	nivelOptions.push({
 		label : "Superior no universitaria",
-		value : "K0"
+		value : "K0|T0|M0"
 	});
 
 	nivelOptions.push({
@@ -184,43 +185,53 @@ function llenarFormulario() {
 	gestionOptions = [];
 
 	gestionOptions.push({
-		label : "Ministerio de Educación"
+		label : "Ministerio de Educación",
+		value : "A1"
 	});
 
 	gestionOptions.push({
-		label : "Otro sector público (FF.AA)"
+		label : "Otro sector público (FF.AA)",
+		value : "A2"
 	});
 
 	gestionOptions.push({
-		label : "Municipalidad"
+		label : "Municipalidad",
+		value : "A3"
 	});
 
 	gestionOptions.push({
-		label : "Nacionales en convenio"
+		label : "Nacionales en convenio",
+		value : "A4"
 	});
 
 	gestionOptions.push({
-		label : "Cooperativo"
+		label : "Cooperativo",
+		value : "B1"
 	});
 
 	gestionOptions.push({
-		label : "Comunidad o asociación religiosa"
+		label : "Comunidad o asociación religiosa",
+		value : "B2"
 	});
 
 	gestionOptions.push({
-		label : "Comunidad"
+		label : "Comunidad",
+		value : "B3"
 	});
 
 	gestionOptions.push({
-		label : "Particular"
+		label : "Particular",
+		value : "B4"
 	});
 
 	gestionOptions.push({
-		label : "Empresa"
+		label : "Empresa",
+		value : "B5"
 	});
 
 	gestionOptions.push({
-		label : "Asociación civil / Institución benéfica"
+		label : "Asociación civil / Institución benéfica",
+		value : "B6"
 	});
 
 	gestion.addOption(gestionOptions);

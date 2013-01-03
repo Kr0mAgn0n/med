@@ -86,15 +86,27 @@ function prevGrid() {
 	map.graphics.clear();
 	dijit.byId("selectAll").setChecked(false);
 	if (gridMemory.selectedIndex - 1 >= 0) {
+		switch (gridMemory.memory[gridMemory.selectedIndex - 1].type) {
+			case 'identify':
+				grid.onStyleRow = styleRowIdentify;
+				break;
+			case 'ie':
+				grid.onStyleRow = styleRowIE;
+				break;
+			case 'cp':
+				grid.onStyleRow = styleRowCP;
+				break;
+		}
+
 		grid.setStructure(gridMemory.memory[gridMemory.selectedIndex - 1].layout);
 		grid.setStore(gridMemory.memory[gridMemory.selectedIndex - 1].store);
 		gridExporter.setStructure(gridMemory.memory[gridMemory.selectedIndex - 1].layoutExporter);
 		gridExporter.setStore(gridMemory.memory[gridMemory.selectedIndex - 1].storeExporter);
 
-		gridExporter.exportGrid("csv", function(str) {
-			console.log(str);
-			dojo.byId("csv").value = str;
-		});
+		/*gridExporter.exportGrid("csv", function(str) {
+		 console.log(str);
+		 dojo.byId("csv").value = str;
+		 });*/
 
 		gridMemory.selectedIndex--;
 	}
@@ -105,15 +117,27 @@ function nextGrid() {
 	map.graphics.clear();
 	dijit.byId("selectAll").setChecked(false);
 	if (gridMemory.selectedIndex + 1 < gridMemory.memory.length) {
+		switch (gridMemory.memory[gridMemory.selectedIndex + 1].type) {
+			case 'identify':
+				grid.onStyleRow = styleRowIdentify;
+				break;
+			case 'ie':
+				grid.onStyleRow = styleRowIE;
+				break;
+			case 'cp':
+				grid.onStyleRow = styleRowCP;
+				break;
+		}
+		
 		grid.setStructure(gridMemory.memory[gridMemory.selectedIndex + 1].layout);
 		grid.setStore(gridMemory.memory[gridMemory.selectedIndex + 1].store);
 		gridExporter.setStructure(gridMemory.memory[gridMemory.selectedIndex + 1].layoutExporter);
 		gridExporter.setStore(gridMemory.memory[gridMemory.selectedIndex + 1].storeExporter);
 
-		gridExporter.exportGrid("csv", function(str) {
-			console.log(str);
-			dojo.byId("csv").value = str;
-		});
+		/*gridExporter.exportGrid("csv", function(str) {
+		 console.log(str);
+		 dojo.byId("csv").value = str;
+		 });*/
 
 		gridMemory.selectedIndex++;
 	}

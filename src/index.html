@@ -51,11 +51,27 @@
 		<script type='text/javascript' src='fm_javascript/grid.js'></script>
 		<script type='text/javascript' src='fm_javascript/print.js'></script>
 		<script type='text/javascript' src='fm_javascript/export.js'></script>
+		<script type='text/javascript' src='fm_javascript/tooltip.js'></script>
 	</head>
 
 	<body class="tundra">
 		<div id="cargando">
 			<img src="images/cargando.gif" />
+		</div>
+
+		<div id="bienvenida_dialog" data-dojo-type="dijit.Dialog" title="Bienvenidos al Mapa de Escuelas">
+			<p>Esta es una herramienta interactiva que permite a usuarios en línea, localizar la oferta del servicio educativo en cada centro poblado o localidad del Perú, así como conocer las características territoriales en la que las instituciones educativas están insertas.</p>
+			
+			<p>La información relacionada a la ubicación de las instituciones educativas en los centros poblados está basada en lo declarado por las Direcciones Regionales de Educación (DRE) y las Unidades de Gestión Educativa Local (UGEL), y en ese sentido, solo serán identificables en el aplicativo, aquellas cuyos centros poblados pueden ser espacialmente representados.</p>
+			
+			<p>Asimismo, la cobertura de límites distritales, provinciales y departamentales, es la cobertura de límites censales proporcionada por el INEI, utilizada como referencia en ausencia de límites saneados disponibles. Por tanto, los límites visualizados no necesariamente coinciden con el código geográfico declarado en el Padrón de Instituciones Educativas, y no representan pertenencia de un centro poblado o escuela a una jurisdicción político-administrativa. La ubicación está dada, exclusivamente, por las coordenadas de los centros poblados.</p>
+			La información contenida en este aplicativo es actualizada y verificada continuamente.
+			La exactitud de los datos por centro poblado no está garantizada, a excepción de los centros poblados georreferenciados por el Ministerio de Educación.
+			En caso usted quiera dejar comentarios sírvase escribir a:
+			SERGIO MINESS (SMINESS@minedu.gob.pe)
+			JUAN C. TELLO FREITAS (JTELLO@minedu.gob.pe)
+			Teléfono: 615-5800 Anexo 21207
+			Para continuar es preciso que usted haga clic en el botón "Aceptar".
 		</div>
 		<!-- absolute elements (overlays) -->
 		<div class='fm_basemap_list fm_overlay'>
@@ -70,6 +86,7 @@
 			<div class='fm_close'></div>
 			<div id='identifyDiv' data-dojo-type="dijit.Toolbar">
 				<div id="punto"></div>
+				<!-- <div id="multipunto"></div> -->
 				<div id="mano-alzada"></div>
 				<div id="extension"></div>
 			</div>
@@ -138,10 +155,10 @@
 						</li>
 					</ol>
 				</div>
-				
+
 				<div id="controles">
 					<!-- <div id="print_basemapGallery_container">
-						<div id="print_basemapGallery"></div>
+					<div id="print_basemapGallery"></div>
 					</div> -->
 					<div id="print_form_container">
 						<div id="print_form">
