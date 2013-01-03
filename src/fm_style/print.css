@@ -1,5 +1,3 @@
-
-
 header, nav, footer, .fm_container_main, .fm_overlay, #controles {
 	display: none;
 }
@@ -10,8 +8,14 @@ header, nav, footer, .fm_container_main, .fm_overlay, #controles {
 	left: 0;
 	top:0;
 	padding: 0;
+	box-shadow: none;
+}
+
+#visual {
+	width:100%;
 }
 
 #print_area {
 	display: block;
+	transform: scale(1);
 }

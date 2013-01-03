@@ -1,0 +1,1 @@
+function exportGrid(){gridExporter.exportGrid("csv",function(a){dojo.byId("csv").value=a});dijit.byId("exportador").submit()};

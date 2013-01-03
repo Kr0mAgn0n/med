@@ -4,11 +4,15 @@ function busqueda(e) {
 
 	var searchForm = dijit.byId("searchForm");
 
-	if (searchForm.validate()) {
-		activarCargando();
-		processSearch(searchForm);
-	} else
-		alert("Alguno de los datos no es válido.");
+	if (!isBlank(searchForm)) {
+		if (searchForm.validate()) {
+			activarCargando();
+			processSearch(searchForm);
+		} else
+			alert("Alguno de los datos no es válido.");
+	} else {
+		alert("El formulario no puede estar en blanco.");
+	}
 
 }
 
@@ -45,7 +49,7 @@ function processSearch(searchForm) {
 			codcp : codigo_ccpp1
 		},
 		load : processFormIE,
-		error : function (error) {
+		error : function(error) {
 			desactivarCargando();
 			alert("Un error inesperado a ocurrido: " + error);
 		}
@@ -64,7 +68,7 @@ function processSearch(searchForm) {
 			fuentecp : ''
 		},
 		load : processFormCP,
-		error : function (error) {
+		error : function(error) {
 			desactivarCargando();
 			alert("Un error inesperado a ocurrido: " + error);
 		}
@@ -205,7 +209,7 @@ function processFormIE(resp) {
 				nombre_ie : 'Nombre de la IE: ' + item.NOMBRE_ESCUELA,
 				nivel : 'Nivel: ' + item.NIVEL_MODALIDAD,
 				altitud : 'Altitud: ' + item.ALTITUD,
-				fuente_cp : item.ALTITUD? 'Fuente CP: ' + item.FUENTECP : 'Fuente CP: ',
+				fuente_cp : item.ALTITUD ? 'Fuente CP: ' + item.FUENTECP : 'Fuente CP: ',
 				latitud : 'Latitud: ' + item.LATITUD_DEC,
 				longitud : 'Longitud: ' + item.LONGITUD_DEC,
 				enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD_DEC + "," + item.LATITUD_DEC + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(\"" + item.CODIGO_MODULAR + "\",\"" + item.ANEXO + "\");'><img src='images/ficha.png'></a>"
@@ -237,7 +241,7 @@ function processFormIE(resp) {
 	store = new dojo.data.ItemFileWriteStore({
 		data : datos
 	});
-	
+
 	dijit.byId("selectAll").setChecked(false);
 
 	grid.setStructure(layout);
@@ -255,8 +259,8 @@ function processFormIE(resp) {
 	gridExporter.setStore(storeExporter);
 
 	/*gridExporter.exportGrid("csv", function(str) {
-		dojo.byId("csv").value = str;
-	});*/
+	 dojo.byId("csv").value = str;
+	 });*/
 
 	console.log("Store agregado a gridExporter");
 
@@ -441,9 +445,9 @@ function processFormCP(resp) {
 	gridExporter.setStore(storeExporter);
 
 	/*gridExporter.exportGrid("csv", function(str) {
-		console.log(str);
-		dojo.byId("csv").value = str;
-	});*/
+	 console.log(str);
+	 dojo.byId("csv").value = str;
+	 });*/
 
 	gridMemory.memory.push({
 		store : store,
@@ -484,4 +488,25 @@ function irAIE(codcp) {
 	searchForm.reset();
 	searchForm.setValues(searchPrevValues);
 	tabs2.selectChild(tabs2PrevChild);
+}
+
+function isBlank(searchForm) {
+	var ubigeo = searchForm.getValues().ubigeo;
+	var nombre_iiee = searchForm.getValues().nombre_iiee;
+	var codigo_modular = searchForm.getValues().codigo_modular;
+	var codigo_local = searchForm.getValues().codigo_local;
+	var nombre_ccpp1 = searchForm.getValues().nombre_ccpp1;
+	var localidad = searchForm.getValues().localidad;
+	var nivel_modalidad = searchForm.getValues().nivel_modalidad === null ? "" : searchForm.getValues().nivel_modalidad;
+	var gestion = searchForm.getValues().gestion === null ? "" : searchForm.getValues().gestion;
+	var nombre_ccpp2 = searchForm.getValues().nombre_ccpp2;
+	var codigo_ccpp1 = searchForm.getValues().codigo_ccpp1;
+	var codigo_ccpp2 = searchForm.getValues().codigo_ccpp2;
+	var codigo_ugel = searchForm.getValues().codigo_ugel;
+
+	if (ubigeo === '' && nombre_iiee === '' && codigo_modular === '' && codigo_local === '' && nombre_ccpp1 === '' && localidad === '' && nivel_modalidad === '' && gestion === '' && nombre_ccpp2 === '' && codigo_ccpp1 === '' && codigo_ccpp2 === '' && codigo_ugel === '') {
+		return true;
+	} else {
+		return false;
+	}
 }

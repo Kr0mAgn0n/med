@@ -273,7 +273,6 @@ nav {
 	background-repeat: no-repeat;
 	width: 22px;
 	height: 22px;
-	
 }
 
 .nextGrid {
@@ -431,20 +430,6 @@ nav {
 	height: 22px;
 }
 
-.fm_print {
-	width: 80%;
-	height: 80%;
-	left: 10%;
-	top: 10%;
-	overflow: auto;
-}
-
-
-#print_basemapGallery_container, #print_form_container, #print_layers_container {
-	width: 33.33%;
-	float: left;
-}
-
 #print_basemapGallery, #print_form table, #print_layers {
 	margin: auto;
 	display: table;
@@ -455,27 +440,17 @@ nav {
 }
 
 #print_title, #print_subtitle {
-	height: 5%;
+	height: 20px;
 	text-align: center;
 }
 
 #print_title {
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: bold;
 }
 
 #print_subtitle {
 	font-size: 12px;
-}
-
-
-#controles {
-	padding: 20px;
-	overflow: hidden;
-}
-
-#visual {
-	overflow: auto;
 }
 
 #print_area {
@@ -487,17 +462,19 @@ nav {
 	padding: 20px;
 	margin: auto;
 	position: relative;
+	transform: scale(0.8);
+	-webkit-transform : scale(0.8);
 }
 
 #print_map {
-	width: 70%;
+	width: 65%;
 	height: 90%;
 	float: left;
 	position: relative;
 }
 
 #print_legend_container {
-	float: left;
+	display: inline-block;
 	padding: 20px;
 }
 
@@ -532,7 +509,6 @@ nav {
 .esriLegendLayerLabel, .esriLegendServiceLabel {
 	display: none;
 }
-
 
 /***************************/
 
@@ -628,7 +604,7 @@ nav {
 	.fm_button_active {
 		background-color: white;
 	}
-	
+
 	/* end desktop images */
 
 	header {
@@ -722,40 +698,61 @@ nav {
 	.fm_button {
 		margin: 0 3px;
 	}
+
+	.fm_print {
+		width: 800px;
+		height: 496px;
+		left: 50%;
+		top: 50%;
+		margin-top: -268px;
+		margin-left: -420px;
+		overflow: auto;
+		padding: 20px;
+	}
+	
+	#print_form_container, #print_layers_container {
+		display: inline-block;
+		width: 49.5%;
+		vertical-align: top;
+	}
+	
+	#controles {
+		width: 100%;
+	}
 }
 
 /* laptop */
 /*@media screen and (max-width: 1279px) {
-	.fm_center_content.fm_right {
-		right: 0px;
-	}
-	.fm_center_content.fm_left {
-		left: 0px;
-	}
-	.fm_search {
-		left: 30%;
-		right: 30%;
-	}
-}*/
+ .fm_center_content.fm_right {
+ right: 0px;
+ }
+ .fm_center_content.fm_left {
+ left: 0px;
+ }
+ .fm_search {
+ left: 30%;
+ right: 30%;
+ }
+ }*/
 
 /* tab */
 /*@media screen and (max-width: 1023px) {
-	.fm_right_content {
-		display: none;
-	}
-	.fm_center_content {
-		left: 0px;
-		right: 0px;
-	}
-	.fm_search {
-		left: 25%;
-		right: 25%;
-	}
+ .fm_right_content {
+ display: none;
+ }
+ .fm_center_content {
+ left: 0px;
+ right: 0px;
+ }
+ .fm_search {
+ left: 25%;
+ right: 25%;
+ }
 
-	.fm_panel {
-		padding-top: 30px;
-	}
-}*/
+ .fm_panel {
+ padding-top: 30px;
+ }
+ }*/
 
 /* phone */
 @media screen and (max-width: 999px) {
@@ -948,7 +945,7 @@ nav {
 	.fm_float_right {
 		float: none;
 	}
-	
+
 	#fm_results {
 		top: 70px;
 	}

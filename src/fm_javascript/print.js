@@ -1,5 +1,6 @@
 var print_map, print_basemapGallery, print_legend;
-var print_centros_poblados, print_limites_politicos, print_ie;
+var print_centros_poblados, print_limites_politicos;
+// print_ie;
 
 function iniciarImpresion() {
 
@@ -20,13 +21,13 @@ function iniciarImpresion() {
 		attachTo : "bottom-left"
 	});
 
-	print_basemapGallery = createBasemapGallery(print_map, "print_basemapGallery");
+	print_basemapGallery = createBasemapGallery(print_map, "");
 
-	print_centros_poblados = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
+	print_centros_poblados = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
 
-	print_limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/pol/MapServer");
+	print_limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer");
 
-	print_ie = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
+	//print_ie = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
 
 	print_layerInfos = [];
 
@@ -40,10 +41,10 @@ function iniciarImpresion() {
 		title : "Límites Políticos"
 	});
 
-	print_layerInfos.push({
-		layer : print_ie,
-		title : "Instituciones Educativas"
-	});
+	/*print_layerInfos.push({
+	 layer : print_ie,
+	 title : "Instituciones Educativas"
+	 });*/
 
 	dojo.connect(print_map, 'onLayersAddResult', function(results) {
 		print_legend = new esri.dijit.Legend({
@@ -54,11 +55,11 @@ function iniciarImpresion() {
 		print_map.setExtent(map.extent);
 	});
 
-	print_map.addLayers([print_centros_poblados, print_limites_politicos, print_ie]);
+	print_map.addLayers([print_centros_poblados, print_limites_politicos]);
 
 	activar_print_centros_poblados = dojo.byId("activar_print_centros_poblados");
 	activar_print_limites_politicos = dojo.byId("activar_print_limites_politicos");
-	activar_print_ie = dojo.byId("activar_print_ie");
+	//activar_print_ie = dojo.byId("activar_print_ie");
 
 	dojo.connect(activar_print_centros_poblados, "onclick", function() {
 		if (activar_print_centros_poblados.checked) {
@@ -76,13 +77,13 @@ function iniciarImpresion() {
 		}
 	});
 
-	dojo.connect(activar_print_ie, "onclick", function() {
-		if (activar_print_ie.checked) {
-			print_ie.show();
-		} else {
-			print_ie.hide();
-		}
-	});
+	/*dojo.connect(activar_print_ie, "onclick", function() {
+	 if (activar_print_ie.checked) {
+	 print_ie.show();
+	 } else {
+	 print_ie.hide();
+	 }
+	 });*/
 
 	print_map_size = dijit.byId("print_map_size");
 	page_size = dojo.byId("page_size");
@@ -96,11 +97,13 @@ function iniciarImpresion() {
 			case "a4_apaisada":
 				dojo.style("print_area", {
 					'width' : '212mm',
-					'height' : '150mm'
+					'height' : '150mm',
+					'transform' : 'scale(0.8)',
+					'-webkit-transform' : 'scale(0.8)'
 				});
 
 				dojo.style("print_map", {
-					'width' : '60%',
+					'width' : '65%',
 					'height' : '90%',
 					'float' : 'left'
 				});
@@ -114,12 +117,14 @@ function iniciarImpresion() {
 			case "a4_normal":
 				dojo.style("print_area", {
 					'width' : '150mm',
-					'height' : '212mm'
+					'height' : '212mm',
+					 'transform': 'scale(1)',
+					 '-webkit-transform' : 'scale(1)'
 				});
 
 				dojo.style("print_map", {
 					'width' : '100%',
-					'height' : '60%',
+					'height' : '40%',
 					'float' : 'none'
 				});
 
@@ -132,7 +137,9 @@ function iniciarImpresion() {
 			case "a3_apaisada":
 				dojo.style("print_area", {
 					'width' : '325mm',
-					'height' : '230mm'
+					'height' : '230mm',
+					'transform': 'scale(0.6) translate(-30%, -30%)',
+					'-webkit-transform' : 'scale(0.6) translate(-30%, -30%)'
 				});
 
 				dojo.style("print_map", {
@@ -150,7 +157,9 @@ function iniciarImpresion() {
 			case "a3_normal":
 				dojo.style("print_area", {
 					'width' : '230mm',
-					'height' : '325mm'
+					'height' : '325mm',
+					'transform': 'scale(0.8) translate(-10%, -10%)',
+					'-webkit-transform': 'scale(0.8) translate(-10%, -10%)'
 				});
 
 				dojo.style("print_map", {
