@@ -61,9 +61,7 @@ function init() {
 
 	var basemapGallery = createBasemapGallery(map, "basemapList");
 
-	dojo.connect(dijit.byId("imprimir"), "onClick", function() {
-		window.print();
-	});
+	
 
 	cp_ie = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
 

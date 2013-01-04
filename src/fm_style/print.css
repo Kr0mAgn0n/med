@@ -17,5 +17,5 @@ header, nav, footer, .fm_container_main, .fm_overlay, #controles {
 
 #print_area {
 	display: block;
-	transform: scale(1);
+	transform: scale(1) translate(0,0) !important;
 }

@@ -97,9 +97,9 @@ function iniciarImpresion() {
 			case "a4_apaisada":
 				dojo.style("print_area", {
 					'width' : '212mm',
-					'height' : '150mm',
-					'transform' : 'scale(0.8)',
-					'-webkit-transform' : 'scale(0.8)'
+					'height' : '150mm'
+					//'transform' : 'scale(0.8)',
+					//'-webkit-transform' : 'scale(0.8)'
 				});
 
 				dojo.style("print_map", {
@@ -117,9 +117,9 @@ function iniciarImpresion() {
 			case "a4_normal":
 				dojo.style("print_area", {
 					'width' : '150mm',
-					'height' : '212mm',
-					 'transform': 'scale(1)',
-					 '-webkit-transform' : 'scale(1)'
+					'height' : '212mm'
+					//'transform' : 'scale(1)',
+					//'-webkit-transform' : 'scale(1)'
 				});
 
 				dojo.style("print_map", {
@@ -137,9 +137,9 @@ function iniciarImpresion() {
 			case "a3_apaisada":
 				dojo.style("print_area", {
 					'width' : '325mm',
-					'height' : '230mm',
-					'transform': 'scale(0.6) translate(-30%, -30%)',
-					'-webkit-transform' : 'scale(0.6) translate(-30%, -30%)'
+					'height' : '230mm'
+					//'transform' : 'scale(0.6) translate(-30%, -30%)',
+					//'-webkit-transform' : 'scale(0.6) translate(-30%, -30%)'
 				});
 
 				dojo.style("print_map", {
@@ -157,9 +157,9 @@ function iniciarImpresion() {
 			case "a3_normal":
 				dojo.style("print_area", {
 					'width' : '230mm',
-					'height' : '325mm',
-					'transform': 'scale(0.8) translate(-10%, -10%)',
-					'-webkit-transform': 'scale(0.8) translate(-10%, -10%)'
+					'height' : '325mm'
+					//'transform' : 'scale(0.8) translate(-10%, -10%)',
+					//'-webkit-transform' : 'scale(0.8) translate(-10%, -10%)'
 				});
 
 				dojo.style("print_map", {
@@ -190,6 +190,9 @@ function iniciarImpresion() {
 		dojo.html.set(print_subtitle, map_subtitle.value);
 	});
 
+	dojo.connect(dijit.byId("imprimir"), "onClick", function() {
+		window.print();
+	});
 }
 
 function destruirImpresion() {
