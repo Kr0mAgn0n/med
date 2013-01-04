@@ -137,6 +137,8 @@ function init() {
 	onMapLoaded();
 
 	desactivarCargando();
+	
+	
 
 	dojo.style('cargando', 'opacity', 0.5);
 }

@@ -76,6 +76,8 @@ nav {
 	width: 100%;
 	position: absolute;
 	background: white;
+	top: 0px;
+	left: 0px;
 }
 
 #cargando img {
@@ -120,6 +122,17 @@ nav {
 	bottom: 0;
 	left: 0;
 	right: 0;
+}
+
+.fm_find_me {
+	position: absolute;
+	top: 78px;
+	left: 10px;
+	z-index: 480;
+	cursor: pointer;
+}
+.fm_find_me.fm_on {
+	background: url(fm_icons/crosshairs-gray-on.png) no-repeat;
 }
 
 .fm_overlay {
@@ -390,30 +403,6 @@ nav {
 	text-align: center;
 }
 
-.prevExtentIcon {
-	background-image: url('fm_icons/prevExtent.png');
-	background-repeat: no-repeat;
-	width: 16px;
-	height: 16px;
-	text-align: center;
-}
-
-.nextExtentIcon {
-	background-image: url('fm_icons/nextExtent.png');
-	background-repeat: no-repeat;
-	width: 16px;
-	height: 16px;
-	text-align: center;
-}
-
-.fullExtentIcon {
-	background-image: url('fm_icons/fullExtent.png');
-	background-repeat: no-repeat;
-	width: 16px;
-	height: 16px;
-	text-align: center;
-}
-
 .img-enlaces {
 	cursor: pointer;
 	padding: 5px;
@@ -463,7 +452,7 @@ nav {
 	margin: auto;
 	position: relative;
 	transform: scale(0.8);
-	-webkit-transform : scale(0.8);
+	-webkit-transform: scale(0.8);
 }
 
 #print_map {
@@ -545,8 +534,16 @@ nav {
 	.fm_identify_icon {
 		background: url(fm_icons/identify-w.png) no-repeat;
 	}
-	.fm_navegacion_icon {
-		background: url(fm_icons/navegacion-w.png) no-repeat;
+	.prevExtentIcon {
+		background: url(fm_icons/prevExtent-w.png) no-repeat;
+	}
+
+	.nextExtentIcon {
+		background: url(fm_icons/nextExtent-w.png) no-repeat;
+	}
+
+	.fullExtentIcon {
+		background: url(fm_icons/fullExtent-w.png) no-repeat;
 	}
 
 	.fm_button_active .fm_basemap_icon, .fm_button:hover .fm_basemap_icon {
@@ -579,8 +576,16 @@ nav {
 	.fm_button_active .fm_identify_icon, .fm_button:hover .fm_identify_icon {
 		background: url(fm_icons/identify.png) no-repeat;
 	}
-	.fm_button_active .fm_navegacion_icon, .fm_button:hover .fm_navegacion_icon {
-		background: url(fm_icons/navegacion.png) no-repeat;
+	.fm_button_active .prevExtentIcon, .fm_button:hover .prevExtentIcon {
+		background: url(fm_icons/prevExtent.png) no-repeat;
+	}
+
+	.fm_button_active .nextExtentIcon, .fm_button:hover .nextExtentIcon {
+		background: url(fm_icons/nextExtent.png) no-repeat;
+	}
+
+	.fm_button_active .fullExtentIcon, .fm_button:hover .fullExtentIcon {
+		background: url(fm_icons/fullExtent.png) no-repeat;
 	}
 
 	.fm_close {
@@ -709,13 +714,13 @@ nav {
 		overflow: auto;
 		padding: 20px;
 	}
-	
+
 	#print_form_container, #print_layers_container {
 		display: inline-block;
 		width: 49.5%;
 		vertical-align: top;
 	}
-	
+
 	#controles {
 		width: 100%;
 	}
@@ -764,10 +769,18 @@ nav {
 		background: url(fm_mobile_icons/ruler3-w.png) no-repeat;
 	}
 	.fm_identify_icon {
-		background: url(fm_icons/identify-w.png) no-repeat;
+		background: url(fm_mobile_icons/identify-w.png) no-repeat;
 	}
-	.fm_navegacion_icon {
-		background: url(fm_icons/navegacion-w.png) no-repeat;
+	.prevExtentIcon {
+		background: url(fm_mobile_icons/prevExtent-w.png) no-repeat;
+	}
+
+	.nextExtentIcon {
+		background: url(fm_mobile_icons/nextExtent-w.png) no-repeat;
+	}
+
+	.fullExtentIcon {
+		background: url(fm_mobile_icons/fullExtent-w.png) no-repeat;
 	}
 	.fm_details_icon {
 		background: url(fm_mobile_icons/info2-w.png) no-repeat;
@@ -798,10 +811,18 @@ nav {
 		background: url(fm_mobile_icons/ruler3.png) no-repeat;
 	}
 	.fm_button_active .fm_identify_icon, .fm_button:hover .fm_identify_icon {
-		background: url(fm_icons/identify.png) no-repeat;
+		background: url(fm_mobile_icons/identify.png) no-repeat;
 	}
-	.fm_button_active .fm_navegacion_icon, .fm_button:hover .fm_navegacion_icon {
-		background: url(fm_icons/navegacion.png) no-repeat;
+	.fm_button_active .prevExtentIcon, .fm_button:hover .prevExtentIcon {
+		background: url(fm_mobile_icons/prevExtent.png) no-repeat;
+	}
+
+	.fm_button_active .nextExtentIcon, .fm_button:hover .nextExtentIcon {
+		background: url(fm_mobile_icons/nextExtent.png) no-repeat;
+	}
+
+	.fm_button_active .fullExtentIcon, .fm_button:hover .fullExtentIcon {
+		background: url(fm_mobile_icons/fullExtent.png) no-repeat;
 	}
 	.fm_button_active .fm_details_icon, .fm_button:hover .fm_details_icon {
 		background: url(fm_mobile_icons/info2.png) no-repeat;
@@ -949,7 +970,7 @@ nav {
 	#fm_results {
 		top: 70px;
 	}
-	
+
 	.fm_print {
 		width: 600px;
 		height: 370px;
@@ -960,9 +981,9 @@ nav {
 		overflow: auto;
 		padding: 20px;
 	}
-	
+
 	#print_form_container, #print_layers_container {
-		margin-bottom : 20px;
+		margin-bottom: 20px;
 	}
 }
 

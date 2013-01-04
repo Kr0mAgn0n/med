@@ -58,6 +58,18 @@ function responsive() {
 	};
 
 	this.setBindings = function() {
+		$(".fm_find_me").click(function(){
+			if ( $(this).hasClass('fm_on') ){
+				//turn off
+				$(this).removeClass('fm_on');
+			}
+			else {
+				//turn on
+				res.findMe();
+				$(this).addClass('fm_on');
+			}
+		});
+		
 		$(".fm_close").click(function() {
 			if ($(this).hasClass('fm_hide')) {
 				$(this).hide();
