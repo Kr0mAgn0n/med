@@ -12,11 +12,11 @@ foreach ($csvData as $csv_line) {
 	$index++;
 }
 
-echo "<table style='background: yellow;'>";
+echo "<table>";
 foreach ($csvTable as $csv_line) {
 	echo "<tr>";	
 	foreach ($csv_line as $csv_column) {		
-		echo "<td>";
+		echo "<td style='mso-number-format:\\@;'>";
 		echo $csv_column;
 		echo "</td>";		
 	}

@@ -341,19 +341,20 @@ function identifyCallbackIE(respuesta) {
 			fuente: respuesta.feature.attributes.FUENTE,
 			latitud: respuesta.feature.attributes.POINT_Y,
 			longitud: respuesta.feature.attributes.POINT_X,
-			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + respuesta.feature.attributes.XGD + "," + respuesta.feature.attributes.YGD + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAIE(" + respuesta.feature.attributes.CODCP + ")'><img src='images/ficha.png'></a>"
+			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + respuesta.feature.attributes.POINT_X + "," + respuesta.feature.attributes.POINT_Y + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(" + respuesta.feature.attributes.CODCP + ")'><img src='images/ficha.png'></a>"
 
 		};
 
 		itemsExporter = {
-			ubigeo : respuesta.feature.attributes.UBIGEO,
-			codigo_del_centro_poblado : respuesta.feature.attributes.CODCP,
-			nombre_del_centro_poblado : respuesta.feature.attributes.NOMCP,
-			con_ie : respuesta.feature.attributes.CON_IE,
-			fuente_g : respuesta.feature.attributes.FUENTE_G,
-			altitud : respuesta.feature.attributes.Z,
-			latitud : respuesta.feature.attributes.YGD,
-			longitud : respuesta.feature.attributes.XGD
+			codigo_ugel: respuesta.feature.attributes.CODOOII,
+			centro_poblado: respuesta.feature.attributes.ciudad,
+			centro_educativo: respuesta.feature.attributes.CEN_EDU,
+			estado: respuesta.feature.attributes.ESTADO,
+			gestion: respuesta.feature.attributes.GESTION,
+			niveles: respuesta.feature.attributes.NIVELES,
+			fuente: respuesta.feature.attributes.FUENTE,
+			latitud: respuesta.feature.attributes.POINT_Y,
+			longitud: respuesta.feature.attributes.POINT_X
 		};
 
 		datos.items.push(items);
