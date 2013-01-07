@@ -177,7 +177,7 @@ function identifyCallbackCP(respuesta) {
 			fuente_g : respuesta.feature.attributes.FUENTE_G,
 			altitud : respuesta.feature.attributes.Z,
 			latitud : respuesta.feature.attributes.YGD,
-			longitud : respuesta.feature.attributes.XGD,
+			longitud : respuesta.feature.attributes.XGD
 		};
 
 		datos.items.push(items);
