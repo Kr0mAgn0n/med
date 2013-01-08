@@ -38,17 +38,20 @@ foreach ($csvData as $csv_line) {
 	$index++;
 }
 
+
 for ($i=0; $i<=count($csvTable)-1; $i++){
 	for ($j=0; $j<=count($csvTable[$i])-1; $j++){
-		$objPHPExcel->getActiveSheet()->getCellByColumnAndRow($j,$i)->setValueExplicit($csvTable[$i][$j], PHPExcel_Cell_DataType::TYPE_STRING);
+		$objPHPExcel->getActiveSheet()->getCellByColumnAndRow($j,$i+1)->setValueExplicit(str_replace('"', '', $csvTable[$i][$j]), PHPExcel_Cell_DataType::TYPE_STRING);
 	}
 }
 
+
+
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="export.xlsx"');
+header('Content-Disposition: attachment;filename="export.xls"');
 header('Cache-Control: max-age=0');
 
-$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 $objWriter->save('php://output');
 
 ?>
