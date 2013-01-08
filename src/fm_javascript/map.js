@@ -37,7 +37,7 @@ var measurement;
 var cp_ie, limites_politicos, ugel_layer;
 
 function init() {
-	bienvenida_dialog = dijit.byId("bienvenida_dialog");
+	var bienvenida_dialog = dijit.byId("bienvenida_dialog");
 	bienvenida_dialog.show();
 
 	initTooltips();
