@@ -6,12 +6,17 @@
 		<title>Mapa de Escuelas</title>
 		<link rel="shortcut icon" href="fm_style/favicon.ico"/>
 		<link rel="icon" type="image/png" href="fm_style/fm_icons/globe2.png"/>
-		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/servicios/arcgis_js_v32_api/arcgis_js_api/library/3.2/jsapi/js/dojo/dijit/themes/tundra/tundra.css">
+		<!-- <link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/servicios/arcgis_js_v32_api/arcgis_js_api/library/3.2/jsapi/js/dojo/dijit/themes/tundra/tundra.css">
 		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/servicios/arcgis_js_v32_api/arcgis_js_api/library/3.2/jsapi/js/esri/css/esri.css" />
-		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/servicios/arcgis_js_v32_api/arcgis_js_api/library/3.2/jsapi/js/dojo/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css">
+		<link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/servicios/arcgis_js_v32_api/arcgis_js_api/library/3.2/jsapi/js/dojo/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css"> -->
 		<!-- <link rel="stylesheet" type="text/css" href="http://escale.minedu.gob.pe/servicios/arcgis_js_v32_api/arcgis_js_api/library/3.2/jsapi/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css" /> -->
-		<link rel='stylesheet' type='text/css' href='fm_style/page.css' />
+		<link href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/dojo/dijit/themes/tundra/tundra.css" rel="stylesheet" type="text/css" >
+		<link href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/dojo/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css" rel="stylesheet" type="text/css" >
+		<link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/esri/css/esri.css" />
+		<!-- <link rel='stylesheet' type='text/css' href='fm_style/page.css' />
 		<link rel='stylesheet' type='text/css' media="print" href='fm_style/print.css' />
+		<link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css'/> -->
+		<link rel='stylesheet' type='text/css' href='fm_style/app.css'/>
 		<style id="page_size" type="text/css" media="print">
 			@page {
 				size: 297mm 210mm;
@@ -21,7 +26,7 @@
 		<link rel="apple-touch-icon" href="fm_style/fm_icons/globe2.png" />
 		<link rel="apple-touch-icon" sizes="72x72" href="fm_style/fm_icons/globe2-72.png"/>
 		<link rel="apple-touch-icon" sizes="114x114" href="fm_style/fm_icons/globe2-114.png"/>
-		<link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css'/>
+		
 
 		<!--[if lte IE 8]>
 		<link rel='stylesheet' type='text/css' href='fm_style/ie.css' />
@@ -466,12 +471,15 @@
 				}]
 			};
 		</script>
-		<script type="text/javascript" src='http://escale.minedu.gob.pe/servicios/arcgis_js_v32_api/arcgis_js_api/library/3.2/jsapi/'></script>
-		<script type="text/javascript" src="fm_javascript/lib/jquery-1.8.3.min.js"></script>
-		<script type="text/javascript" src="fm_javascript/lib/jquery-ui-1.9.2.custom.min.js"></script>
+		<!-- <script type="text/javascript" src='http://escale.minedu.gob.pe/servicios/arcgis_js_v32_api/arcgis_js_api/library/3.2/jsapi/'></script> -->
+		<script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/" type="text/javascript"></script>
+		<!-- <script type="text/javascript" src="fm_javascript/lib/jquery-1.8.3.min.js"></script> -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<!-- <script type="text/javascript" src="fm_javascript/lib/jquery-ui-1.9.2.custom.min.js"></script> -->
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
 
 		<script type='text/javascript' src='fm_javascript/lib/jRespond.min.js'></script>
-		<script type='text/javascript' src='fm_javascript/page.js'></script>
+		<!-- <script type='text/javascript' src='fm_javascript/page.js'></script>
 		<script type='text/javascript' src='fm_javascript/formulario.js'></script>
 		<script type='text/javascript' src='fm_javascript/busqueda.js'></script>
 		<script type='text/javascript' src='fm_javascript/identify.js'></script>
@@ -480,6 +488,7 @@
 		<script type='text/javascript' src='fm_javascript/print.js'></script>
 		<script type='text/javascript' src='fm_javascript/export.js'></script>
 		<script type='text/javascript' src='fm_javascript/tooltip.js'></script>
-		<script type="text/javascript" src='fm_javascript/map.js'></script>
+		<script type="text/javascript" src='fm_javascript/map.js'></script> -->
+		<script type="text/javascript" src='fm_javascript/app.js'></script>
 	</body>
 </html>

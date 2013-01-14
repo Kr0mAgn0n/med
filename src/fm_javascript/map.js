@@ -1,33 +1,32 @@
 dojo.require("esri.map");
-dojo.require("esri.dijit.Legend");
-dojo.require("esri.arcgis.utils");
-dojo.require("esri.dijit.Measurement");
-dojo.require("esri.dijit.Scalebar");
-dojo.require("agsjs.layers.GoogleMapsLayer");
-dojo.require("esri.dijit.OverviewMap");
-dojo.require("esri.tasks.query");
-dojo.require("dojox.grid.EnhancedGrid");
+//dojo.require("esri.dijit.Legend");
+//dojo.require("esri.arcgis.utils");
+//dojo.require("esri.dijit.Measurement");
+//dojo.require("esri.dijit.Scalebar");
+//dojo.require("esri.dijit.OverviewMap");
+//dojo.require("esri.tasks.query");
+//dojo.require("esri.toolbars.draw");
+//dojo.require("esri.toolbars.Navigation");
+//dojo.require("esri.layers.osm");
+dojo.require("dojo.json");
 dojo.require("dojo.data.ItemFileWriteStore");
+dojo.require("dojo.fx");
+dojo.require("dojox.grid.EnhancedGrid");
 dojo.require("dojox.grid.enhanced.plugins.exporter.CSVWriter");
 dojo.require("dojox.grid.enhanced.plugins.Pagination");
 dojo.require("dojox.grid.enhanced.plugins.IndirectSelection");
-dojo.require("dijit.Toolbar");
-dojo.require("esri.toolbars.draw");
-dojo.require("esri.toolbars.Navigation");
-dojo.require("esri.layers.osm");
-dojo.require("esri.dijit.Legend");
-dojo.require("dojo.fx");
-dojo.require("agsjs.dijit.TOC");
+//dojo.require("dijit.Toolbar");
 dojo.require("dijit.form.Select");
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.CheckBox");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.Dialog");
-dojo.require("dijit.Tooltip");
+//dojo.require("dijit.Tooltip");
 dojo.require("dijit.form.Form");
 dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.layout.ContentPane");
-dojo.require("dojo.json");
+dojo.require("agsjs.dijit.TOC");
+dojo.require("agsjs.layers.GoogleMapsLayer");
 
 var map, initExtent;
 var basemaps;
@@ -41,6 +40,11 @@ function init() {
 	bienvenida_dialog.show();
 
 	initTooltips();
+
+	/*
+	 * La declaración de la capa de OpenStreet es necesaria para el
+	 * funcionamiento del Overview
+	 */
 
 	initExtent = new esri.geometry.Extent({
 		"xmin" : -9052049.2735,
@@ -59,61 +63,55 @@ function init() {
 		logo : false
 	});
 
-	var basemapGallery = createBasemapGallery(map, "basemapList");
+	require(["esri/layers/osm", "esri/dijit/OverviewMap"], function() {
 
-	
+		var basemapGallery = createBasemapGallery(map, "basemapList");
 
-	cp_ie = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
+		cp_ie = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
 
-	limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer");
+		limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer");
 
-	ugel_layer = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_ugel/MapServer");
+		ugel_layer = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_ugel/MapServer");
 
-	var layerInfos = [];
+		var layerInfos = [];
 
-	layerInfos.push({
-		layer : cp_ie,
-		title : "Centros Poblados e IEs"
-	});
+		layerInfos.push({
+			layer : cp_ie,
+			title : "Centros Poblados e IEs"
+		});
 
-	layerInfos.push({
-		layer : limites_politicos,
-		title : "Límites Políticos"
-	});
+		layerInfos.push({
+			layer : limites_politicos,
+			title : "Límites Políticos"
+		});
 
-	layerInfos.push({
-		layer : ugel_layer,
-		title : "UGEL"
-	});
+		layerInfos.push({
+			layer : ugel_layer,
+			title : "UGEL"
+		});
 
-	dojo.connect(map, 'onLayersAddResult', function(results) {
-		var toc = new agsjs.dijit.TOC({
+		dojo.connect(map, 'onLayersAddResult', function(results) {
+			var toc = new agsjs.dijit.TOC({
+				map : map,
+				layerInfos : layerInfos
+			}, 'legendDiv');
+			toc.startup();
+		});
+
+		ugel_layer.setVisibility(false);
+
+		map.addLayers([cp_ie, limites_politicos, ugel_layer]);
+		var osml = new esri.layers.OpenStreetMapLayer();
+		var overviewMapDijit = new esri.dijit.OverviewMap({
 			map : map,
-			layerInfos : layerInfos
-		}, 'legendDiv');
-		toc.startup();
+			baseLayer : osml,
+			height : 0.25 * map.height,
+			width : 0.25 * map.width
+		});
+		overviewMapDijit.startup();
 	});
-
-	ugel_layer.setVisibility(false);
-
-	map.addLayers([cp_ie, limites_politicos, ugel_layer]);
-
-	/*
-	 * La declaración de la capa de OpenStreet es necesaria para el
-	 * funcionamiento del Overview
-	 */
-
-	var osml = new esri.layers.OpenStreetMapLayer();
-	var overviewMapDijit = new esri.dijit.OverviewMap({
-		map : map,
-		baseLayer : osml,
-		height : 0.25 * map.height,
-		width : 0.25 * map.width
-	});
-	overviewMapDijit.startup();
 
 	llenarFormulario();
-
 	dojo.connect(dijit.byId("searchForm"), "onSubmit", busqueda);
 
 	dojo.connect(window, "onresize", function() {
@@ -135,8 +133,6 @@ function init() {
 	onMapLoaded();
 
 	desactivarCargando();
-	
-	
 
 	dojo.style('cargando', 'opacity', 0.5);
 }
@@ -200,18 +196,22 @@ function createBasemapGallery(mapa, div) {
 function onMapLoaded() {
 	console.log('map loaded enter');
 
-	var scalebar = new esri.dijit.Scalebar({
-		map : map,
-		attachTo : "bottom-left",
-		scalebarUnit : 'metric'
+	require(["esri/dijit/Scalebar"], function() {
+		var scalebar = new esri.dijit.Scalebar({
+			map : map,
+			attachTo : "bottom-left",
+			scalebarUnit : 'metric'
+		});
 	});
 
-	measurement = new esri.dijit.Measurement({
-		map : map,
-		defaultAreaUnit : esri.Units.SQUARE_KILOMETERS,
-		defaultLengthUnit : esri.Units.KILOMETERS
-	}, dojo.byId('measurementDiv'));
-	measurement.startup();
+	require(["esri/dijit/Measurement"], function() {
+		measurement = new esri.dijit.Measurement({
+			map : map,
+			defaultAreaUnit : esri.Units.SQUARE_KILOMETERS,
+			defaultLengthUnit : esri.Units.KILOMETERS
+		}, dojo.byId('measurementDiv'));
+		measurement.startup();
+	});
 
 	console.log(res);
 

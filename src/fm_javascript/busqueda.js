@@ -245,7 +245,7 @@ function processFormIE(resp) {
 	});
 
 	dijit.byId("selectAll").setChecked(false);
-	
+
 	grid.onStyleRow = styleRowIE;
 
 	grid.setStructure(layout);
@@ -442,7 +442,7 @@ function processFormCP(resp) {
 	});
 
 	dijit.byId("selectAll").setChecked(false);
-	
+
 	grid.onStyleRow = styleRowCP;
 
 	grid.setStructure(layout);
@@ -467,7 +467,7 @@ function processFormCP(resp) {
 		storeExporter : storeExporter,
 		layout : layout,
 		layoutExporter : layoutExporter,
-		type: 'cp'
+		type : 'cp'
 	});
 
 	gridMemory.selectedIndex = gridMemory.memory.length - 1;
@@ -529,10 +529,10 @@ function styleRowIE(row) {
 	console.log(row);
 	if (row.index % 2 !== 0) {
 		//if (!row.over) {
-			row.customStyles += 'background: #EBC97A;';
+		row.customStyles += 'background: #EBC97A;';
 		//}
 	}
-	
+
 	if (row.over) {
 		row.customStyles += 'background: #7FC5EB';
 	}
@@ -544,10 +544,10 @@ function styleRowCP(row) {
 	console.log(row);
 	if (row.index % 2 !== 0) {
 		//if (!row.over) {
-			row.customStyles += 'background: #9CEB94;';
+		row.customStyles += 'background: #9CEB94;';
 		//}
 	}
-	
+
 	if (row.over) {
 		row.customStyles += 'background: #7FC5EB';
 	}

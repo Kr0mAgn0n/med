@@ -2,17 +2,19 @@ var punto, multipunto, mano_alzada, extension;
 var drawToolbar;
 
 function iniciarIdentify() {
-	drawToolbar = new esri.toolbars.Draw(map);
+	require(["esri/toolbars/draw"], function() {
+		drawToolbar = new esri.toolbars.Draw(map);
+	});
 
 	punto = new dijit.form.ToggleButton({
 		iconClass : 'identifyPuntoIcon',
 		label : 'Punto'
 	}, dojo.byId("punto"));
-	
+
 	/*multipunto = new dijit.form.ToggleButton({
-		iconClass : 'identifyPuntoIcon',
-		label : 'Multipunto'
-	}, dojo.byId("multipunto"));*/
+	 iconClass : 'identifyPuntoIcon',
+	 label : 'Multipunto'
+	 }, dojo.byId("multipunto"));*/
 
 	mano_alzada = new dijit.form.ToggleButton({
 		iconClass : 'identifyFreeHandIcon',
@@ -33,16 +35,16 @@ function iniciarIdentify() {
 		} else
 			drawToolbar.deactivate();
 	});
-	
+
 	/*dojo.connect(multipunto, "onClick", function() {
-		if (multipunto.checked == true) {
-			punto.setChecked(false);
-			mano_alzada.setChecked(false);
-			extension.setChecked(false);
-			drawToolbar.activate(esri.toolbars.Draw.MULTI_POINT);
-		} else
-			drawToolbar.deactivate();
-	});*/
+	 if (multipunto.checked == true) {
+	 punto.setChecked(false);
+	 mano_alzada.setChecked(false);
+	 extension.setChecked(false);
+	 drawToolbar.activate(esri.toolbars.Draw.MULTI_POINT);
+	 } else
+	 drawToolbar.deactivate();
+	 });*/
 
 	dojo.connect(mano_alzada, "onClick", function() {
 		if (mano_alzada.checked == true) {
@@ -196,6 +198,7 @@ function identifyCallbackCP(respuesta) {
 	storeExporter = new dojo.data.ItemFileWriteStore({
 		data : datosExporter
 	});
+
 	gridExporter.setStructure(layoutExporter);
 	gridExporter.setStore(storeExporter);
 
@@ -332,29 +335,29 @@ function identifyCallbackIE(respuesta) {
 
 	dojo.forEach(respuesta, function(respuesta) {
 		items = {
-			codigo_ugel: respuesta.feature.attributes.CODOOII,
-			centro_poblado: respuesta.feature.attributes.ciudad,
-			centro_educativo: respuesta.feature.attributes.CEN_EDU,
-			estado: respuesta.feature.attributes.ESTADO,
-			gestion: respuesta.feature.attributes.GESTION,
-			niveles: respuesta.feature.attributes.NIVELES,
-			fuente: respuesta.feature.attributes.FUENTE,
-			latitud: respuesta.feature.attributes.POINT_Y,
-			longitud: respuesta.feature.attributes.POINT_X,
+			codigo_ugel : respuesta.feature.attributes.CODOOII,
+			centro_poblado : respuesta.feature.attributes.ciudad,
+			centro_educativo : respuesta.feature.attributes.CEN_EDU,
+			estado : respuesta.feature.attributes.ESTADO,
+			gestion : respuesta.feature.attributes.GESTION,
+			niveles : respuesta.feature.attributes.NIVELES,
+			fuente : respuesta.feature.attributes.FUENTE,
+			latitud : respuesta.feature.attributes.POINT_Y,
+			longitud : respuesta.feature.attributes.POINT_X,
 			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + respuesta.feature.attributes.POINT_X + "," + respuesta.feature.attributes.POINT_Y + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(" + respuesta.feature.attributes.CODCP + ")'><img src='images/ficha.png'></a>"
 
 		};
 
 		itemsExporter = {
-			codigo_ugel: respuesta.feature.attributes.CODOOII,
-			centro_poblado: respuesta.feature.attributes.ciudad,
-			centro_educativo: respuesta.feature.attributes.CEN_EDU,
-			estado: respuesta.feature.attributes.ESTADO,
-			gestion: respuesta.feature.attributes.GESTION,
-			niveles: respuesta.feature.attributes.NIVELES,
-			fuente: respuesta.feature.attributes.FUENTE,
-			latitud: respuesta.feature.attributes.POINT_Y,
-			longitud: respuesta.feature.attributes.POINT_X
+			codigo_ugel : respuesta.feature.attributes.CODOOII,
+			centro_poblado : respuesta.feature.attributes.ciudad,
+			centro_educativo : respuesta.feature.attributes.CEN_EDU,
+			estado : respuesta.feature.attributes.ESTADO,
+			gestion : respuesta.feature.attributes.GESTION,
+			niveles : respuesta.feature.attributes.NIVELES,
+			fuente : respuesta.feature.attributes.FUENTE,
+			latitud : respuesta.feature.attributes.POINT_Y,
+			longitud : respuesta.feature.attributes.POINT_X
 		};
 
 		datos.items.push(items);

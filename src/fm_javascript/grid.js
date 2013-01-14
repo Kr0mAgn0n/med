@@ -53,14 +53,13 @@ function iniciarGrid() {
 		grid.update();
 	});
 
-	dojo.connect(grid, "");
-
 	gridExporter = new dojox.grid.EnhancedGrid({
 		//rowsPerPage : 0,
 		plugins : {
 			exporter : true
 		}
 	});
+
 }
 
 function hacerZoom(longitud, latitud) {
@@ -128,7 +127,7 @@ function nextGrid() {
 				grid.onStyleRow = styleRowCP;
 				break;
 		}
-		
+
 		grid.setStructure(gridMemory.memory[gridMemory.selectedIndex + 1].layout);
 		grid.setStore(gridMemory.memory[gridMemory.selectedIndex + 1].store);
 		gridExporter.setStructure(gridMemory.memory[gridMemory.selectedIndex + 1].layoutExporter);

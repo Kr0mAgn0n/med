@@ -15,10 +15,12 @@ function iniciarImpresion() {
 		logo : false
 	});
 
-	print_scalebar = new esri.dijit.Scalebar({
-		map : print_map,
-		scalebarUnit : 'metric',
-		attachTo : "bottom-left"
+	require(["esri/dijit/Scalebar"], function() {
+		print_scalebar = new esri.dijit.Scalebar({
+			map : print_map,
+			scalebarUnit : 'metric',
+			attachTo : "bottom-left"
+		});
 	});
 
 	print_basemapGallery = createBasemapGallery(print_map, "");
@@ -47,12 +49,15 @@ function iniciarImpresion() {
 	 });*/
 
 	dojo.connect(print_map, 'onLayersAddResult', function(results) {
-		print_legend = new esri.dijit.Legend({
-			map : print_map,
-			layerInfos : print_layerInfos
-		}, "print_legend");
-		print_legend.startup();
-		print_map.setExtent(map.extent);
+		require(["esri/dijit/Legend"], function() {
+			print_legend = new esri.dijit.Legend({
+				map : print_map,
+				layerInfos : print_layerInfos
+			}, "print_legend");
+			print_legend.startup();
+			print_map.setExtent(map.extent);
+		});
+
 	});
 
 	print_map.addLayers([print_centros_poblados, print_limites_politicos]);
