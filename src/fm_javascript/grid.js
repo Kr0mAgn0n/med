@@ -63,6 +63,7 @@ function iniciarGrid() {
 }
 
 function hacerZoom(longitud, latitud) {
+	if (longitud !== '-80' && latitud !== '-10') {
 	map.graphics.clear();
 	point = new esri.geometry.Point(longitud, latitud, new esri.SpatialReference({
 		wkid : 5373
@@ -70,7 +71,12 @@ function hacerZoom(longitud, latitud) {
 	point = esri.geometry.geographicToWebMercator(point);
 	graphic = new esri.Graphic(point, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
 	map.graphics.add(graphic);
-	map.centerAndZoom(point, 14);
+	map.centerAndZoom(point, 14);	
+	} else {
+		alert("El Centro Poblado o Institución Educativa no está ubicado.");
+	}
+	
+	
 }
 
 function exportarTodo() {

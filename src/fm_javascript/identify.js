@@ -76,8 +76,8 @@ function manejadorDrawEnd(geometria) {
 
 	activarCargando();
 
-	identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
-	identifyParams = new esri.tasks.IdentifyParameters();
+	var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
+	var identifyParams = new esri.tasks.IdentifyParameters();
 	identifyParams.geometry = geometria;
 	identifyParams.tolerance = 3;
 	identifyParams.returnGeometry = false;
@@ -85,8 +85,22 @@ function manejadorDrawEnd(geometria) {
 	identifyParams.height = map.height;
 	identifyParams.mapExtent = map.extent;
 	identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_VISIBLE;
-	identifyParams.layersIds = [4];
-	identifyTask.execute(identifyParams, identifyCallbackCP, identifyError);
+
+	identifySelect = dijit.byId("identifySelect");
+
+	//if (identifySelect.value === "cp") {
+		//console.log(identifySelect.value);
+		//var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer/4");
+		identifyParams.layersIds = [4];
+		identifyTask.execute(identifyParams, identifyCallbackCP, identifyError);
+	//}
+
+	//if (identifySelect.value === "ie") {
+		//console.log(identifySelect.value);
+		//var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer/3");
+		//identifyParams.layersIds = [3];
+		//identifyTask.execute(identifyParams, identifyCallbackIE, identifyError);
+	//}
 
 }
 
@@ -231,44 +245,26 @@ function identifyCallbackIE(respuesta) {
 	};
 
 	layout = [[{
-		'name' : 'Ubigeo',
-		'field' : 'ubigeo'
+		'name' : 'Código UGEL',
+		'field' : 'codigo_ugel'
 	}], [{
-		'name' : 'Departamento',
-		'field' : 'departamento'
+		'name' : 'Centro Poblado',
+		'field' : 'centro_poblado'
 	}], [{
-		'name' : 'Provincia',
-		'field' : 'provincia'
+		'name' : 'Centro Educativo',
+		'field' : 'centro_educativo'
 	}], [{
-		'name' : 'Distrito',
-		'field' : 'distrito'
+		'name' : 'Estado',
+		'field' : 'estado'
 	}], [{
-		'name' : 'Nombre del Centro Poblado',
-		'field' : 'nombre_del_centro_poblado'
+		'name' : 'Gestión',
+		'field' : 'gestion'
 	}], [{
-		'name' : 'Código del Centro Poblado',
-		'field' : 'codigo_del_centro_poblado'
+		'name' : 'Niveles',
+		'field' : 'niveles'
 	}], [{
-		'name' : 'Localidad',
-		'field' : 'localidad'
-	}], [{
-		'name' : 'Código Local',
-		'field' : 'codigo_local'
-	}], [{
-		'name' : 'Código Modular',
-		'field' : 'codigo_modular'
-	}], [{
-		'name' : 'Nombre IE',
-		'field' : 'nombre_ie'
-	}], [{
-		'name' : 'Nivel',
-		'field' : 'nivel'
-	}], [{
-		'name' : 'Altitud',
-		'field' : 'altitud'
-	}], [{
-		'name' : 'Fuente CP',
-		'field' : 'fuente_cp'
+		'name' : 'Fuente',
+		'field' : 'fuente'
 	}], [{
 		'name' : 'Latitud',
 		'field' : 'latitud',
@@ -287,44 +283,26 @@ function identifyCallbackIE(respuesta) {
 	};
 
 	layoutExporter = [[{
-		'name' : 'Ubigeo',
-		'field' : 'ubigeo'
+		'name' : 'Código UGEL',
+		'field' : 'codigo_ugel'
 	}, {
-		'name' : 'Departamento',
-		'field' : 'departamento'
+		'name' : 'Centro Poblado',
+		'field' : 'centro_poblado'
 	}, {
-		'name' : 'Provincia',
-		'field' : 'provincia'
+		'name' : 'Centro Educativo',
+		'field' : 'centro_educativo'
 	}, {
-		'name' : 'Distrito',
-		'field' : 'distrito'
+		'name' : 'Estado',
+		'field' : 'estado'
 	}, {
-		'name' : 'Nombre del Centro Poblado',
-		'field' : 'nombre_del_centro_poblado'
+		'name' : 'Gestión',
+		'field' : 'gestion'
 	}, {
-		'name' : 'Código del Centro Poblado',
-		'field' : 'codigo_del_centro_poblado'
+		'name' : 'Niveles',
+		'field' : 'niveles'
 	}, {
-		'name' : 'Localidad',
-		'field' : 'localidad'
-	}, {
-		'name' : 'Código Local',
-		'field' : 'codigo_local'
-	}, {
-		'name' : 'Código Modular',
-		'field' : 'codigo_modular'
-	}, {
-		'name' : 'Nombre IE',
-		'field' : 'nombre_ie'
-	}, {
-		'name' : 'Nivel',
-		'field' : 'nivel'
-	}, {
-		'name' : 'Altitud',
-		'field' : 'altitud'
-	}, {
-		'name' : 'Fuente CP',
-		'field' : 'fuente_cp'
+		'name' : 'Fuente',
+		'field' : 'fuente'
 	}, {
 		'name' : 'Latitud',
 		'field' : 'latitud'
