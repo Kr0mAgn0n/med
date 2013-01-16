@@ -33,8 +33,10 @@ function processSearch(searchForm) {
 
 	var xhrArgsIE = {
 		url : "http://escale.minedu.gob.pe/mapaeducativolenguas/restservicesig/service/restsig.svc/padron",
+		//url : padron.php,
 		handleAs : "json",
 		content : {
+			//tipo : 0,
 			codgeo : ubigeo,
 			codugel : codigo_ugel,
 			codmod : codigo_modular,
