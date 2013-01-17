@@ -32,7 +32,7 @@ function processSearch(searchForm) {
 	var codigo_ugel = searchForm.getValues().codigo_ugel;
 
 	var xhrArgsIE = {
-		url : "http://escale.minedu.gob.pe/mapaescuelas/padron.php",
+		url : "padron.php",
 		handleAs : "json",
 		content : {
 			codgeo : ubigeo,
@@ -86,7 +86,7 @@ function processSearch(searchForm) {
 function processFormIE(resp) {
 	console.log(resp);
 	
-	var data = dojo.json.parse(resp);
+	var data = resp;
 	
 	console.log(data);
 
