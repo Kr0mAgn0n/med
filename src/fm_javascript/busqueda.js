@@ -48,11 +48,7 @@ function processSearch(searchForm) {
 			gesdep : gestion,
 			codcp : codigo_ccpp1
 		},
-		load : function(resp, ioargs) {
-			console.log(ioargs);
-			console.log(resp);
-		},
-		//processFormIE,
+		load : processFormIE,
 		error : function(error) {
 			desactivarCargando();
 			alert("Un error inesperado a ocurrido: " + error);
