@@ -60,6 +60,7 @@ function iniciarGrid() {
 		}
 	});
 
+	console.log("Se cargó el hilo del grid.");
 }
 
 function hacerZoom(longitud, latitud) {

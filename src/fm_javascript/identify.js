@@ -67,6 +67,8 @@ function iniciarIdentify() {
 	});
 
 	dojo.connect(drawToolbar, "onDrawEnd", manejadorDrawEnd);
+	
+	console.log("Se cargó el hilo del identify.");
 }
 
 function manejadorDrawEnd(geometria) {
@@ -76,7 +78,7 @@ function manejadorDrawEnd(geometria) {
 
 	activarCargando();
 
-	var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
+	//var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
 	var identifyParams = new esri.tasks.IdentifyParameters();
 	identifyParams.geometry = geometria;
 	identifyParams.tolerance = 3;
@@ -88,19 +90,19 @@ function manejadorDrawEnd(geometria) {
 
 	identifySelect = dijit.byId("identifySelect");
 
-	//if (identifySelect.value === "cp") {
+	if (identifySelect.value === "cp") {
 		//console.log(identifySelect.value);
-		//var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer/4");
-		identifyParams.layersIds = [4];
+		var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
+		//identifyParams.layersIds = [4];
 		identifyTask.execute(identifyParams, identifyCallbackCP, identifyError);
-	//}
+	}
 
-	//if (identifySelect.value === "ie") {
+	if (identifySelect.value === "ie") {
 		//console.log(identifySelect.value);
-		//var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer/3");
+		var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
 		//identifyParams.layersIds = [3];
-		//identifyTask.execute(identifyParams, identifyCallbackIE, identifyError);
-	//}
+		identifyTask.execute(identifyParams, identifyCallbackIE, identifyError);
+	}
 
 }
 

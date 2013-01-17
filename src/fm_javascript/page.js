@@ -58,18 +58,17 @@ function responsive() {
 	};
 
 	this.setBindings = function() {
-		$(".fm_find_me").click(function(){
-			if ( $(this).hasClass('fm_on') ){
+		$(".fm_find_me").click(function() {
+			if ($(this).hasClass('fm_on')) {
 				//turn off
 				$(this).removeClass('fm_on');
-			}
-			else {
+			} else {
 				//turn on
 				res.findMe();
 				$(this).addClass('fm_on');
 			}
 		});
-		
+
 		$(".fm_close").click(function() {
 			if ($(this).hasClass('fm_hide')) {
 				$(this).hide();
@@ -292,7 +291,7 @@ function responsive() {
 
 	this.generateEmbedCode = function() {
 		var pageUrl = window.location.href;
-		var code = "<iframe src='" + pageUrl + "' style='border:0px  none;' name='responsiveViewer' scrolling='no' frameborder='0' marginheight='0px' marginwidth='0px' height='60px' width='468px'></iframe>";
+		var code = "<iframe src='" + pageUrl + "' style='border:0px none;' name='responsiveViewer' scrolling='no' frameborder='0' marginheight='0px' marginwidth='0px' height='60px' width='468px'></iframe>";
 
 		$(".fm_embed_code").html(code);
 	};
@@ -387,8 +386,9 @@ function responsive() {
 	};
 }
 
+res = new responsive();
 
 $(document).ready(function() {
-	res = new responsive();
+	
 	res.initApp();
-});
+}); 

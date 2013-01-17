@@ -1,4 +1,8 @@
 <?php
+header("Access-Control-Allow-Methods: GET");
+header("charset=utf-8");
+header("Content-type: application/json");
+
 $servername = "MEDESTADISTICA\GIS";
 $username = "sa";
 $password = "sasa";
@@ -67,6 +71,7 @@ while ($obj = sqlsrv_fetch_object($result)) {
 	$result_array[] = $obj;
 }
 
+ob_start("ob_gzhandler");
 
 echo json_encode($result_array);
 

@@ -61,4 +61,5 @@ function initTooltips() {
 		});
 	});
 
+	console.log("Se cargó el hilo de los Tooltips.");
 }

@@ -56,16 +56,13 @@ function processSearch(searchForm) {
 	};
 
 	var xhrArgsCP = {
-		url : "http://escale.minedu.gob.pe/mapaeducativolenguas/restservicesig/service/restsig.svc/ccpp",
+		url : "cp.php",
 		handleAs : "json",
 		content : {
 			ubigeo : ubigeo,
 			codcp : codigo_ccpp2,
 			codugel : codigo_ugel,
-			nomcp : nombre_ccpp2,
-			ubicado : '',
-			area : '',
-			fuentecp : ''
+			nomcp : nombre_ccpp2
 		},
 		load : processFormCP,
 		error : function(error) {
@@ -84,11 +81,8 @@ function processSearch(searchForm) {
 }
 
 function processFormIE(resp) {
-	console.log(resp);
 	
 	var data = resp;
-	
-	console.log(data);
 
 	datos = {
 		items : []
@@ -294,9 +288,7 @@ function processFormIE(resp) {
 
 function processFormCP(resp) {
 
-	var data = dojo.json.parse(resp);
-
-	console.log(data);
+	data = resp;
 
 	datos = {
 		items : []
@@ -399,23 +391,23 @@ function processFormCP(resp) {
 		'field' : 'longitud'
 	}]];
 
-	dojo.forEach(data.Rows, function(item) {
+	dojo.forEach(data, function(item) {
 		items = {
 			ubigeo : 'Ubigeo: ' + item.UBIGEO,
 			departamento : 'Departamento: ' + item.DEPARTAMENTO,
 			provincia : 'Provincia: ' + item.PROVINCIA,
 			distrito : 'Distrito: ' + item.DISTRITO,
 			codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.CODCP,
-			nombre_del_centro_poblado : 'Centro Poblado: ' + item.DENOMINACION,
-			con_iiee : '¿Tiene IE?: ' + item.CON_IE,
-			numero_de_iiee : 'Número de Instituciones Educativas: ' + item.N_IIEE,
+			nombre_del_centro_poblado : 'Centro Poblado: ' + item.NOMCCPP,
+			con_iiee : '¿Tiene IE?: ' + item.CONIIEE,
+			numero_de_iiee : 'Número de Instituciones Educativas: ' + item.NROIIEE,
 			nivel : 'Nivel: ' + item.NIVEL,
 			capital : '¿Es capital?: ' + item.CAPITAL,
-			fuente_cp : 'Fuente CP: ' + item.FUENTE_SIG,
-			altitud : 'Altitud: ' + item.ALT_CP,
-			latitud : 'Latitud: ' + item.LATITUD_DEC,
-			longitud : 'Longitud: ' + item.LONGITUD_DEC,
-			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD_DEC + "," + item.LATITUD_DEC + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAIE(" + item.CODCP + ")'><img src='images/ficha.png'></a>"
+			fuente_cp : 'Fuente CP: ' + item.FUENTE_CP,
+			altitud : 'Altitud: ' + item.ALTITUD,
+			latitud : 'Latitud: ' + item.LATITUD,
+			longitud : 'Longitud: ' + item.LONGITUD,
+			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD + "," + item.LATITUD + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAIE(" + item.CODCP + ")'><img src='images/ficha.png'></a>"
 		};
 
 		itemsExporter = {
@@ -424,15 +416,15 @@ function processFormCP(resp) {
 			provincia : item.PROVINCIA,
 			distrito : item.DISTRITO,
 			codigo_del_centro_poblado : item.CODCP,
-			nombre_del_centro_poblado : item.DENOMINACION,
-			con_iiee : item.CON_IE,
-			numero_de_iiee : item.N_IIEE,
+			nombre_del_centro_poblado : item.NOMCCPP,
+			con_iiee : item.CONIIEE,
+			numero_de_iiee : item.NROIIEE,
 			nivel : item.NIVEL,
 			capital : item.CAPITAL,
-			fuente_cp : item.FUENTE_SIG,
-			altitud : item.ALT_CP,
-			latitud : item.LATITUD_DEC,
-			longitud : item.LONGITUD_DEC
+			fuente_cp : item.FUENTE_CP,
+			altitud : item.ALTITUD,
+			latitud : item.LATITUD,
+			longitud : item.LONGITUD
 		};
 
 		datos.items.push(items);

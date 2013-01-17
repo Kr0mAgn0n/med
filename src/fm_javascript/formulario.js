@@ -11,44 +11,88 @@ function llenarFormulario() {
 	var ugel = dijit.byId("ugel");
 	var codigo_ugel = dijit.byId("codigo_ugel");
 
-	require(["esri/tasks/query"], function() {
-		// Creando QueryTask para llamar los departamentos
-		depQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/1");
-		// Creando Query para llamar a los departamentos
-		depQuery = new esri.tasks.Query();
-		depQuery.where = "1=1";
-		// Notar que son sentencias SQL
-		depQuery.returnGeometry = false;
-		// Retorna un punto, un polígono, etc, dependiendo de la geometría del servicio
-		depQuery.outFields = ["IDDPTO", "NOMBDEP"];
-		// Estos son los campos a llamar
-		depQueryTask.execute(depQuery, function(resultado) {
+	/*require(["esri/tasks/query"], function() {
+	 // Creando QueryTask para llamar los departamentos
+	 depQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/1");
+	 // Creando Query para llamar a los departamentos
+	 depQuery = new esri.tasks.Query();
+	 depQuery.where = "1=1";
+	 // Notar que son sentencias SQL
+	 depQuery.returnGeometry = false;
+	 // Retorna un punto, un polígono, etc, dependiendo de la geometría del servicio
+	 depQuery.outFields = ["IDDPTO", "NOMBDEP"];
+	 // Estos son los campos a llamar
+	 depQueryTask.execute(depQuery, function(resultado) {
+	 var departamentoOptions = [];
+	 var direccionRegionalOptions = [];
+	 dojo.forEach(resultado.features, function(feature) {// Los campos se guardan en el campo de features del resultado del query
+	 departamentoOptions.push({
+	 value : feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
+	 label : feature.attributes["NOMBDEP"]
+	 });
+
+	 direccionRegionalOptions.push({
+	 value : feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
+	 label : feature.attributes["NOMBDEP"]
+	 });
+	 });
+
+	 departamento.addOption(departamentoOptions);
+	 direccion_regional.addOption(direccionRegionalOptions);
+	 });
+	 });*/
+
+	var xhrArgsDep = {
+		url : "http://escale.minedu.gob.pe/servicios/rest/service/restsig.svc/regiones",
+		handleAs : "json",
+		content : {
+			codregion : '',
+			nomregion : ''
+		},
+		load : function(resp) {
+			data = dojo.json.parse(resp);
+
+			//console.log(data);
+
 			var departamentoOptions = [];
 			var direccionRegionalOptions = [];
-			dojo.forEach(resultado.features, function(feature) {// Los campos se guardan en el campo de features del resultado del query
+
+			dojo.forEach(data.Rows, function(row) {
 				departamentoOptions.push({
-					value : feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
-					label : feature.attributes["NOMBDEP"]
+					value : row.CODREGION,
+					label : row.NOMBRE,
+					latitud : row.LATITUD,
+					longitud : row.LONGITUD,
+					zoom : row.ZOOM
 				});
 
 				direccionRegionalOptions.push({
-					value : feature.attributes["IDDPTO"], // Los campos se llaman como atributos dentro del campo features del resultado
-					label : feature.attributes["NOMBDEP"]
+					value : row.CODREGION,
+					label : row.NOMBRE,
+					latitud : row.LATITUD,
+					longitud : row.LONGITUD,
+					zoom : row.ZOOM
 				});
 			});
 
 			departamento.addOption(departamentoOptions);
 			direccion_regional.addOption(direccionRegionalOptions);
-		});
-	});
+		},
+		error : function(error) {
+			desactivarCargando();
+			alert("Un error inesperado a ocurrido: " + error);
+		}
+	};
+
+	dojo.xhrGet(xhrArgsDep);
 
 	// Enlazando el envento 'onchange' al select del departamento para cargar dinámicamente los campos de provincias
 	dojo.connect(departamento, "onChange", function(newvalue) {
-		console.log("Departamento cambió.");
-		console.log(newvalue);
+		//console.log("Departamento cambió.");
+		//console.log(newvalue);
 
 		if (newvalue && newvalue !== '') {
-			console.log("Estoy ejecutando peticiones.");
+			//console.log("Estoy ejecutando peticiones.");
 			onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalue);
 		} else {
 			provincia.removeOption(provincia.getOptions());
@@ -63,13 +107,15 @@ function llenarFormulario() {
 				value : ''
 			});
 			distrito.setValue('');
+			
+			ubigeo.setValue(newvalue);
 		}
 
 	});
 
 	dojo.connect(provincia, "onChange", function(newvalue) {
-		console.log("Provincia cambió.");
-		console.log(newvalue);
+		//console.log("Provincia cambió.");
+		//console.log(newvalue);
 
 		if (newvalue && newvalue !== '')
 			onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue);
@@ -80,31 +126,46 @@ function llenarFormulario() {
 				value : ''
 			});
 			distrito.setValue('');
+			
+			ubigeo.setValue(departamento.value);
 		}
 
 	});
 
 	dojo.connect(distrito, "onChange", function(newvalue) {
-		console.log("Distrito cambió.");
-		console.log(newvalue);
+		//console.log("Distrito cambió.");
+		//console.log(newvalue);
 
 		if (distrito.value !== '') {
-			require(["esri/tasks/query"], function() {
-				distGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/3");
-				distGeometryQuery = new esri.tasks.Query();
-				distGeometryQuery.where = "IDDIST='" + newvalue + "'";
-				distGeometryQuery.returnGeometry = true;
-				distGeometryQuery.outFields = [];
-				distGeometryQueryTask.execute(distGeometryQuery, function(resultado) {
-					console.log(resultado);
-					feature = resultado.features[0];
-					centrarExtent(feature.geometry.getExtent());
-				});
-			});
+			/*require(["esri/tasks/query"], function() {
+			 distGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/3");
+			 distGeometryQuery = new esri.tasks.Query();
+			 distGeometryQuery.where = "IDDIST='" + newvalue + "'";
+			 distGeometryQuery.returnGeometry = true;
+			 distGeometryQuery.outFields = [];
+			 distGeometryQueryTask.execute(distGeometryQuery, function(resultado) {
+			 console.log(resultado);
+			 feature = resultado.features[0];
+			 centrarExtent(feature.geometry.getExtent());
+			 });
+			 });*/
+
+			disSelectedOption = distrito.getOptions(newvalue);
+			//console.log(depSelectedOption);
+
+			point = new esri.geometry.Point(disSelectedOption.longitud, disSelectedOption.latitud, new esri.SpatialReference({
+				wkid : 5373
+			}));
+			point = esri.geometry.geographicToWebMercator(point);
+			map.centerAndZoom(point, disSelectedOption.zoom);
 
 			ubigeo.set('value', distrito.value);
 		} else
-			ubigeo.set('value', provincia.value);
+			if (provincia.value !== '')
+				ubigeo.set('value', provincia.value);
+			else
+				ubigeo.set('value', departamento.value);
+			
 	});
 
 	dojo.connect(direccion_regional, "onChange", function(newvalue) {
@@ -123,17 +184,27 @@ function llenarFormulario() {
 	dojo.connect(ugel, "onChange", function(newvalue) {
 
 		if (ugel.value !== '') {
-			require(["esri/tasks/query"], function() {
-				ugelGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer/1");
-				ugelGeometryQuery = new esri.tasks.Query();
-				ugelGeometryQuery.where = "CODUGEL='" + newvalue + "'";
-				ugelGeometryQuery.returnGeometry = true;
-				ugelGeometryQuery.outFields = [];
-				ugelGeometryQueryTask.execute(ugelGeometryQuery, function(resultado) {
-					feature = resultado.features[0];
-					centrarExtent(feature.geometry.getExtent());
-				});
-			});
+			/*require(["esri/tasks/query"], function() {
+			 ugelGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer/1");
+			 ugelGeometryQuery = new esri.tasks.Query();
+			 ugelGeometryQuery.where = "CODUGEL='" + newvalue + "'";
+			 ugelGeometryQuery.returnGeometry = true;
+			 ugelGeometryQuery.outFields = [];
+			 ugelGeometryQueryTask.execute(ugelGeometryQuery, function(resultado) {
+			 feature = resultado.features[0];
+			 centrarExtent(feature.geometry.getExtent());
+			 });
+			 });*/
+
+			console.log("UGEL cambió.");
+			ugelSelectedOption = ugel.getOptions(newvalue);
+			//console.log(depSelectedOption);
+
+			point = new esri.geometry.Point(ugelSelectedOption.longitud, ugelSelectedOption.latitud, new esri.SpatialReference({
+				wkid : 5373
+			}));
+			point = esri.geometry.geographicToWebMercator(point);
+			map.centerAndZoom(point, ugelSelectedOption.zoom);
 
 			codigo_ugel.set('value', ugel.value);
 		} else
@@ -255,6 +326,8 @@ function llenarFormulario() {
 		dijit.byId("tabs1").resize();
 		dijit.byId("tabs2").resize();
 	});
+	
+	console.log("Se cargó el hilo del formulario.");
 }
 
 function centrarExtent(extent) {
@@ -262,19 +335,28 @@ function centrarExtent(extent) {
 }
 
 function onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalue) {
-	require(["esri/tasks/query"], function() {
-		depGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/1");
-		depGeometryQuery = new esri.tasks.Query();
-		depGeometryQuery.where = "IDDPTO='" + newvalue + "'";
-		depGeometryQuery.returnGeometry = true;
-		depGeometryQuery.outFields = [];
-		depGeometryQueryTask.execute(depGeometryQuery, function(resultado) {
-			feature = resultado.features[0];
-			centrarExtent(feature.geometry.getExtent());
-		});
-	});
+	/*require(["esri/tasks/query"], function() {
+	 depGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/1");
+	 depGeometryQuery = new esri.tasks.Query();
+	 depGeometryQuery.where = "IDDPTO='" + newvalue + "'";
+	 depGeometryQuery.returnGeometry = true;
+	 depGeometryQuery.outFields = [];
+	 depGeometryQueryTask.execute(depGeometryQuery, function(resultado) {
+	 feature = resultado.features[0];
+	 centrarExtent(feature.geometry.getExtent());
+	 });
+	 });*/
 
-	ubigeo.set('value', departamento.value);
+	depSelectedOption = departamento.getOptions(newvalue);
+	//console.log(depSelectedOption);
+
+	point = new esri.geometry.Point(depSelectedOption.longitud, depSelectedOption.latitud, new esri.SpatialReference({
+		wkid : 5373
+	}));
+	point = esri.geometry.geographicToWebMercator(point);
+	map.centerAndZoom(point, depSelectedOption.zoom);
+
+	ubigeo.set('value', newvalue);
 	provincia.removeOption(provincia.getOptions());
 	provincia.addOption({
 		label : ':: Seleccione ::',
@@ -286,38 +368,83 @@ function onDepartamentoChange(ubigeo, departamento, provincia, distrito, newvalu
 		value : ''
 	});
 
-	require(["esri/tasks/query"], function() {
-		provQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/2");
-		provQuery = new esri.tasks.Query();
-		provQuery.where = "IDPROV LIKE '" + departamento.value + "%'";
-		provQuery.returnGeometry = false;
-		provQuery.outFields = ["IDPROV", "NOMBPROV"];
-		provQueryTask.execute(provQuery, function(resultado) {
+	/*require(["esri/tasks/query"], function() {
+	 provQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/2");
+	 provQuery = new esri.tasks.Query();
+	 provQuery.where = "IDPROV LIKE '" + departamento.value + "%'";
+	 provQuery.returnGeometry = false;
+	 provQuery.outFields = ["IDPROV", "NOMBPROV"];
+	 provQueryTask.execute(provQuery, function(resultado) {
+	 var provinciaOptions = [];
+	 dojo.forEach(resultado.features, function(feature) {
+	 provinciaOptions.push({
+	 value : feature.attributes["IDPROV"],
+	 label : feature.attributes["NOMBPROV"]
+	 });
+	 });
+	 provincia.addOption(provinciaOptions);
+	 });
+	 });*/
+
+	var xhrArgsProv = {
+		url : "http://escale.minedu.gob.pe/servicios/rest/service/restsig.svc/provincias",
+		handleAs : "json",
+		content : {
+			codregion : newvalue,
+			codprovincia : '',
+			nomprovincia : ''
+		},
+		load : function(resp) {
+			data = dojo.json.parse(resp);
+
+			//console.log(data);
+
 			var provinciaOptions = [];
-			dojo.forEach(resultado.features, function(feature) {
+
+			dojo.forEach(data.Rows, function(row) {
 				provinciaOptions.push({
-					value : feature.attributes["IDPROV"],
-					label : feature.attributes["NOMBPROV"]
+					value : row.CODPROVINCIA,
+					label : row.NOMBRE,
+					latitud : row.LATITUD,
+					longitud : row.LONGITUD,
+					zoom : row.ZOOM
 				});
 			});
+
 			provincia.addOption(provinciaOptions);
-		});
-	});
+
+		},
+		error : function(error) {
+			desactivarCargando();
+			alert("Un error inesperado a ocurrido: " + error);
+		}
+	};
+
+	dojo.xhrGet(xhrArgsProv);
 
 }
 
 function onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue) {
-	require(["esri/tasks/query"], function() {
-		provGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/2");
-		provGeometryQuery = new esri.tasks.Query();
-		provGeometryQuery.where = "IDPROV='" + newvalue + "'";
-		provGeometryQuery.returnGeometry = true;
-		provGeometryQuery.outFields = [];
-		provGeometryQueryTask.execute(depGeometryQuery, function(resultado) {
-			feature = resultado.features[0];
-			centrarExtent(feature.geometry.getExtent());
-		});
-	});
+	/*require(["esri/tasks/query"], function() {
+	 provGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/2");
+	 provGeometryQuery = new esri.tasks.Query();
+	 provGeometryQuery.where = "IDPROV='" + newvalue + "'";
+	 provGeometryQuery.returnGeometry = true;
+	 provGeometryQuery.outFields = [];
+	 provGeometryQueryTask.execute(depGeometryQuery, function(resultado) {
+	 feature = resultado.features[0];
+	 centrarExtent(feature.geometry.getExtent());
+	 });
+	 });*/
+
+	provSelectedOption = provincia.getOptions(newvalue);
+	//console.log(depSelectedOption);
+
+	point = new esri.geometry.Point(provSelectedOption.longitud, provSelectedOption.latitud, new esri.SpatialReference({
+		wkid : 5373
+	}));
+	point = esri.geometry.geographicToWebMercator(point);
+	map.centerAndZoom(point, provSelectedOption.zoom);
 
 	if (provincia.value !== '')
 		ubigeo.set('value', provincia.value);
@@ -330,38 +457,84 @@ function onProvinciaChange(ubigeo, departamento, provincia, distrito, newvalue) 
 		value : ''
 	});
 
-	require(["esri/tasks/query"], function() {
-		distQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/3");
-		distQuery = new esri.tasks.Query();
-		distQuery.where = "IDPROV LIKE '" + provincia.value + "%'";
-		distQuery.returnGeometry = false;
-		distQuery.outFields = ["IDDIST", "NOMBDIST"];
-		distQueryTask.execute(distQuery, function(resultado) {
+	/*require(["esri/tasks/query"], function() {
+	 distQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/3");
+	 distQuery = new esri.tasks.Query();
+	 distQuery.where = "IDPROV LIKE '" + provincia.value + "%'";
+	 distQuery.returnGeometry = false;
+	 distQuery.outFields = ["IDDIST", "NOMBDIST"];
+	 distQueryTask.execute(distQuery, function(resultado) {
+	 var distritoOptions = [];
+	 dojo.forEach(resultado.features, function(feature) {
+	 distritoOptions.push({
+	 value : feature.attributes["IDDIST"],
+	 label : feature.attributes["NOMBDIST"]
+	 });
+	 });
+	 distrito.addOption(distritoOptions);
+	 });
+	 });*/
+
+	var xhrArgsDist = {
+		url : "http://escale.minedu.gob.pe/servicios/rest/service/restsig.svc/distritos",
+		handleAs : "json",
+		content : {
+			codregion : '',
+			codprovincia : newvalue,
+			coddistrito : '',
+			nomdistrito : ''
+		},
+		load : function(resp) {
+			data = dojo.json.parse(resp);
+
+			//console.log(data);
+
 			var distritoOptions = [];
-			dojo.forEach(resultado.features, function(feature) {
+
+			dojo.forEach(data.Rows, function(row) {
 				distritoOptions.push({
-					value : feature.attributes["IDDIST"],
-					label : feature.attributes["NOMBDIST"]
+					value : row.CODUBIGEO,
+					label : row.NOMBRE,
+					latitud : row.LATITUD,
+					longitud : row.LONGITUD,
+					zoom : row.ZOOM
 				});
 			});
+
 			distrito.addOption(distritoOptions);
-		});
-	});
+
+		},
+		error : function(error) {
+			desactivarCargando();
+			alert("Un error inesperado a ocurrido: " + error);
+		}
+	};
+
+	dojo.xhrGet(xhrArgsDist);
 
 }
 
 function onDireccionRegionalChange(codigo_ugel, direccion_regional, ugel, newvalue) {
-	require(["esri/tasks/query"], function() {
-		direccionGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/2");
-		direccionGeometryQuery = new esri.tasks.Query();
-		direccionGeometryQuery.where = "IDDPTO='" + newvalue + "'";
-		direccionGeometryQuery.returnGeometry = true;
-		direccionGeometryQuery.outFields = [];
-		direccionGeometryQueryTask.execute(direccionGeometryQuery, function(resultado) {
-			feature = resultado.features[0];
-			centrarExtent(feature.geometry.getExtent());
-		});
-	});
+	/*require(["esri/tasks/query"], function() {
+	 direccionGeometryQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer/2");
+	 direccionGeometryQuery = new esri.tasks.Query();
+	 direccionGeometryQuery.where = "IDDPTO='" + newvalue + "'";
+	 direccionGeometryQuery.returnGeometry = true;
+	 direccionGeometryQuery.outFields = [];
+	 direccionGeometryQueryTask.execute(direccionGeometryQuery, function(resultado) {
+	 feature = resultado.features[0];
+	 centrarExtent(feature.geometry.getExtent());
+	 });
+	 });*/
+
+	direccion_regionalSelectedOption = direccion_regional.getOptions(newvalue);
+	//console.log(depSelectedOption);
+
+	point = new esri.geometry.Point(direccion_regionalSelectedOption.longitud, direccion_regionalSelectedOption.latitud, new esri.SpatialReference({
+		wkid : 5373
+	}));
+	point = esri.geometry.geographicToWebMercator(point);
+	map.centerAndZoom(point, direccion_regionalSelectedOption.zoom);
 
 	codigo_ugel.set('value', direccion_regional.value);
 	ugel.removeOption(ugel.getOptions());
@@ -370,22 +543,57 @@ function onDireccionRegionalChange(codigo_ugel, direccion_regional, ugel, newval
 		value : ''
 	});
 
-	require(["esri/tasks/query"], function() {
-		ugelQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer/1");
-		ugelQuery = new esri.tasks.Query();
-		ugelQuery.where = "CODUGEL LIKE '" + direccion_regional.value + "%'";
-		ugelQuery.returnGeometry = false;
-		ugelQuery.outFields = ["CODUGEL", "UGEL"];
-		ugelQueryTask.execute(ugelQuery, function(resultado) {
+	/*require(["esri/tasks/query"], function() {
+	 ugelQueryTask = new esri.tasks.QueryTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ugel/MapServer/1");
+	 ugelQuery = new esri.tasks.Query();
+	 ugelQuery.where = "CODUGEL LIKE '" + direccion_regional.value + "%'";
+	 ugelQuery.returnGeometry = false;
+	 ugelQuery.outFields = ["CODUGEL", "UGEL"];
+	 ugelQueryTask.execute(ugelQuery, function(resultado) {
+	 var ugelOptions = [];
+	 dojo.forEach(resultado.features, function(feature) {
+	 ugelOptions.push({
+	 value : feature.attributes["CODUGEL"],
+	 label : feature.attributes["UGEL"]
+	 });
+	 });
+	 ugel.addOption(ugelOptions);
+	 });
+	 });*/
+
+	var xhrArgsUgel = {
+		url : "http://escale.minedu.gob.pe/servicios/rest/service/restsig.svc/ugel",
+		handleAs : "json",
+		content : {
+			codregion : newvalue,
+			codugel : '',
+			nomugel : ''
+		},
+		load : function(resp) {
+			data = dojo.json.parse(resp);
+
+			//console.log(data);
+
 			var ugelOptions = [];
-			dojo.forEach(resultado.features, function(feature) {
+
+			dojo.forEach(data.Rows, function(row) {
 				ugelOptions.push({
-					value : feature.attributes["CODUGEL"],
-					label : feature.attributes["UGEL"]
+					value : row.CODUGEL,
+					label : row.NOMBRE,
+					latitud : row.LATITUD,
+					longitud : row.LONGITUD,
+					zoom : row.ZOOM
 				});
 			});
-			ugel.addOption(ugelOptions);
-		});
-	});
 
+			ugel.addOption(ugelOptions);
+
+		},
+		error : function(error) {
+			desactivarCargando();
+			alert("Un error inesperado a ocurrido: " + error);
+		}
+	};
+
+	dojo.xhrGet(xhrArgsUgel);
 }

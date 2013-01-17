@@ -8,6 +8,7 @@ dojo.require("esri.map");
 //dojo.require("esri.toolbars.draw");
 //dojo.require("esri.toolbars.Navigation");
 //dojo.require("esri.layers.osm");
+dojo.require("esri.dijit.BasemapGallery");
 dojo.require("dojo.json");
 dojo.require("dojo.data.ItemFileWriteStore");
 dojo.require("dojo.fx");
@@ -25,6 +26,7 @@ dojo.require("dijit.Dialog");
 dojo.require("dijit.form.Form");
 dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.layout.ContentPane");
+
 dojo.require("agsjs.dijit.TOC");
 dojo.require("agsjs.layers.GoogleMapsLayer");
 
@@ -109,6 +111,8 @@ function init() {
 			width : 0.25 * map.width
 		});
 		overviewMapDijit.startup();
+
+		console.log("Se cargó el hilo del Overview.")
 	});
 
 	llenarFormulario();
@@ -131,6 +135,9 @@ function init() {
 	iniciarNavegacion();
 
 	onMapLoaded();
+
+	dijit.byId("tabs1").resize();
+	dijit.byId("tabs2").resize();
 
 	desactivarCargando();
 
@@ -261,6 +268,8 @@ window.onorientationchange = function() {
 window.onresize = function() {
 	if (map) {
 		map.resize();
+		dijit.byId("tabs1").resize();
+		dijit.byId("tabs2").resize();
 	} else {
 		console.log('map not found');
 	}

@@ -48,4 +48,5 @@ function iniciarNavegacion() {
 		});
 	});
 
+	console.log("Se cargó el hilo de navegación.");
 }
