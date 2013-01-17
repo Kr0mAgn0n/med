@@ -32,11 +32,9 @@ function processSearch(searchForm) {
 	var codigo_ugel = searchForm.getValues().codigo_ugel;
 
 	var xhrArgsIE = {
-		url : "http://escale.minedu.gob.pe/mapaeducativolenguas/restservicesig/service/restsig.svc/padron",
-		//url : padron.php,
+		url : "http://escale.minedu.gob.pe/mapaescuelas/padron.php",
 		handleAs : "json",
 		content : {
-			//tipo : 0,
 			codgeo : ubigeo,
 			codugel : codigo_ugel,
 			codmod : codigo_modular,
@@ -50,7 +48,11 @@ function processSearch(searchForm) {
 			gesdep : gestion,
 			codcp : codigo_ccpp1
 		},
-		load : processFormIE,
+		load : function(resp, ioargs) {
+			console.log(ioargs);
+			console.log(resp);
+		},
+		//processFormIE,
 		error : function(error) {
 			desactivarCargando();
 			alert("Un error inesperado a ocurrido: " + error);
@@ -86,7 +88,11 @@ function processSearch(searchForm) {
 }
 
 function processFormIE(resp) {
+	console.log(resp);
+	
 	var data = dojo.json.parse(resp);
+	
+	console.log(data);
 
 	datos = {
 		items : []
@@ -197,48 +203,46 @@ function processFormIE(resp) {
 
 	console.log("Se declaró los layouts.");
 
-	dojo.forEach(data.Rows, function(item) {
+	dojo.forEach(data, function(item) {
 
-		if (item.ESTADO === '1') {
-			items = {
-				ubigeo : 'Ubigeo: ' + item.CODIGO_UBIGEO,
-				departamento : 'Departamento: ' + item.DEPARTAMENTO,
-				provincia : 'Provincia: ' + item.PROVINCIA,
-				distrito : 'Distrito: ' + item.DISTRITO,
-				nombre_del_centro_poblado : 'Centro Poblado: ' + item.NOMBRE_CENTRO_POBLADO,
-				codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.COD_CENTRO_POBLADO,
-				localidad : item.NOMBRE_LOCALIDAD ? 'Localidad: ' + item.NOMBRE_LOCALIDAD : 'Localidad: ',
-				codigo_local : 'Código Local: ' + item.CODIGO_LOCAL,
-				codigo_modular : 'Código Modular: ' + item.CODIGO_MODULAR,
-				nombre_ie : 'Nombre de la IE: ' + item.NOMBRE_ESCUELA,
-				nivel : 'Nivel: ' + item.NIVEL_MODALIDAD,
-				altitud : 'Altitud: ' + item.ALTITUD,
-				fuente_cp : item.ALTITUD ? 'Fuente CP: ' + item.FUENTECP : 'Fuente CP: ',
-				latitud : 'Latitud: ' + item.LATITUD_DEC,
-				longitud : 'Longitud: ' + item.LONGITUD_DEC,
-				enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD_DEC + "," + item.LATITUD_DEC + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(\"" + item.CODIGO_MODULAR + "\",\"" + item.ANEXO + "\");'><img src='images/ficha.png'></a>"
-			};
+		items = {
+			ubigeo : 'Ubigeo: ' + item.UBIGEO,
+			departamento : 'Departamento: ' + item.DEPARTAMENTO,
+			provincia : 'Provincia: ' + item.PROVINCIA,
+			distrito : 'Distrito: ' + item.DISTRITO,
+			nombre_del_centro_poblado : 'Centro Poblado: ' + item.NOMBRECP,
+			codigo_del_centro_poblado : 'Código del Centro Poblado: ' + item.CODIGOCP,
+			localidad : item.LOCALIDAD ? 'Localidad: ' + item.LOCALIDAD : 'Localidad: ',
+			codigo_local : 'Código Local: ' + item.CODLOCAL,
+			codigo_modular : 'Código Modular: ' + item.COD_MOD,
+			nombre_ie : 'Nombre de la IE: ' + item.CEN_EDU,
+			nivel : 'Nivel: ' + item.NIVEL,
+			altitud : 'Altitud: ' + item.ALTITUD,
+			fuente_cp : item.FUENTE_G ? 'Fuente CP: ' + item.FUENTE_G : 'Fuente CP: ',
+			latitud : 'Latitud: ' + item.LATITUD,
+			longitud : 'Longitud: ' + item.LONGITUD,
+			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + item.LONGITUD + "," + item.LATITUD + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(\"" + item.COD_MOD + "\",\"" + item.ANEXO + "\");'><img src='images/ficha.png'></a>"
+		};
 
-			itemsExporter = {
-				ubigeo : item.CODIGO_UBIGEO,
-				departamento : item.DEPARTAMENTO,
-				provincia : item.PROVINCIA,
-				distrito : item.DISTRITO,
-				nombre_del_centro_poblado : item.NOMBRE_CENTRO_POBLADO,
-				codigo_del_centro_poblado : item.COD_CENTRO_POBLADO,
-				localidad : item.NOMBRE_LOCALIDAD,
-				codigo_local : item.CODIGO_LOCAL,
-				codigo_modular : item.CODIGO_MODULAR,
-				nombre_ie : item.NOMBRE_ESCUELA,
-				nivel : item.NIVEL_MODALIDAD,
-				altitud : item.ALTITUD,
-				fuente_cp : item.FUENTECP,
-				latitud : item.LATITUD_DEC,
-				longitud : item.LONGITUD_DEC
-			};
-			datos.items.push(items);
-			datosExporter.items.push(itemsExporter);
-		}
+		itemsExporter = {
+			ubigeo : item.UBIGEO,
+			departamento : item.DEPARTAMENTO,
+			provincia : item.PROVINCIA,
+			distrito : item.DISTRITO,
+			nombre_del_centro_poblado : item.NOMBRECP,
+			codigo_del_centro_poblado : item.CODIGOCP,
+			localidad : item.LOCALIDAD,
+			codigo_local : item.CODLOCAL,
+			codigo_modular : item.COD_MOD,
+			nombre_ie : item.CEN_EDU,
+			nivel : item.NIVEL,
+			altitud : item.ALTITUD,
+			fuente_cp : item.FUENTE_G,
+			latitud : item.LATITUD,
+			longitud : item.LONGITUD
+		};
+		datos.items.push(items);
+		datosExporter.items.push(itemsExporter);
 
 	});
 
