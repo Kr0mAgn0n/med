@@ -67,7 +67,7 @@ function iniciarIdentify() {
 	});
 
 	dojo.connect(drawToolbar, "onDrawEnd", manejadorDrawEnd);
-	
+
 	console.log("Se cargó el hilo del identify.");
 }
 
@@ -86,23 +86,26 @@ function manejadorDrawEnd(geometria) {
 	identifyParams.width = map.width;
 	identifyParams.height = map.height;
 	identifyParams.mapExtent = map.extent;
-	identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_VISIBLE;
+	identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_TOP;
 
 	identifySelect = dijit.byId("identifySelect");
 
 	if (identifySelect.value === "cp") {
 		//console.log(identifySelect.value);
 		var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
-		//identifyParams.layersIds = [4];
+		//identifyParams.layersIds = [4,9,14,19,24,28,32,36];
 		identifyTask.execute(identifyParams, identifyCallbackCP, identifyError);
 	}
 
 	if (identifySelect.value === "ie") {
 		//console.log(identifySelect.value);
 		var identifyTask = new esri.tasks.IdentifyTask("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
-		//identifyParams.layersIds = [3];
+		//identifyParams.layersIds = [3,8,13,18,23];
 		identifyTask.execute(identifyParams, identifyCallbackIE, identifyError);
 	}
+
+	dijit.byId("selectAll").setChecked(false);
+	grid.selection.deselectAll();
 
 }
 
@@ -315,15 +318,15 @@ function identifyCallbackIE(respuesta) {
 
 	dojo.forEach(respuesta, function(respuesta) {
 		items = {
-			codigo_ugel : respuesta.feature.attributes.CODOOII,
-			centro_poblado : respuesta.feature.attributes.ciudad,
-			centro_educativo : respuesta.feature.attributes.CEN_EDU,
-			estado : respuesta.feature.attributes.ESTADO,
-			gestion : respuesta.feature.attributes.GESTION,
-			niveles : respuesta.feature.attributes.NIVELES,
-			fuente : respuesta.feature.attributes.FUENTE,
-			latitud : respuesta.feature.attributes.POINT_Y,
-			longitud : respuesta.feature.attributes.POINT_X,
+			codigo_ugel : "Código UGEL: " + respuesta.feature.attributes.CODOOII,
+			centro_poblado : "Centro poblado: " + respuesta.feature.attributes.ciudad,
+			centro_educativo : "Centro educativo: " + respuesta.feature.attributes.CEN_EDU,
+			estado : "Estado: " + respuesta.feature.attributes.ESTADO,
+			gestion : "Gestión: " + respuesta.feature.attributes.GESTION,
+			niveles : "Niveles: " + respuesta.feature.attributes.NIVELES,
+			fuente : "Fuente: " + respuesta.feature.attributes.FUENTE,
+			latitud : "Latitud: " + respuesta.feature.attributes.POINT_Y,
+			longitud : "Longitud: " + respuesta.feature.attributes.POINT_X,
 			enlaces : "<a class='img-enlaces' onclick='hacerZoom(" + respuesta.feature.attributes.POINT_X + "," + respuesta.feature.attributes.POINT_Y + ");'><img src='images/zoom.png'></a><a class='img-enlaces' onclick='irAFicha(" + respuesta.feature.attributes.CODCP + ")'><img src='images/ficha.png'></a>"
 
 		};
@@ -387,7 +390,7 @@ function identifyError(error) {
 }
 
 function styleRowIdentify(row) {
-	console.log(row);
+	//console.log(row);
 	if (row.index % 2 !== 0) {
 		//if (!row.over) {
 		row.customStyles += 'background: #D7EB66;';

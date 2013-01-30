@@ -29,6 +29,7 @@ function iniciarGrid() {
 				defaultPageSize : 25,
 				onPageStep : function() {
 					grid.selection.clear();
+					dijit.byId("selectAll").setChecked(false);
 				}
 			},
 			indirectSelection : {

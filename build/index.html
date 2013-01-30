@@ -84,10 +84,10 @@
 		</div>
 		<div class='fm_identify fm_overlay'>
 			<div class='fm_close'></div>
-			<div id="identifySelect" data-dojo-type="dijit.form.Select">
-				<option value="cp">Centros Poblados</option>
+			<select id="identifySelect" data-dojo-type="dijit.form.Select">
 				<option value="ie">Instituciones Educativas</option>
-			</div>
+				<option value="cp">Centros Poblados</option>
+			</select>
 			<div id='identifyDiv' data-dojo-type="dijit.Toolbar">
 				<div id="punto"></div>
 				<!-- <div id="multipunto"></div> -->
@@ -285,27 +285,27 @@
 					</div> -->
 					<div class='fm_find fm_panel'>
 						<div id="searchForm" data-dojo-type="dijit.form.Form">
-							<div id="tabs1" data-dojo-type="dijit.layout.TabContainer" doLayout="false">
+							<div id="tabs1" data-dojo-type="dijit.layout.TabContainer" doLayout="false" data-dojo-props="">
 								<div id="tabs1_1" data-dojo-type="dijit.layout.ContentPane" title="Ubigeo" selected="true">
 									<table class="formulario">
 										<tr>
 											<td><label>Departamento</label></td>
 											<td>
-											<select id="departamento" name="departamento" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+											<select id="departamento" name="departamento" data-dojo-type="dijit.form.Select" data-dojo-props="autoWidth:true">
 												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
 										<tr>
 											<td><label>Provincia</label></td>
 											<td>
-											<select id="provincia" name="provincia" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+											<select id="provincia" name="provincia" data-dojo-type="dijit.form.Select" data-dojo-props="autoWidth:true">
 												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
 										<tr>
 											<td><label>Distrito</label></td>
 											<td>
-											<select id="distrito" name="distrito" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+											<select id="distrito" name="distrito" data-dojo-type="dijit.form.Select" data-dojo-props="autoWidth:true">
 												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
@@ -322,14 +322,14 @@
 										<tr>
 											<td><label>Dirección Regional</label></td>
 											<td>
-											<select id="direccion_regional" name="direccion_regional" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+											<select id="direccion_regional" name="direccion_regional" data-dojo-type="dijit.form.Select" data-dojo-props="autoWidth:true">
 												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
 										<tr>
 											<td><label>UGEL</label></td>
 											<td>
-											<select id="ugel" name="ugel" data-dojo-type="dijit.form.Select" data-dojo-props="maxHeight: -1">
+											<select id="ugel" name="ugel" data-dojo-type="dijit.form.Select" data-dojo-props="autoWidth:true">
 												<option value="">:: Seleccione ::</option>
 											</select></td>
 										</tr>
@@ -385,15 +385,13 @@
 										<tr>
 											<td><label>Nivel/Modalidad</label></td>
 											<td>
-											<select id="nivel_modalidad" name="nivel_modalidad" data-dojo-type="dijit.form.Select">
-												<option></option>
+											<select id="nivel_modalidad" name="nivel_modalidad" data-dojo-type="dijit.form.Select" data-dojo-props="autoWidth:true">
 											</select></td>
 										</tr>
 										<tr>
 											<td><label>Gestión</label></td>
 											<td>
-											<select id="gestion" name="gestion" data-dojo-type="dijit.form.Select">
-												<option></option>
+											<select id="gestion" name="gestion" data-dojo-type="dijit.form.Select" data-dojo-props="autoWidth:true">
 											</select></td>
 										</tr>
 									</table>

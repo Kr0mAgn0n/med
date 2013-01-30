@@ -215,6 +215,11 @@ function llenarFormulario() {
 	nivelOptions = [];
 
 	nivelOptions.push({
+		label : "::Seleccione::",
+		value : ""
+	});
+	
+	nivelOptions.push({
 		label : "Inicial",
 		value : "A1|A2|A3"
 	});
@@ -269,6 +274,11 @@ function llenarFormulario() {
 	// Llenado de campo Gestión
 	gestionOptions = [];
 
+	gestionOptions.push({
+		label : "::Seleccione::",
+		value : ""
+	});
+	
 	gestionOptions.push({
 		label : "Ministerio de Educación",
 		value : "A1"

@@ -109,7 +109,7 @@ nav {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	font-size: .9em;
+	font-size: 11px;
 	overflow-y: auto;
 	overflow-x: hidden;
 	word-wrap: break-word;
@@ -228,6 +228,7 @@ nav {
 
 .formulario td {
 	width: 50%;
+	padding: 2px;
 }
 
 .formulario .dijitTextBox, .formulario .dijitSelect {
@@ -497,6 +498,20 @@ nav {
 
 .esriLegendLayerLabel, .esriLegendServiceLabel {
 	display: none;
+}
+
+.dijitDialog {
+	width: 70%;
+	height: 70%;
+}
+
+.dijitDialogPaneContent {
+	height: 90% !important;
+	overflow-y: auto;
+}
+
+.dijitMenuPopup td {
+	font-size: 0.75em;
 }
 
 /***************************/

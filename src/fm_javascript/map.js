@@ -64,6 +64,8 @@ function init() {
 		sliderStyle : "small",
 		logo : false
 	});
+	
+	map.setExtent(initExtent, true);
 
 	require(["esri/layers/osm", "esri/dijit/OverviewMap"], function() {
 

@@ -14,6 +14,8 @@ function iniciarImpresion() {
 		slider : false,
 		logo : false
 	});
+	
+	print_map.setExtent(initExtent, true)
 
 	require(["esri/dijit/Scalebar"], function() {
 		print_scalebar = new esri.dijit.Scalebar({
@@ -34,14 +36,16 @@ function iniciarImpresion() {
 	print_layerInfos = [];
 
 	print_layerInfos.push({
+		layer : print_limites_politicos,
+		title : "Límites Políticos"
+	});
+	
+	print_layerInfos.push({
 		layer : print_centros_poblados,
 		title : "Centros Poblados"
 	});
 
-	print_layerInfos.push({
-		layer : print_limites_politicos,
-		title : "Límites Políticos"
-	});
+	
 
 	/*print_layerInfos.push({
 	 layer : print_ie,

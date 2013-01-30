@@ -14,6 +14,8 @@ function busqueda(e) {
 		alert("El formulario no puede estar en blanco.");
 	}
 
+	dijit.byId("selectAll").setChecked(false);
+	grid.selection.deselectAll();
 }
 
 function processSearch(searchForm) {
