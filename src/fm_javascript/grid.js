@@ -57,7 +57,17 @@ function iniciarGrid() {
 	gridExporter = new dojox.grid.EnhancedGrid({
 		//rowsPerPage : 0,
 		plugins : {
-			exporter : true
+			exporter : true,
+			pagination : {
+				id : "gridExporterPaginator",
+				description : true,
+				sizeSwitch : false,
+				pageStepper : true,
+				gotoButton : true,
+				maxPageStep : 4,
+				position : "top",
+				defaultPageSize : 25,
+			},
 		}
 	});
 
@@ -66,19 +76,18 @@ function iniciarGrid() {
 
 function hacerZoom(longitud, latitud) {
 	if (longitud !== '-80' && latitud !== '-10') {
-	map.graphics.clear();
-	point = new esri.geometry.Point(longitud, latitud, new esri.SpatialReference({
-		wkid : 5373
-	}));
-	point = esri.geometry.geographicToWebMercator(point);
-	graphic = new esri.Graphic(point, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
-	map.graphics.add(graphic);
-	map.centerAndZoom(point, 14);	
+		map.graphics.clear();
+		point = new esri.geometry.Point(longitud, latitud, new esri.SpatialReference({
+			wkid : 5373
+		}));
+		point = esri.geometry.geographicToWebMercator(point);
+		graphic = new esri.Graphic(point, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
+		map.graphics.add(graphic);
+		map.centerAndZoom(point, 14);
 	} else {
 		alert("El Centro Poblado o Institución Educativa no está ubicado.");
 	}
-	
-	
+
 }
 
 function exportarTodo() {
@@ -182,6 +191,12 @@ function markSelected() {
 	map.graphics.clear();
 
 	var rowsSelected = grid.selection.getSelected();
+
+	gridExporter.selection.deselectAll();
+	
+	dojo.forEach(rowsSelected, function(obj) {
+		gridExporter.selection.addToSelection(obj._0);
+	});
 
 	if (rowsSelected.length !== 0) {
 		var points = [];
