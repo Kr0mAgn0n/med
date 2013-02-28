@@ -199,12 +199,12 @@ nav {
 }
 
 .fm_basemap_list {
-	width: 600px;
+	width: 650px;
 	height: 150px;
 	left: 50%;
 	top: 50%;
 	margin-top: -75px;
-	margin-left: -300px;
+	margin-left: -325px;
 	overflow: auto;
 }
 
@@ -502,12 +502,11 @@ nav {
 
 .dijitDialog {
 	width: 70%;
-	height: 70%;
 }
 
 .dijitDialogPaneContent {
-	height: 90% !important;
-	overflow-y: auto;
+	width: auto !important;
+	font-size: 12px;
 }
 
 .dijitMenuPopup td {

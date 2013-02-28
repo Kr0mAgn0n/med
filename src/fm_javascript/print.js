@@ -10,12 +10,11 @@ function iniciarImpresion() {
 	}
 
 	print_map = new esri.Map("print_map", {
-		extent : initExtent,
+		//extent : initExtent,
+		extent: map.extent,
 		slider : false,
 		logo : false
 	});
-	
-	print_map.setExtent(initExtent, true)
 
 	require(["esri/dijit/Scalebar"], function() {
 		print_scalebar = new esri.dijit.Scalebar({
@@ -27,11 +26,11 @@ function iniciarImpresion() {
 
 	print_basemapGallery = createBasemapGallery(print_map, "");
 
-	print_centros_poblados = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
+	print_centros_poblados = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
 
 	print_limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer");
 
-	//print_ie = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
+	print_ie = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
 
 	print_layerInfos = [];
 
@@ -43,6 +42,11 @@ function iniciarImpresion() {
 	print_layerInfos.push({
 		layer : print_centros_poblados,
 		title : "Centros Poblados"
+	});
+	
+	print_layerInfos.push({
+		layer : print_ie,
+		title : "Instituciones Educativas"
 	});
 
 	
@@ -59,12 +63,12 @@ function iniciarImpresion() {
 				layerInfos : print_layerInfos
 			}, "print_legend");
 			print_legend.startup();
-			print_map.setExtent(map.extent);
+			//print_map.setExtent(map.extent, true);
 		});
 
 	});
 
-	print_map.addLayers([print_centros_poblados, print_limites_politicos]);
+	print_map.addLayers([print_centros_poblados, print_ie, print_limites_politicos]);
 
 	activar_print_centros_poblados = dojo.byId("activar_print_centros_poblados");
 	activar_print_limites_politicos = dojo.byId("activar_print_limites_politicos");

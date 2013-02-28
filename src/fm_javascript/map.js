@@ -35,7 +35,7 @@ var basemaps;
 var identifyTask, identifyParams;
 var initExtent;
 var measurement;
-var cp_ie, limites_politicos, ugel_layer;
+var cp, ie, limites_politicos, ugel_layer;
 
 function init() {
 	var bienvenida_dialog = dijit.byId("bienvenida_dialog");
@@ -57,6 +57,7 @@ function init() {
 			"wkid" : 102100
 		}
 	});
+	
 
 	map = new esri.Map("map", {
 		extent : initExtent,
@@ -64,24 +65,34 @@ function init() {
 		sliderStyle : "small",
 		logo : false
 	});
-	
-	map.setExtent(initExtent, true);
+
+
+	var basemapGallery = createBasemapGallery(map, "basemapList");
+
+	console.log(basemapGallery);
+
+	cp = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp/MapServer");
+
+	ie = new esri.layers.ArcGISDynamicMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/ie/MapServer");
+
+	limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer");
+
+	ugel_layer = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_ugel/MapServer");
+
+	map.addLayers([cp, ie, limites_politicos, ugel_layer]);
 
 	require(["esri/layers/osm", "esri/dijit/OverviewMap"], function() {
-
-		var basemapGallery = createBasemapGallery(map, "basemapList");
-
-		cp_ie = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/cp_ie/MapServer");
-
-		limites_politicos = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_pol/MapServer");
-
-		ugel_layer = new esri.layers.ArcGISTiledMapServiceLayer("http://escale.minedu.gob.pe/medgis/rest/services/carto_base/lim_ugel/MapServer");
 
 		var layerInfos = [];
 
 		layerInfos.push({
-			layer : cp_ie,
-			title : "Centros Poblados e IEs"
+			layer : cp,
+			title : "Centros Poblados"
+		});
+
+		layerInfos.push({
+			layer : ie,
+			title : "Instituciones Educativas"
 		});
 
 		layerInfos.push({
@@ -104,7 +115,6 @@ function init() {
 
 		ugel_layer.setVisibility(false);
 
-		map.addLayers([cp_ie, limites_politicos, ugel_layer]);
 		var osml = new esri.layers.OpenStreetMapLayer();
 		var overviewMapDijit = new esri.dijit.OverviewMap({
 			map : map,
@@ -138,10 +148,10 @@ function init() {
 
 	onMapLoaded();
 
+	desactivarCargando();
+
 	dijit.byId("tabs1").resize();
 	dijit.byId("tabs2").resize();
-
-	desactivarCargando();
 
 	dojo.style('cargando', 'opacity', 0.5);
 }
@@ -178,7 +188,16 @@ function createBasemapGallery(mapa, div) {
 		})],
 		title : "OpenStreet",
 		id : 'OpenStreetMap',
-		thumbnailUrl : "images/bm-street.jpg"
+		thumbnailUrl : "images/osm.jpg"
+	}));
+
+	basemaps.push(new esri.dijit.Basemap({
+		layers : [new esri.dijit.BasemapLayer({
+			url : 'http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer'
+		})],
+		title : "Lona Gris",
+		id : 'LonaGris',
+		thumbnailUrl : "images/lonagris.png"
 	}));
 
 	var gallery = new esri.dijit.BasemapGallery({

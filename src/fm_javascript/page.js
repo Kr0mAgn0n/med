@@ -20,7 +20,7 @@ function responsive() {
 
 		fm.jRes.addFunc({
 			breakpoint : 'desktop',
-			enter : function() {
+			enter : function() {				
 				$(".fm_left_content").show();
 				$(".fm_right_content").show();
 				$(".fm_close.fm_hide").hide();
@@ -52,6 +52,10 @@ function responsive() {
 				$(".fm_show").show();
 				$(".fm_left_content").show();
 				$(".fm_right_content").show();
+				
+				dijit.byId("tabs1").resize();
+				dijit.byId("tabs2").resize();
+				
 				console.log('<<< mobile exit >>>');
 			}
 		});
@@ -389,6 +393,6 @@ function responsive() {
 res = new responsive();
 
 $(document).ready(function() {
-	
+
 	res.initApp();
-}); 
+});
